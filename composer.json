@@ -13,12 +13,13 @@
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
+        "inertiajs/inertia-laravel": "^0.3.4",
         "laravel/framework": "^8.12",
         "laravel/tinker": "^2.5",
+        "laravel/ui": "^1.0|^2.0|^3.0",
         "molayli/laravel-cloudflare-real-ip": "^0.1.0",
-        "inertiajs/inertia-laravel": "^0.3.4",
-        "tightenco/ziggy": "^1.0.4",
-        "laravel/ui": "^1.0|^2.0|^3.0"
+        "spatie/laravel-medialibrary": "^9.0.0",
+        "tightenco/ziggy": "^1.0.4"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

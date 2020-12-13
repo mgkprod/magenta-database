@@ -3,9 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Song extends Model
+class Song extends Model implements HasMedia
 {
+    use InteractsWithMedia;
+
     protected $guarded = [];
 
     protected function albums()
@@ -15,6 +19,6 @@ class Song extends Model
 
     protected function events()
     {
-        return $this->belongsToMany(Event::class);
+        return $this->belongsToMany(self::class);
     }
 }

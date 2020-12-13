@@ -9,7 +9,9 @@ class AlbumController extends Controller
 {
     public function index()
     {
-        return inertia('albums/index');
+        $albums = Album::get();
+
+        return inertia('albums/index', compact('albums'));
     }
 
     public function create()
@@ -20,13 +22,15 @@ class AlbumController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            // TODO
             'name' => ['required'],
         ]);
 
         $album = new Album();
         $album->name = $request->name;
+        $album->released_at = $request->released_at;
         $album->save();
+
+        return redirect()->route('albums.index');
     }
 
     public function show(Album $album)
@@ -44,16 +48,20 @@ class AlbumController extends Controller
     public function update(Request $request, Album $album)
     {
         $request->validate([
-            // TODO
             'name' => ['required'],
         ]);
 
         $album->name = $request->name;
+        $album->released_at = $request->released_at;
         $album->save();
+
+        return redirect()->route('albums.index');
     }
 
     public function destroy(Request $request, Album $album)
     {
         $album->delete();
+
+        return redirect()->route('albums.index');
     }
 }

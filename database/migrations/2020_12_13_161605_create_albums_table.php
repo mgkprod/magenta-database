@@ -17,6 +17,7 @@ class CreateAlbumsTable extends Migration
             $table->id();
             $table->string('name');
             $table->datetime('released_at')->nullable();
+            $table->longText('details')->nullable();
             $table->timestamps();
         });
     }

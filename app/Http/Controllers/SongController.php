@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Album;
+use App\Models\Event;
 use App\Models\Song;
 use Illuminate\Http\Request;
 
@@ -9,7 +11,9 @@ class SongController extends Controller
 {
     public function index()
     {
-        return inertia('songs/index');
+        $songs = Song::get();
+
+        return inertia('songs/index', compact('songs'));
     }
 
     public function create()
@@ -23,13 +27,14 @@ class SongController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            // TODO
             'title' => ['required'],
         ]);
 
         $song = new Song();
         $song->title = $request->title;
         $song->save();
+
+        return redirect()->route('songs.index');
     }
 
     public function show(Song $song)
@@ -50,16 +55,19 @@ class SongController extends Controller
     public function update(Request $request, Song $song)
     {
         $request->validate([
-            // TODO
             'title' => ['required'],
         ]);
 
         $song->title = $request->title;
         $song->save();
+
+        return redirect()->route('songs.index');
     }
 
     public function destroy(Request $request, Song $song)
     {
         $song->delete();
+
+        return redirect()->route('songs.index');
     }
 }

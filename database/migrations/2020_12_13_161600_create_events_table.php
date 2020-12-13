@@ -17,6 +17,7 @@ class CreateEventsTable extends Migration
             $table->id();
             $table->string('name');
             $table->datetime('happened_at')->nullable();
+            $table->longText('details')->nullable();
             $table->timestamps();
         });
     }

@@ -9,7 +9,10 @@ class EventController extends Controller
 {
     public function index()
     {
-        return inertia('events/index');
+        $events = Event::query()
+            ->get();
+
+        return inertia('events/index', compact('events'));
     }
 
     public function create()
@@ -20,13 +23,22 @@ class EventController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            // TODO
             'name' => ['required'],
         ]);
 
         $event = new Event();
         $event->name = $request->name;
+        $event->happened_at = $request->happened_at;
+        $event->details = $request->details;
         $event->save();
+
+        if ($request->file('image')) {
+            $event
+                ->addMediaFromRequest('image')
+                ->toMediaCollection('images');
+        }
+
+        return redirect()->route('events.index');
     }
 
     public function show(Event $event)
@@ -44,16 +56,30 @@ class EventController extends Controller
     public function update(Request $request, Event $event)
     {
         $request->validate([
-            // TODO
             'name' => ['required'],
         ]);
 
         $event->name = $request->name;
+        $event->happened_at = $request->happened_at;
+        $event->details = $request->details;
         $event->save();
+
+        if ($request->file('image')) {
+            $event
+                ->clearMediaCollection('images');
+
+            $event
+                ->addMediaFromRequest('image')
+                ->toMediaCollection('images');
+        }
+
+        return redirect()->route('events.index');
     }
 
     public function destroy(Request $request, Event $event)
     {
         $event->delete();
+
+        return redirect()->route('events.index');
     }
 }
