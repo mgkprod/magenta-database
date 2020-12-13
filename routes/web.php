@@ -1,8 +1,11 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\AlbumController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\SongController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,12 +18,18 @@ use App\Http\Controllers\HomeController;
 |
 */
 
-Route::inertia('/', 'welcome')->name('index');
+Route::get('/', [HomeController::class, 'index'])->name('index');
 
-Route::group(['middleware' => 'auth'], function(){
-    Route::get('home', [HomeController::class, 'home'])->name('home');
+Route::resource('songs', SongController::class);
+Route::resource('albums', AlbumController::class);
+Route::resource('events', EventController::class);
 
-    //
+Route::group(['middleware' => 'auth'], function () {
 });
 
-Auth::routes();
+Auth::routes([
+    'register' => false,
+    'reset' => false,
+    'confirm' => false,
+    'verify' => false,
+]);

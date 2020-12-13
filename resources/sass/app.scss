@@ -1,19 +1,28 @@
 @font-face {
-	font-family: 'Inter var';
-	font-weight: 100 900;
-	font-style: normal;
-	font-named-instance: 'Regular';
-	font-display: swap;
-	src: url('https://rsms.me/inter/font-files/Inter.var.woff2?3.13') format('woff2');
+    font-family: 'Inter var';
+    font-weight: 100 900;
+    font-style: normal;
+    font-named-instance: 'Regular';
+    font-display: swap;
+    src: url('https://rsms.me/inter/font-files/Inter.var.woff2?3.13') format('woff2');
 }
 
 @font-face {
-	font-family: 'Inter var';
-	font-weight: 100 900;
-	font-style: italic;
-	font-named-instance: 'Italic';
-	font-display: swap;
-	src: url('https://rsms.me/inter/font-files/Inter-italic.var.woff2?3.13') format('woff2');
+    font-family: 'Inter var';
+    font-weight: 100 900;
+    font-style: italic;
+    font-named-instance: 'Italic';
+    font-display: swap;
+    src: url('https://rsms.me/inter/font-files/Inter-italic.var.woff2?3.13') format('woff2');
+}
+
+@font-face {
+    font-family: 'Eurostile Extended Bold';
+    font-style: normal;
+    font-weight: 800;
+    src: url('/fonts/EurostileExt-Bla.otf') format('truetype'),
+         url('/fonts/EurostileExt-Bla.woff') format('woff'),
+         url('/fonts/EurostileExt-Bla.woff2') format('woff2');
 }
 
 @tailwind base;
@@ -21,3 +30,41 @@
 @tailwind components;
 
 @tailwind utilities;
+
+.bg-header {
+    position: relative;
+    overflow: hidden;
+
+    &::after {
+        @apply rounded;
+        content: "";
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background-image: url('/images/header.jpg');
+        background-size: cover;
+        filter: opacity(75%) blur(10px);
+        transform: scale(1.15);
+        z-index: -1;
+      }
+}
+
+.shadow-inner {
+    box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.50);
+
+    &:hover {
+        box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.25);
+    }
+}
+
+.hover-contrast {
+    filter: contrast(100%);
+
+    &:hover {
+        filter: contrast(200%);
+    }
+}
+
+.font-eurostile-extended {
+    font-family: 'Eurostile Extended Bold';
+}

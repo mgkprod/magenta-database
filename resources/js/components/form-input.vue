@@ -1,8 +1,8 @@
 <template>
     <label class="block">
-        <span v-if="label" class="block mb-2 text-sm font-bold text-gray-700" v-text="label"></span>
+        <span v-if="label" class="block mb-2 text-sm font-bold text-gray-100" v-text="label"></span>
 
-        <input class="w-full px-3 py-3 text-sm leading-tight text-gray-700 transition duration-200 ease-in-out bg-white border border-gray-200 rounded appearance-none focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-primary-500"
+        <input class="w-full px-3 py-3 text-sm leading-tight text-gray-100 transition duration-200 ease-in-out bg-black border border-gray-800 rounded appearance-none focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-primary-500"
                 :class="{ 'bg-red-100 mb-1 border-red-500': errors.length }"
                 v-bind="$attrs"
                 v-on="{ ...$listeners, input: event => $emit('input', event.target.value) }">

@@ -27,7 +27,7 @@ module.exports = {
             },
             colors: {
                 'primary': { ...colors.indigo },
-                'gray': { ...colors.gray },
+                'gray': { ...colors.trueGray },
             }
         },
         container: {
