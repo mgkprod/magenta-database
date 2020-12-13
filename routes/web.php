@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::inertia('/', 'welcome')->name('index');
+
+Route::group(['middleware' => 'auth'], function(){
+    Route::get('home', [HomeController::class, 'home'])->name('home');
+
+    //
 });
+
+Auth::routes();

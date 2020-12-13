@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "56abc574c9c50fc6e4b7f5ef2a76cd50",
+    "content-hash": "938fe20125eb1df1689320677df213f0",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -117,6 +117,64 @@
                 }
             ],
             "time": "2020-08-18T23:57:15+00:00"
+        },
+        {
+            "name": "calebporzio/awesome-helpers",
+            "version": "v2.4.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/calebporzio/awesome-helpers.git",
+                "reference": "97d99457c0cea4cecca29b7118f4b3a3d0075cea"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/calebporzio/awesome-helpers/zipball/97d99457c0cea4cecca29b7118f4b3a3d0075cea",
+                "reference": "97d99457c0cea4cecca29b7118f4b3a3d0075cea",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "fzaninotto/faker": "^1.8",
+                "illuminate/support": "5.7.*|5.8.*|^6.0.0|^7.0.0",
+                "mockery/mockery": "dev-master",
+                "phpunit/phpunit": "^7.0|^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Calebporzio\\AwesomeHelpers\\AwesomeHelpersServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Calebporzio\\AwesomeHelpers\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Caleb Porzio",
+                    "email": "calebporzio@gmail.com"
+                }
+            ],
+            "description": "Helper functions I find super-duper handy",
+            "homepage": "https://github.com/calebporzio/awesome-helpers",
+            "keywords": [
+                "awesome-helpers",
+                "calebporzio"
+            ],
+            "support": {
+                "issues": "https://github.com/calebporzio/awesome-helpers/issues",
+                "source": "https://github.com/calebporzio/awesome-helpers/tree/master"
+            },
+            "time": "2020-03-03T13:47:56+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -893,6 +951,70 @@
             "time": "2020-09-30T07:37:11+00:00"
         },
         {
+            "name": "inertiajs/inertia-laravel",
+            "version": "v0.3.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/inertiajs/inertia-laravel.git",
+                "reference": "6d4276984ccc58067056708cd3f2684fdf2ab095"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/inertiajs/inertia-laravel/zipball/6d4276984ccc58067056708cd3f2684fdf2ab095",
+                "reference": "6d4276984ccc58067056708cd3f2684fdf2ab095",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^5.4|^6.0|^7.0|^8.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "~3.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Inertia\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Inertia\\": "src"
+                },
+                "files": [
+                    "./helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jonathan Reinink",
+                    "email": "jonathan@reinink.ca",
+                    "homepage": "https://reinink.ca"
+                }
+            ],
+            "description": "The Laravel adapter for Inertia.js.",
+            "keywords": [
+                "inertia",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/inertiajs/inertia-laravel/issues",
+                "source": "https://github.com/inertiajs/inertia-laravel/tree/v0.3.4"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/reinink",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-12-03T15:16:20+00:00"
+        },
+        {
             "name": "laravel/framework",
             "version": "v8.18.1",
             "source": {
@@ -1126,6 +1248,64 @@
                 "source": "https://github.com/laravel/tinker/tree/v2.5.0"
             },
             "time": "2020-10-29T13:07:12+00:00"
+        },
+        {
+            "name": "laravel/ui",
+            "version": "v3.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/ui.git",
+                "reference": "444072cb2f8baaa15172c5cde2bd30d188c3b7e7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/ui/zipball/444072cb2f8baaa15172c5cde2bd30d188c3b7e7",
+                "reference": "444072cb2f8baaa15172c5cde2bd30d188c3b7e7",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "^8.0",
+                "illuminate/filesystem": "^8.0",
+                "illuminate/support": "^8.0",
+                "php": "^7.3|^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.x-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Laravel\\Ui\\UiServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laravel\\Ui\\": "src/",
+                    "Illuminate\\Foundation\\Auth\\": "auth-backend/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                }
+            ],
+            "description": "Laravel UI utilities and presets.",
+            "keywords": [
+                "laravel",
+                "ui"
+            ],
+            "support": {
+                "issues": "https://github.com/laravel/ui/issues",
+                "source": "https://github.com/laravel/ui/tree/v3.1.0"
+            },
+            "time": "2020-11-03T19:51:21+00:00"
         },
         {
             "name": "league/commonmark",
@@ -1377,6 +1557,59 @@
                 }
             ],
             "time": "2020-10-18T11:50:25+00:00"
+        },
+        {
+            "name": "molayli/laravel-cloudflare-real-ip",
+            "version": "0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/molayli/laravel-cloudflare-real-ip.git",
+                "reference": "860d4aa5bc41d3e3827ed78345ec0bdef5eb830d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/molayli/laravel-cloudflare-real-ip/zipball/860d4aa5bc41d3e3827ed78345ec0bdef5eb830d",
+                "reference": "860d4aa5bc41d3e3827ed78345ec0bdef5eb830d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Molayli\\CloudflareRealIpServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Molayli\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Billal",
+                    "email": "hello@molayli.com"
+                }
+            ],
+            "description": "Get the real ip for laravel applications behind cloudflare's reverse proxy",
+            "homepage": "https://github.com/molayli/laravel-cloudflare-real-ip",
+            "keywords": [
+                "cloudflare",
+                "laravel",
+                "real ip address"
+            ],
+            "support": {
+                "issues": "https://github.com/molayli/laravel-cloudflare-real-ip/issues",
+                "source": "https://github.com/molayli/laravel-cloudflare-real-ip/tree/master"
+            },
+            "time": "2018-01-19T16:51:42+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -4593,6 +4826,72 @@
                 }
             ],
             "time": "2020-11-27T00:39:34+00:00"
+        },
+        {
+            "name": "tightenco/ziggy",
+            "version": "v1.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tighten/ziggy.git",
+                "reference": "4777dafd683873978ccc529085187d03b750d39f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tighten/ziggy/zipball/4777dafd683873978ccc529085187d03b750d39f",
+                "reference": "4777dafd683873978ccc529085187d03b750d39f",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": ">=5.4@dev"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^6.0",
+                "phpunit/phpunit": "^9.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Tightenco\\Ziggy\\ZiggyServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Tightenco\\Ziggy\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniel Coulbourne",
+                    "email": "daniel@tighten.co"
+                },
+                {
+                    "name": "Jake Bathman",
+                    "email": "jake@tighten.co"
+                },
+                {
+                    "name": "Jacob Baker-Kretzmar",
+                    "email": "jacob@tighten.co"
+                }
+            ],
+            "description": "Generates a Blade directive exporting all of your named Laravel routes. Also provides a nice route() helper function in JavaScript.",
+            "homepage": "https://github.com/tighten/ziggy",
+            "keywords": [
+                "Ziggy",
+                "javascript",
+                "laravel",
+                "routes"
+            ],
+            "support": {
+                "issues": "https://github.com/tighten/ziggy/issues",
+                "source": "https://github.com/tighten/ziggy/tree/v1.0.4"
+            },
+            "time": "2020-12-06T22:07:45+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
