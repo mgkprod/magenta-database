@@ -1,38 +1,40 @@
 <template>
     <div>
-        <div class="mb-8" v-if="$page.props.user">
+        <div class="flex flex-row justify-end w-full px-4 py-4 bg-black" v-if="$page.props.user">
             <inertia-link
-                class="inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-500 transition duration-200 ease-in-out bg-gray-900 rounded shadow-inner hover:text-gray-300 hover:bg-gray-800 active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500"
+                class="inline-flex items-center px-4 py-1 mx-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-darker text-gray-default hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500"
                 :href="route('songs.edit', song)"
             >
-                Edit
+                <i class="mr-2 opacity-50 fas fa-edit"></i> Edit
             </inertia-link>
 
             <inertia-link
-                class="inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-500 transition duration-200 ease-in-out bg-gray-900 rounded shadow-inner hover:text-gray-300 hover:bg-gray-800 active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500"
+                class="inline-flex items-center px-4 py-1 mx-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-darker text-gray-default hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500"
                 :href="route('songs.edit-relations', song)"
             >
-                Rel
+                <i class="mr-2 opacity-50 fas fa-link"></i> Relations
             </inertia-link>
 
             <inertia-link
-                class="inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-500 transition duration-200 ease-in-out bg-gray-900 rounded shadow-inner hover:text-gray-300 hover:bg-gray-800 active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500"
+                class="inline-flex items-center px-4 py-1 mx-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-darker text-gray-default hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500"
                 :href="route('songs.files.create', song)"
             >
-                Add file
+                <i class="mr-2 opacity-50 fas fa-folder"></i> Add file
             </inertia-link>
 
             <button
-                class="inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-500 transition duration-200 ease-in-out bg-gray-900 rounded shadow-inner hover:text-gray-300 hover:bg-gray-800 active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500"
+                class="inline-flex items-center px-4 py-1 mx-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-darker text-gray-default hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500"
                 @click="destroy()"
             >
-                Delete
+                <i class="mr-2 opacity-50 fas fa-trash"></i> Delete
             </button>
         </div>
 
-        <div class="flex flex-col lg:flex-row">
-            <div class="w-full mb-8 lg:w-1/3">
-                <div class="text-xl font-semibold">{{ song.title }}</div>
+        <div class="flex flex-row items-start justify-start p-8 pb-0">
+            <div class="flex-none w-48 h-48 mr-8 border border-gray-darker"></div>
+
+            <div>
+                <h1 class="mb-4 text-4xl font-semibold">{{ song.title }}</h1>
                 <div v-if="song.alt_title" class="text-gray-400">Titre alternatif : {{ song.alt_title }}</div>
                 <div class="text-gray-400">
                     Version :
@@ -47,7 +49,7 @@
                     <span v-if="song.availability == 'announced'">Annoncé</span>
                     <span v-if="song.availability == 'published'">Publié</span>
                 </div>
-                <div class="text-gray-400">Première diff le : {{ moment(song.first_time_played_at).format('L') }}</div>
+                <div class="text-gray-400">Première diffusion le : {{ moment(song.first_time_played_at).format('L') }}</div>
                 <div class="text-gray-400">
                     Date de sortie :
                     <span v-if="song.released_at">{{ moment(song.released_at).format('L') }}</span>
@@ -59,42 +61,49 @@
                     <vue-simple-markdown :source="song.details"></vue-simple-markdown>
                 </div>
             </div>
+        </div>
 
-            <div class="w-full lg:mb-0 lg:ml-8 lg:w-2/3">
-                <div class="flex flex-col border border-b-0 border-gray-900 rounded">
-                    <div class="flex flex-col px-2 py-4 border-b border-gray-900 sm:flex-row">
-                        <div class="w-8"></div>
-                        <div class="flex-auto mx-2 text-sm font-bold text-left">Fichier</div>
-                        <div class="w-16 mx-2 text-sm font-bold text-left sm:text-center">Taille</div>
-                        <div class="w-32 mx-2 text-sm font-bold text-left sm:text-center">Ajouté le</div>
-                    </div>
-                    <div
-                        v-for="media in medias"
-                        v-bind:key="media.id"
-                        class="flex flex-col px-2 py-4 transition-all duration-200 ease-in-out border-b border-gray-900 sm:flex-row"
-                    >
-                        <div class="w-8 text-center text-gray-500 hover:text-gray-200" @click="play(media)">
-                            <i class="far fa-play-circle"></i>
-                        </div>
-                        <div class="flex-auto mx-2 font-bold">
-                            {{ media.file_name }}
-                        </div>
-                        <div class="mx-2 text-left sm:w-16 sm:text-center">
-                            {{ getReadableFileSizeString(media.size) }}
-                        </div>
-                        <div class="mx-2 text-left sm:w-32 sm:text-center">
-                            {{ moment(media.created_at).format('L') }}
-                        </div>
-                    </div>
+        <div class="w-full p-8 pb-0">
+            <div class="flex flex-col mb-8">
+                <div class="flex flex-row px-2 py-2 mb-2 border-b border-gray-darker">
+                    <div class="w-8 mx-2 text-xs text-center uppercase text-gray-default"></div>
+                    <div class="flex-auto mx-2 text-xs text-left uppercase text-gray-default">Fichier</div>
+                    <div class="w-16 mx-2 text-xs text-left uppercase text-gray-default">Taille</div>
+                    <div class="w-32 mx-2 text-xs text-left uppercase text-gray-default">Ajouté</div>
                 </div>
 
-                // Variantes
-
-                // Events
-
-                // Albums
-
+                <div
+                    v-for="media in medias"
+                    v-bind:key="media.id"
+                    class="flex flex-row items-center px-2 py-3 mb-2 transition-all duration-200 ease-in-out rounded hover:bg-gray-darker"
+                >
+                    <div class="w-8 mx-2 text-center transition-all duration-200 ease-in-out text-gray-dark hover:text-gray-default" @click="play(media)">
+                        <i class="text-xs fas fa-play"></i>
+                    </div>
+                    <div class="flex-auto mx-2">
+                        {{ media.file_name }}
+                    </div>
+                    <div class="w-16 mx-2 text-left text-gray-default">
+                        {{ getReadableFileSizeString(media.size) }}
+                    </div>
+                    <div class="w-32 mx-2 text-left text-gray-default">
+                        {{ moment(media.created_at).format('L') }}
+                    </div>
+                </div>
             </div>
+
+            <h2 class="mb-4 text-xl font-semibold">Variantes</h2>
+            <songs-table class="mb-8" :songs="variants"></songs-table>
+
+            <template v-if="song.events.length">
+                <h2 class="mb-4 text-xl font-semibold">Diffusions</h2>
+                <events-grid class="mb-8" :events="song.events"></events-grid>
+            </template>
+
+            <template v-if="song.albums.length">
+                <h2 class="mb-4 text-xl font-semibold">Présent dans</h2>
+                <albums-grid class="mb-8" :albums="song.albums"></albums-grid>
+            </template>
         </div>
     </div>
 </template>

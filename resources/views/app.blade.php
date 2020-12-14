@@ -13,7 +13,7 @@
         @routes
     </head>
 
-    <body class="h-full min-h-screen font-sans antialiased text-gray-100 bg-black">
+    <body class="h-full min-h-screen font-sans antialiased text-gray-lightest bg-gray-darkest">
         @inertia
     </body>
 </html>

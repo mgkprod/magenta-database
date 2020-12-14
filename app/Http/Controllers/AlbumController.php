@@ -57,7 +57,7 @@ class AlbumController extends Controller
 
     public function show(Album $album)
     {
-        $album->with(['songs']);
+        $album->load(['songs']);
 
         return inertia('albums/show', compact('album'));
     }

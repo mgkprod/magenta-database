@@ -44,7 +44,7 @@ class EventController extends Controller
 
     public function show(Event $event)
     {
-        $event->with(['songs']);
+        $event->load(['songs']);
 
         return inertia('events/show', compact('event'));
     }

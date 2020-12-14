@@ -1,25 +1,28 @@
 <template>
     <div>
-        <div class="mb-8" v-if="$page.props.user">
+        <div class="flex flex-row justify-end w-full px-4 py-4 bg-black" v-if="$page.props.user">
             <inertia-link
-                class="inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-500 transition duration-200 ease-in-out bg-gray-900 rounded shadow-inner hover:text-gray-300 hover:bg-gray-800 active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500"
+                class="inline-flex items-center px-4 py-1 mx-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-darker text-gray-default hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500"
                 :href="route('albums.edit', album)"
             >
-                Edit
+                <i class="mr-2 opacity-50 fas fa-edit"></i> Edit
             </inertia-link>
 
             <button
-                class="inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-500 transition duration-200 ease-in-out bg-gray-900 rounded shadow-inner hover:text-gray-300 hover:bg-gray-800 active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500"
+                class="inline-flex items-center px-4 py-1 mx-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-darker text-gray-default hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500"
                 @click="destroy()"
             >
-                Delete
+                <i class="mr-2 opacity-50 fas fa-trash"></i>  Delete
             </button>
         </div>
 
-        <div class="flex flex-col lg:flex-row">
-            <div class="w-full mb-8 lg:w-1/3">
-                <img v-if="album.image_url" :src="album.image_url" :alt="album.name" class="w-full max-w-md mb-8 border border-gray-900 rounded shadow-inner">
-                <div class="text-xl font-semibold">{{ album.name }}</div>
+        <div class="flex flex-row items-start justify-start p-8 pb-0">
+            <div class="flex-none w-56 h-56 mr-8">
+                <img :src="album.image_url" :alt="album.name" class="border rounded border-gray-darker">
+            </div>
+
+            <div>
+                <h1 class="mb-4 text-4xl font-semibold">{{ album.name }}</h1>
                 <div class="text-gray-400">
                     Disponibilité :
                     <span v-if="album.availability == 'published'">Publié</span>
@@ -37,9 +40,10 @@
                     <vue-simple-markdown :source="album.details"></vue-simple-markdown>
                 </div>
             </div>
+        </div>
 
-            <div class="w-full lg:mb-0 lg:ml-8 lg:w-2/3">
-            </div>
+        <div class="w-full p-8 pb-0">
+            <songs-table :songs="album.songs"></songs-table>
         </div>
     </div>
 </template>

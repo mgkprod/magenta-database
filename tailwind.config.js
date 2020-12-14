@@ -27,7 +27,18 @@ module.exports = {
             },
             colors: {
                 'primary': { ...colors.indigo },
-                'gray': { ...colors.trueGray },
+                'gray': {
+                    ...colors.trueGray,
+                    'darkest': '#181818',
+                    'darker': '#282828',
+                    'dark': '#424242',
+                    'default': '#b3b3b3',
+                    'light': '#bcbcbc',
+                    'lighter': '#d7d8d6',
+                    'lightest': '#e9e9e9',
+                 },
+                'white': '#ffffff',
+                'black': '#121212',
             }
         },
         container: {
@@ -36,5 +47,7 @@ module.exports = {
         },
     },
     variants: {},
-    plugins: [],
+    plugins: [
+        require('@tailwindcss/aspect-ratio'),
+    ],
 };

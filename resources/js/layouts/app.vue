@@ -1,77 +1,120 @@
 <template>
-    <div class="flex flex-col w-full min-h-screen mx-auto">
-        <header class="fixed top-0 left-0 right-0 z-30 flex items-center flex-none h-40 bg-black border-b border-gray-900">
-            <div class="container max-w-screen-lg">
-                <nav class="flex flex-col items-center w-full -mx-1">
-                    <inertia-link :href="route('index')" class="inline-flex items-center mx-1 mr-4 text-lg font-bold tracking-tight transition-all duration-200 ease-in-out hover-contrast">
-                        <img src="/images/logo.svg" alt="Logo" class="h-16 mb-4">
+    <div class="flex flex-col w-full h-screen">
+        <div class="flex flex-row flex-auto min-h-0">
+            <!-- Sidebar -->
+            <div class="flex flex-col w-64 bg-black">
+                <div class="my-8">
+                    <inertia-link :href="route('index')" class="tracking-tight transition-all duration-200 ease-in-out">
+                        <img src="/images/logo.svg" alt="Logo" class="w-full px-2 hover-contrast">
                     </inertia-link>
+                </div>
 
-                    <div class="flex flex-row -mx-1">
-                        <inertia-link
-                            class="flex items-center px-4 py-2 mx-1 text-sm font-semibold text-gray-500 transition duration-200 ease-in-out bg-gray-900 rounded shadow-inner hover:text-pink-300 hover:bg-pink-900 active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-pink-500"
-                            :class="{ 'text-pink-300 bg-pink-900': route().current('songs*') }"
-                            :href="route('songs.index')"
-                        >
-                            <span class="tracking-tighter uppercase font-eurostile-extended">Tracks</span>
-                        </inertia-link>
+                <inertia-link
+                    class="flex items-center px-4 py-3 text-sm font-semibold transition duration-200 ease-in-out border-l-8 border-transparent active:bg-transparent focus:outline-none hover:text-pink-300 hover:bg-pink-900"
+                    :class="{ 'border-pink-700 text-pink-300 bg-pink-900': route().current('songs*') }"
+                    :href="route('songs.index')"
+                >
+                    <span class="tracking-tighter uppercase font-eurostile-extended">Tracks</span>
+                </inertia-link>
 
-                        <inertia-link
-                            class="flex items-center px-4 py-2 mx-1 text-sm font-semibold text-gray-500 transition duration-200 ease-in-out bg-gray-900 rounded shadow-inner hover:text-blue-300 hover:bg-blue-900 active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-blue-500"
-                            :class="{ 'text-blue-300 bg-blue-900': route().current('albums*') }"
-                            :href="route('albums.index')"
-                        >
-                            <span class="tracking-tighter uppercase font-eurostile-extended">Albums/EPs</span>
-                        </inertia-link>
+                <inertia-link
+                    class="flex items-center px-4 py-3 text-sm font-semibold transition duration-200 ease-in-out border-l-8 border-transparent active:bg-transparent focus:outline-none hover:text-blue-300 hover:bg-blue-900"
+                    :class="{ 'border-blue-700 text-blue-300 bg-blue-900': route().current('albums*') }"
+                    :href="route('albums.index')"
+                >
+                    <span class="tracking-tighter uppercase font-eurostile-extended">Albums/EPs</span>
+                </inertia-link>
 
-                        <inertia-link
-                            class="flex items-center px-4 py-2 mx-1 text-sm font-semibold text-gray-500 transition duration-200 ease-in-out bg-gray-900 rounded shadow-inner hover:text-yellow-300 hover:bg-yellow-900 active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-yellow-500"
-                            :class="{ 'text-yellow-300 bg-yellow-900': route().current('events*') }"
-                            :href="route('events.index')"
-                        >
-                            <span class="tracking-tighter uppercase font-eurostile-extended">Events</span>
-                        </inertia-link>
+                <inertia-link
+                    class="flex items-center px-4 py-3 text-sm font-semibold transition duration-200 ease-in-out border-l-8 border-transparent active:bg-transparent focus:outline-none hover:text-yellow-300 hover:bg-yellow-900"
+                    :class="{ 'border-yellow-700 text-yellow-300 bg-yellow-900': route().current('events*') }"
+                    :href="route('events.index')"
+                >
+                    <span class="tracking-tighter uppercase font-eurostile-extended">Events</span>
+                </inertia-link>
+
+                <div class="mt-auto"></div>
+
+                <inertia-link
+                    class="flex items-center px-4 py-3 text-sm font-semibold transition duration-200 ease-in-out border-l-8 border-transparent active:bg-transparent focus:outline-none hover:text-gray-300 hover:bg-gray-900"
+                    :class="{ 'border-gray-700 text-gray-300 bg-gray-900': route().current('index') }"
+                    :href="route('index')"
+                >
+                    <span class="tracking-tighter uppercase font-eurostile-extended">À propos</span>
+                </inertia-link>
+
+                <div class="mb-8"></div>
+
+                <div class="border-b bg-gray-darker border-gray-dark" v-if="player.howl">
+                    <div class="flex flex-col justify-between px-4 py-4">
+                        <div class="w-full mb-4">
+                            {{ player.song.title }}
+                        </div>
+                        <input
+                            class="w-auto mb-4 overflow-hidden rounded-lg appearance-none bg-gray-default focus:outline-none"
+                            type="range"
+                            min="0"
+                            :max="player.seek_max"
+                            step="0.01"
+                            v-model="player.seek"
+                            style="height: 8px"
+                            @input="set_seek()"
+                        />
+
+                        <div class="flex flex-row items-center justify-between text-gray-default">
+                            <div class="text-xs">
+                                {{ moment.duration(player.seek, 'seconds').format('mm:ss', { trim: false }) }}
+                            </div>
+                            <div class="text-xs">
+                                <span v-if="player.seek_max != 0">
+                                    {{ moment.duration(player.seek_max, 'seconds').format('mm:ss', { trim: false }) }}
+                                </span>
+                                <span v-else>
+                                    --:--
+                                </span>
+                            </div>
+                        </div>
                     </div>
-                </nav>
+                </div>
+                <div class="bg-gray-darker">
+                    <div class="flex flex-row items-center justify-center px-4 py-4 text-gray-default">
+                        <div class="mr-4">
+                            <i
+                                v-if="player.howl"
+                                @click="pause()"
+                                class="transition duration-200 ease-in-out fas fa-fw hover:text-gray-lightest"
+                                :class="{
+                                    'fa-play': !player.howl.playing(),
+                                    'fa-pause': player.howl.playing(),
+                                }" />
+                            <i
+                                v-else
+                                class="fas fa-fw fa-play text-gray-dark"
+                            />
+                        </div>
+                        <div class="mr-4">
+                            <i
+                                @click="mute()"
+                                class="transition duration-200 ease-in-out fas fa-fw hover:text-gray-lightest"
+                                :class="{
+                                    'fa-volume-off': player.volume == 0,
+                                    'fa-volume-down': player.volume > 0 && player.volume < 0.5,
+                                    'fa-volume-up': player.volume >= 0.5,
+                                    'fa-volume-up ': player.volume == 1,
+                                }"/>
+                        </div>
+                        <input class="w-32 overflow-hidden rounded-lg appearance-none bg-gray-dark focus:outline-none" type="range" min="0" max="1" step="0.01" v-model="player.volume" style="height: 8px" />
+                    </div>
+                </div>
             </div>
-        </header>
 
-        <main class="flex flex-col flex-auto max-w-full py-8 mt-40">
-            <main class="container max-w-screen-lg">
+            <!-- Content -->
+            <main class="w-full min-h-0 overflow-y-auto">
                 <slot></slot>
             </main>
-        </main>
+        </div>
 
-        <footer class="flex flex-col">
-            <div v-if="player.show" class="container flex flex-row items-center justify-start max-w-screen-lg py-4 mb-8 border border-gray-900 rounded">
-                <button
-                    @click="pause()"
-                    class="flex items-center justify-center w-32 px-4 py-2 mx-1 text-sm font-semibold text-gray-500 transition duration-200 ease-in-out bg-gray-900 rounded shadow-inner hover:text-blue-300 hover:bg-blue-900 active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-blue-500"
-                >
-                    <span class="tracking-tighter uppercase font-eurostile-extended">
-                        <span v-if="this.player.is_playing">Pause</span>
-                        <span v-if="!this.player.is_playing">Play</span>
-                    </span>
-                </button>
-
-                <div class="ml-4">
-                    {{ this.player.song.title }}
-                </div>
-            </div>
-            <div class="container flex flex-row items-center justify-between max-w-screen-lg py-4 text-xs bg-black">
-                <div>
-                    Les contenus présentés appartiennent à leurs auteurs respectifs.<br>
-                    Handcrafted with ❤️ by <a href="https://mgk.dev" target="_blank" class="text-gray-300 transition duration-200 ease-in-out hover:text-gray-200">Simon (MGK)</a>
-                </div>
-
-                <div class="mx-auto"></div>
-
-                <div class="text-right">
-                    {{ $page.props.version }}<br>
-                    <inertia-link :href="route('login')" class="text-gray-300 transition duration-200 ease-in-out hover:text-gray-200">Management</inertia-link>
-                </div>
-            </div>
-        </footer>
+        <!-- Footer? -->
     </div>
 </template>
 
@@ -84,16 +127,32 @@
             return {
                 player: {
                     show: false,
-                    is_playing: false,
                     howl: undefined,
                     song: undefined,
                     media: undefined,
+                    volume: 0.5,
+                    seek: 0,
+                    seek_max: 0,
                 }
             }
         },
 
         mounted(){
             EventBus.$on('play:media', payload => this.play(payload));
+
+            setInterval(() => { this.update_seek(); }, 500);
+        },
+
+        watch: {
+            'player.volume': function (volume, old_volume) {
+                if (this.player.howl && old_volume == 0 && volume > 0) {
+                    this.player.howl.play();
+                } else if (this.player.howl && volume == 0 && old_volume > 0) {
+                    this.player.howl.pause();
+                }
+
+                this.player.howl ? this.player.howl.volume(volume) : ''
+            }
         },
 
         methods: {
@@ -108,12 +167,12 @@
                 this.player.howl = new Howl({
                     src: [this.player.media.url],
                     autoplay: true,
-                    loop: true,
-                    volume: 0.5,
+                    volume: this.player.volume,
                     onplay: () => { this.player.is_playing = true },
                     onpause: () => { this.player.is_playing = false },
                     onend: () => { this.player.is_playing = false },
                     onstop: () => { this.player.is_playing = false },
+                    onload: () => { this.player.seek = 0; this.player.seek_max = this.player.howl.duration() },
                 });
 
                 this.player.show = true;
@@ -123,6 +182,17 @@
                 this.player.howl.playing()
                     ? this.player.howl.pause()
                     : this.player.howl.play()
+            },
+            mute(){
+                this.player.volume == 0
+                    ? this.player.volume = 0.5
+                    : this.player.volume = 0
+            },
+            update_seek(){
+                this.player.seek = this.player.howl ? this.player.howl.seek() : 0
+            },
+            set_seek(){
+                this.player.howl ? this.player.howl.seek(this.player.seek) : ''
             }
         }
     }
