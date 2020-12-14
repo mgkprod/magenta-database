@@ -20,9 +20,9 @@
     font-family: 'Eurostile Extended Bold';
     font-style: normal;
     font-weight: 800;
-    src: url('/fonts/EurostileExt-Bla.otf') format('truetype'),
+    src: url('/fonts/EurostileExt-Bla.woff2') format('woff2'),
          url('/fonts/EurostileExt-Bla.woff') format('woff'),
-         url('/fonts/EurostileExt-Bla.woff2') format('woff2');
+         url('/fonts/EurostileExt-Bla.otf') format('truetype');
 }
 
 @tailwind base;
