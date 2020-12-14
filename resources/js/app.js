@@ -10,7 +10,7 @@ momentDurationFormatSetup(moment);
 
 Vue.config.productionTip = false
 
-moment.lang('fr');
+moment.locale('fr');
 
 Vue.prototype._ = window._
 Vue.prototype.moment = moment;

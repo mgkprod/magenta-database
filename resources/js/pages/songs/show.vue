@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="flex flex-row justify-end w-full px-4 py-4 bg-black" v-if="$page.props.user">
+        <div class="flex flex-row justify-end w-full px-4 py-4 bg-black border-b-4 border-gray-darker" v-if="$page.props.user">
             <inertia-link
                 class="inline-flex items-center px-4 py-1 mx-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-darker text-gray-default hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500"
                 :href="route('songs.edit', song)"
@@ -30,8 +30,14 @@
             </button>
         </div>
 
-        <div class="flex flex-row items-start justify-start p-8 pb-0">
-            <div class="flex-none w-48 h-48 mr-8 border border-gray-darker"></div>
+        <div class="relative flex flex-row items-start justify-start p-8 border-b-4 border-gray-darker">
+            <div class="bg-cover-container">
+                <div class="bg-cover" :style="{ 'background-image': 'url(\'' + song.image_url + '\')' }"></div>
+            </div>
+
+            <div class="flex-none w-56 h-56 mr-8">
+                <img :src="song.image_url" :alt="song.name" class="border rounded shadow border-gray-darker">
+            </div>
 
             <div>
                 <h1 class="mb-4 text-4xl font-semibold">{{ song.title }}</h1>
@@ -70,6 +76,7 @@
                     <div class="flex-auto mx-2 text-xs text-left uppercase text-gray-default">Fichier</div>
                     <div class="w-16 mx-2 text-xs text-left uppercase text-gray-default">Taille</div>
                     <div class="w-32 mx-2 text-xs text-left uppercase text-gray-default">Ajouté</div>
+                    <div v-if="$page.props.user" class="w-8 mx-2 text-xs text-center uppercase text-gray-default"></div>
                 </div>
 
                 <div
@@ -81,7 +88,7 @@
                         <i class="text-xs fas fa-play"></i>
                     </div>
                     <div class="flex-auto mx-2">
-                        {{ media.file_name }}
+                        {{ media.custom_properties.name }}
                     </div>
                     <div class="w-16 mx-2 text-left text-gray-default">
                         {{ getReadableFileSizeString(media.size) }}
@@ -89,11 +96,16 @@
                     <div class="w-32 mx-2 text-left text-gray-default">
                         {{ moment(media.created_at).format('L') }}
                     </div>
+                    <div v-if="$page.props.user" class="w-8 mx-2 text-center transition-all duration-200 ease-in-out text-gray-dark hover:text-gray-default" @click="destroy_media(media)">
+                        <i class="text-xs fas fa-trash"></i>
+                    </div>
                 </div>
             </div>
 
-            <h2 class="mb-4 text-xl font-semibold">Variantes</h2>
-            <songs-table class="mb-8" :songs="variants"></songs-table>
+            <template v-if="variants">
+                <h2 class="mb-4 text-xl font-semibold">Variantes</h2>
+                <songs-table class="mb-8" :songs="variants"></songs-table>
+            </template>
 
             <template v-if="song.events.length">
                 <h2 class="mb-4 text-xl font-semibold">Diffusions</h2>
@@ -114,16 +126,17 @@
     export default {
         layout: require('../../layouts/app').default,
 
-        props: {
-            song: Object,
-            medias: Array,
-            variants: Object,
-        },
+        props: ['song', 'medias', 'variants'],
 
         methods: {
             destroy() {
                 this.$inertia.delete(
                     this.route('songs.destroy', this.song)
+                );
+            },
+            destroy_media(media) {
+                this.$inertia.delete(
+                    this.route('songs.files.destroy', { song: this.song, media })
                 );
             },
             play(media){

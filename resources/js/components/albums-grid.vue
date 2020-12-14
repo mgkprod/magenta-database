@@ -25,8 +25,6 @@
 
 <script>
     export default {
-        props: {
-            albums: Object
-        }
+        props: ['albums']
     }
 </script>

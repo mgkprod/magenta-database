@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="flex flex-row justify-end w-full px-4 py-4 bg-black" v-if="$page.props.user">
+        <div class="flex flex-row justify-end w-full px-4 py-4 bg-black border-b-4 border-gray-darker" v-if="$page.props.user">
             <inertia-link
                 class="inline-flex items-center px-4 py-1 mx-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-darker text-gray-default hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500"
                 :href="route('albums.edit', album)"
@@ -16,9 +16,13 @@
             </button>
         </div>
 
-        <div class="flex flex-row items-start justify-start p-8 pb-0">
+        <div class="relative flex flex-row items-start justify-start p-8 border-b-4 border-gray-darker">
+            <div class="bg-cover-container">
+                <div class="bg-cover" :style="{ 'background-image': 'url(' + album.image_url + ')' }"></div>
+            </div>
+
             <div class="flex-none w-56 h-56 mr-8">
-                <img :src="album.image_url" :alt="album.name" class="border rounded border-gray-darker">
+                <img :src="album.image_url" :alt="album.name" class="border rounded shadow border-gray-darker">
             </div>
 
             <div>

@@ -52,6 +52,14 @@
                 rows="10"
             />
 
+            <form-file-input class="mb-6"
+                label="Image"
+                type="file"
+                v-model="form.image"
+                accept="image/*"
+                :errors="$page.props.errors.image"
+            />
+
             <button class="flex items-center px-4 py-2 text-sm font-semibold text-gray-500 transition duration-200 ease-in-out bg-gray-900 rounded shadow-inner hover:text-gray-300 hover:bg-gray-800 active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500">
                 Edit
             </button>
@@ -80,6 +88,7 @@
                     first_time_played_at: '',
                     variant_agg: '',
                     details: '',
+                    image: undefined,
                 }
             }
         },
@@ -92,8 +101,21 @@
             submit() {
                 this.$page.props.errors = {}
 
-                this.$inertia.put(
-                    this.route('songs.update', this.song), { ...this.form }
+                var data = new FormData()
+                data.append('_method', 'put')
+                data.append('title', this.form.title || '')
+                data.append('alt_title', this.form.alt_title || '')
+                data.append('type', this.form.type || '')
+                data.append('availability', this.form.availability || '')
+                data.append('released_at', this.form.released_at || '')
+                data.append('first_time_played_at', this.form.first_time_played_at || '')
+                data.append('variant_agg', this.form.variant_agg || '')
+                data.append('details', this.form.details || '')
+                data.append('image', this.form.image || '')
+
+                this.$inertia.post(
+                    this.route('songs.update', this.song),
+                    data
                 )
             }
         }

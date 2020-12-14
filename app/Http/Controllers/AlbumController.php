@@ -9,7 +9,9 @@ class AlbumController extends Controller
 {
     public function index()
     {
-        $albums = Album::get();
+        $albums = Album::query()
+            ->orderBy('released_at', 'DESC')
+            ->get();
 
         return inertia('albums/index', compact('albums'));
     }

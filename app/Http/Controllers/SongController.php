@@ -6,12 +6,15 @@ use App\Models\Album;
 use App\Models\Event;
 use App\Models\Song;
 use Illuminate\Http\Request;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class SongController extends Controller
 {
     public function index()
     {
-        $songs = Song::get();
+        $songs = Song::query()
+            ->orderBy('created_at', 'DESC')
+            ->get();
 
         return inertia('songs/index', compact('songs'));
     }
@@ -51,14 +54,28 @@ class SongController extends Controller
         $song->details = $request->details;
         $song->save();
 
-        return redirect()->route('songs.index');
+        if ($request->file('image')) {
+            $song
+                ->addMediaFromRequest('image')
+                ->toMediaCollection('images');
+        }
+
+        return redirect()->route('songs.show', $song);
     }
 
     public function show(Song $song)
     {
         $song->load(['albums', 'events']);
+
+        $variants = $song
+            ->variants
+            ->where('id', '!=', $song->id);
+
+        if (count($variants) == 0) {
+            $variants = null;
+        }
+
         $medias = $song->getMedia('medias');
-        $variants = $song->variants->where('id', '!=', $song->id);
 
         foreach ($medias as $media) {
             $media->url = $media->getUrl();
@@ -100,9 +117,18 @@ class SongController extends Controller
         $song->variant_agg = $request->variant_agg;
         $song->details = $request->details;
 
+        if ($request->file('image')) {
+            $song
+                ->clearMediaCollection('images');
+
+            $song
+                ->addMediaFromRequest('image')
+                ->toMediaCollection('images');
+        }
+
         $song->save();
 
-        return redirect()->route('songs.index');
+        return redirect()->route('songs.show', $song);
     }
 
     public function editRelations(Song $song)
@@ -134,15 +160,18 @@ class SongController extends Controller
         if ($request->file('audio')) {
             $song
                 ->addMediaFromRequest('audio')
+                ->withCustomProperties(['name' => $request->name])
                 ->toMediaCollection('medias');
         }
 
-        return redirect()->route('songs.index');
+        return redirect()->route('songs.show', $song);
     }
 
-    public function destroyFile(Request $request, Song $song)
+    public function destroyFile(Request $request, Song $song, Media $media)
     {
-        return redirect()->route('songs.index');
+        $media->delete();
+
+        return redirect()->route('songs.show', $song);
     }
 
     public function destroy(Song $song)

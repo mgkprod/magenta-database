@@ -14,7 +14,7 @@
             @click="$inertia.get(route('songs.show', song))"
         >
             <div class="w-8 mx-2 text-center transition-all duration-200 ease-in-out text-gray-dark hover:text-gray-default" @click.prevent="">
-                <i class="text-xs fas fa-play"></i>
+                <!-- <i class="text-xs fas fa-play"></i> -->
             </div>
             <div class="flex-auto mx-2">
                 {{ song.title }}
@@ -39,8 +39,6 @@
 
 <script>
     export default {
-        props: {
-            songs: Array
-        }
+        props: ['songs']
     }
 </script>

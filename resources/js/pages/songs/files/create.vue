@@ -1,7 +1,13 @@
 <template>
-    <div>
+    <div class="p-8">
         <form @submit.prevent="submit">
-                <form-file-input class="mb-6"
+            <form-input class="mb-6"
+                label="Name"
+                v-model="form.name"
+                :errors="$page.props.errors.name"
+            />
+
+            <form-file-input class="mb-6"
                 label="Audio"
                 type="file"
                 v-model="form.audio"
@@ -27,6 +33,7 @@
         data() {
             return {
                 form: {
+                    name: '',
                     audio: undefined,
                 }
             }
@@ -37,6 +44,7 @@
                 this.$page.props.errors = {}
 
                 var data = new FormData()
+                data.append('name', this.form.name || '')
                 data.append('audio', this.form.audio || '')
 
                 this.$inertia.post(

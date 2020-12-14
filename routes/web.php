@@ -26,7 +26,7 @@ Route::put('songs/{song}/relations', [SongController::class, 'updateRelations'])
 
 Route::get('songs/{song}/files/create', [SongController::class, 'createFile'])->name('songs.files.create');
 Route::post('songs/{song}/files', [SongController::class, 'storeFile'])->name('songs.files.store');
-Route::delete('songs/{song}/files/{file_id}', [SongController::class, 'destroyFile'])->name('songs.files.destroy');
+Route::delete('songs/{song}/files/{media}', [SongController::class, 'destroyFile'])->name('songs.files.destroy');
 
 Route::resource('albums', AlbumController::class);
 Route::resource('events', EventController::class);

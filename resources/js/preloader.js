@@ -4,7 +4,7 @@ animate({
     elements: ".base rect",
     easing: 'linear',
     duration: 0,
-    transform: ["translate(-100%)", "translate(-100%)"]
+    transform: ["translate(-100%)", "translate(-100%)"],
 }).then(options => animate({
     ...options,
     duration: 2000,
@@ -45,9 +45,9 @@ window.loadFont = function(src) {
         let link = document.createElement('link')
         link.href = src
         link.rel = 'preload'
-        link.as="font"
-        link.type="font/woff2"
-        link.crossorigin="anonymous"
+        link.as='font'
+        link.type='font/woff2'
+        link.setAttribute('crossorigin', 'anonymous')
 
         link.onload = () => resolve(link)
         link.onerror = () => reject(new Error(`Font load error for ${src}`))

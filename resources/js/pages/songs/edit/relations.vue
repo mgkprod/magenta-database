@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="p-8">
         <form @submit.prevent="submit">
             <div class="flex flex-wrap items-start justify-start">
                 <div

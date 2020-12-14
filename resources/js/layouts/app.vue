@@ -47,6 +47,8 @@
 
                 <div class="border-b bg-gray-darker border-gray-dark" v-if="player.howl">
                     <div class="flex flex-col justify-between px-4 py-4">
+                        <img :src="player.song.image_url" :alt="player.song.name" class="mb-4 border rounded shadow border-gray-darker">
+
                         <div class="w-full mb-4">
                             {{ player.song.title }}
                         </div>

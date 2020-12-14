@@ -7,7 +7,6 @@
                     <div class="mb-8 text-center">
                         <h1 class="inline-flex items-center mb-1 text-4xl font-bold tracking-tighter text-primary-500">
                             <inertia-link :href="route('index')" target="_blank" class="transition duration-200 ease-in-out text-primary-500 hover:text-primary-400">
-                                <span>{{ $page.props.app_name }}</span>
                             </inertia-link>
                         </h1>
                     </div>

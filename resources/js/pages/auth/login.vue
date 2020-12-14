@@ -1,11 +1,8 @@
 <template>
-    <form class="flex flex-col overflow-hidden bg-black border border-gray-800 rounded shadow-sm" @submit.prevent="submit">
+    <form class="flex flex-col overflow-hidden bg-black" @submit.prevent="submit">
         <div class="flex-grow w-full p-8">
-            <h1 class="mb-8 text-2xl font-semibold text-center">Sign in to your account</h1>
-
             <form-input class="mb-6"
                     label="Email"
-                    placeholder="Your Email Address"
                     v-model="form.email"
                     :errors="$page.props.errors.email"
                     required
@@ -14,7 +11,6 @@
 
             <form-input class="mb-2"
                     label="Password"
-                    placeholder="Your Password"
                     type="password"
                     v-model="form.password"
                     :errors="$page.props.errors.password"
