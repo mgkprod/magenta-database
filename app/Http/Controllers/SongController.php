@@ -57,9 +57,14 @@ class SongController extends Controller
     public function show(Song $song)
     {
         $song->load(['albums', 'events']);
-        $medias = $song->getMediaCollection('medias');
+        $medias = $song->getMedia('medias');
+        $variants = $song->variants->where('id', '!=', $song->id);
 
-        return inertia('songs/show', compact('song', 'medias'));
+        foreach ($medias as $media) {
+            $media->url = $media->getUrl();
+        }
+
+        return inertia('songs/show', compact('song', 'medias', 'variants'));
     }
 
     public function edit(Song $song)

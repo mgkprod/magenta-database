@@ -10,16 +10,16 @@
         </div>
 
         <div class="flex flex-col border border-b-0 border-gray-900 rounded">
-            <div class="flex flex-col px-4 py-4 -mx-2 border-b border-gray-900 sm:flex-row">
+            <div class="flex flex-col px-2 py-4 border-b border-gray-900 sm:flex-row">
                 <div class="flex-auto mx-2 text-sm font-bold text-left">Titre</div>
-                <div class="w-32 mx-2 font-bold text-left sm:text-sm sm:text-center">Version</div>
-                <div class="w-32 mx-2 font-bold text-left sm:text-sm sm:text-center">Dispo.</div>
-                <div class="w-48 mx-2 font-bold text-left sm:text-sm sm:text-center">Première diff.</div>
+                <div class="w-32 mx-2 text-sm font-bold text-left sm:text-center">Version</div>
+                <div class="w-32 mx-2 text-sm font-bold text-left sm:text-center">Dispo.</div>
+                <div class="w-48 mx-2 text-sm font-bold text-left sm:text-center">Première diff.</div>
             </div>
             <div
                 v-for="song in songs"
                 v-bind:key="song.id"
-                class="flex flex-col px-4 py-4 -mx-2 transition-all duration-200 ease-in-out border-b border-gray-900 sm:flex-row hover:bg-gray-900"
+                class="flex flex-col px-2 py-4 transition-all duration-200 ease-in-out border-b border-gray-900 sm:flex-row hover:bg-gray-900"
                 @click="$inertia.get(route('songs.show', song))"
             >
                 <div class="flex-auto mx-2 font-bold">

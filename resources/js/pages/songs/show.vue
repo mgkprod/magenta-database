@@ -61,17 +61,54 @@
             </div>
 
             <div class="w-full lg:mb-0 lg:ml-8 lg:w-2/3">
+                <div class="flex flex-col border border-b-0 border-gray-900 rounded">
+                    <div class="flex flex-col px-2 py-4 border-b border-gray-900 sm:flex-row">
+                        <div class="w-8"></div>
+                        <div class="flex-auto mx-2 text-sm font-bold text-left">Fichier</div>
+                        <div class="w-16 mx-2 text-sm font-bold text-left sm:text-center">Taille</div>
+                        <div class="w-32 mx-2 text-sm font-bold text-left sm:text-center">Ajouté le</div>
+                    </div>
+                    <div
+                        v-for="media in medias"
+                        v-bind:key="media.id"
+                        class="flex flex-col px-2 py-4 transition-all duration-200 ease-in-out border-b border-gray-900 sm:flex-row"
+                    >
+                        <div class="w-8 text-center text-gray-500 hover:text-gray-200" @click="play(media)">
+                            <i class="far fa-play-circle"></i>
+                        </div>
+                        <div class="flex-auto mx-2 font-bold">
+                            {{ media.file_name }}
+                        </div>
+                        <div class="mx-2 text-left sm:w-16 sm:text-center">
+                            {{ getReadableFileSizeString(media.size) }}
+                        </div>
+                        <div class="mx-2 text-left sm:w-32 sm:text-center">
+                            {{ moment(media.created_at).format('L') }}
+                        </div>
+                    </div>
+                </div>
+
+                // Variantes
+
+                // Events
+
+                // Albums
+
             </div>
         </div>
     </div>
 </template>
 
 <script>
+    import { EventBus } from '../../event-bus.js';
+
     export default {
         layout: require('../../layouts/app').default,
 
         props: {
             song: Object,
+            medias: Array,
+            variants: Object,
         },
 
         methods: {
@@ -79,6 +116,22 @@
                 this.$inertia.delete(
                     this.route('songs.destroy', this.song)
                 );
+            },
+            play(media){
+                EventBus.$emit('play:media', {
+                    song: this.song,
+                    media: media,
+                });
+            },
+            getReadableFileSizeString(fileSizeInBytes) {
+                var i = -1;
+                var byteUnits = [' kB', ' MB', ' GB', ' TB', 'PB', 'EB', 'ZB', 'YB'];
+                do {
+                    fileSizeInBytes = fileSizeInBytes / 1024;
+                    i++;
+                } while (fileSizeInBytes > 1024);
+
+                return Math.max(fileSizeInBytes, 0.1).toFixed(1) + byteUnits[i];
             }
         }
     }

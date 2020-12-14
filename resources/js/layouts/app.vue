@@ -42,8 +42,23 @@
             </main>
         </main>
 
-        <footer class="flex items-center flex-none text-xs bg-black border-t border-gray-900">
-            <div class="container flex flex-row items-center justify-between max-w-screen-lg py-4 min-h-16">
+        <footer class="flex flex-col">
+            <div v-if="player.show" class="container flex flex-row items-center justify-start max-w-screen-lg py-4 mb-8 border border-gray-900 rounded">
+                <button
+                    @click="pause()"
+                    class="flex items-center justify-center w-32 px-4 py-2 mx-1 text-sm font-semibold text-gray-500 transition duration-200 ease-in-out bg-gray-900 rounded shadow-inner hover:text-blue-300 hover:bg-blue-900 active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-blue-500"
+                >
+                    <span class="tracking-tighter uppercase font-eurostile-extended">
+                        <span v-if="this.player.is_playing">Pause</span>
+                        <span v-if="!this.player.is_playing">Play</span>
+                    </span>
+                </button>
+
+                <div class="ml-4">
+                    {{ this.player.song.title }}
+                </div>
+            </div>
+            <div class="container flex flex-row items-center justify-between max-w-screen-lg py-4 text-xs bg-black">
                 <div>
                     Les contenus présentés appartiennent à leurs auteurs respectifs.<br>
                     Handcrafted with ❤️ by <a href="https://mgk.dev" target="_blank" class="text-gray-300 transition duration-200 ease-in-out hover:text-gray-200">Simon (MGK)</a>
@@ -61,7 +76,54 @@
 </template>
 
 <script>
+    import { Howl, Howler } from 'howler';
+    import { EventBus } from '../event-bus.js';
+
     export default {
-        //
+        data() {
+            return {
+                player: {
+                    show: false,
+                    is_playing: false,
+                    howl: undefined,
+                    song: undefined,
+                    media: undefined,
+                }
+            }
+        },
+
+        mounted(){
+            EventBus.$on('play:media', payload => this.play(payload));
+        },
+
+        methods: {
+            play(payload){
+                if (this.player.howl) {
+                    this.player.howl.unload();
+                }
+
+                this.player.song = payload.song;
+                this.player.media = payload.media;
+
+                this.player.howl = new Howl({
+                    src: [this.player.media.url],
+                    autoplay: true,
+                    loop: true,
+                    volume: 0.5,
+                    onplay: () => { this.player.is_playing = true },
+                    onpause: () => { this.player.is_playing = false },
+                    onend: () => { this.player.is_playing = false },
+                    onstop: () => { this.player.is_playing = false },
+                });
+
+                this.player.show = true;
+                this.player.is_playing = true;
+            },
+            pause(){
+                this.player.howl.playing()
+                    ? this.player.howl.pause()
+                    : this.player.howl.play()
+            }
+        }
     }
 </script>

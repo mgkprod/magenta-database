@@ -28,4 +28,9 @@ class Song extends Model implements HasMedia
     {
         return $this->belongsToMany(Event::class);
     }
+
+    public function variants()
+    {
+        return $this->hasMany(self::class, 'variant_agg', 'variant_agg');
+    }
 }
