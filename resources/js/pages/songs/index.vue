@@ -9,15 +9,36 @@
             </inertia-link>
         </div>
 
-        <div class="flex flex-wrap items-start justify-start -m-4">
+        <div class="flex flex-col border border-b-0 border-gray-900 rounded">
+            <div class="flex flex-col px-4 py-4 -mx-2 border-b border-gray-900 sm:flex-row">
+                <div class="flex-auto mx-2 text-sm font-bold text-left">Titre</div>
+                <div class="w-32 mx-2 font-bold text-left sm:text-sm sm:text-center">Version</div>
+                <div class="w-32 mx-2 font-bold text-left sm:text-sm sm:text-center">Dispo.</div>
+                <div class="w-48 mx-2 font-bold text-left sm:text-sm sm:text-center">Première diff.</div>
+            </div>
             <div
                 v-for="song in songs"
                 v-bind:key="song.id"
-                class="flex flex-col items-center justify-center w-48 h-48 m-4 transition duration-200 ease-in-out transform bg-cover border border-gray-900 rounded shadow-inner cursor-pointer lg:w-56 lg:h-56 hover:rotate-1 hover:scale-105"
-                :style="{'background-image': 'url(/images/header.jpg)' }"
+                class="flex flex-col px-4 py-4 -mx-2 transition-all duration-200 ease-in-out border-b border-gray-900 sm:flex-row hover:bg-gray-900"
                 @click="$inertia.get(route('songs.show', song))"
             >
-                <div class="text-sm font-bold lg:text-base">{{ song.title }}</div>
+                <div class="flex-auto mx-2 font-bold">
+                    {{ song.title }}
+                </div>
+                <div class="mx-2 text-left sm:w-32 sm:text-center">
+                    <span v-if="song.type == 'original'">Originale</span>
+                    <span v-if="song.type == 'remix'">Remix</span>
+                    <span v-if="song.type == 'live'">Live</span>
+                    <span v-if="song.type == 'concert'">Concert</span>
+                </div>
+                <div class="mx-2 text-left sm:w-32 sm:text-center">
+                    <span v-if="song.availability == 'unreleased'">Inédit</span>
+                    <span v-if="song.availability == 'announced'">Annoncé</span>
+                    <span v-if="song.availability == 'published'">Publié</span>
+                </div>
+                <div class="mx-2 text-left sm:w-48 sm:text-center">
+                    {{ moment(song.first_time_played_at).format('L') }}
+                </div>
             </div>
         </div>
     </div>

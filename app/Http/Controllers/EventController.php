@@ -10,6 +10,7 @@ class EventController extends Controller
     public function index()
     {
         $events = Event::query()
+            ->orderBy('happened_at', 'DESC')
             ->get();
 
         return inertia('events/index', compact('events'));
@@ -76,7 +77,7 @@ class EventController extends Controller
         return redirect()->route('events.index');
     }
 
-    public function destroy(Request $request, Event $event)
+    public function destroy(Event $event)
     {
         $event->delete();
 

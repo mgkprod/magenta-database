@@ -14,8 +14,10 @@ class CreateAlbumsTable extends Migration
     public function up()
     {
         Schema::create('albums', function (Blueprint $table) {
-            $table->id();
+            $table->char('id', 26)->primary();
             $table->string('name');
+            $table->string('availability')->default('unreleased');
+            $table->string('type')->default('album'); // ep, album.. ?
             $table->datetime('released_at')->nullable();
             $table->longText('details')->nullable();
             $table->timestamps();

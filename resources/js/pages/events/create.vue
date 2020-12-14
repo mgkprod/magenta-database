@@ -56,10 +56,10 @@
                 this.$page.props.errors = {}
 
                 var data = new FormData()
-                data.append('name', this.form.name)
-                data.append('happened_at', this.form.happened_at)
-                data.append('details', this.form.details)
-                data.append('image', this.form.image)
+                data.append('name', this.form.name || '')
+                data.append('happened_at', this.form.happened_at || '')
+                data.append('details', this.form.details || '')
+                data.append('image', this.form.image || '')
 
                 this.$inertia.post(
                     this.route('events.store'),

@@ -13,11 +13,22 @@
             <div
                 v-for="album in albums"
                 v-bind:key="album.id"
-                class="flex flex-col items-center justify-center w-48 h-48 m-4 transition duration-200 ease-in-out transform bg-cover border border-gray-900 rounded shadow-inner cursor-pointer lg:w-56 lg:h-56 hover:rotate-1 hover:scale-105"
-                :style="{'background-image': 'url(/images/header.jpg)' }"
+                class="flex flex-col m-4 transition duration-200 ease-in-out transform cursor-pointer justify-left hover:scale-105"
                 @click="$inertia.get(route('albums.show', album))"
             >
-                <div class="text-sm font-bold lg:text-base">{{ album.name }}</div>
+                <div
+                    class="w-48 h-48 mb-2 bg-cover border border-gray-900 rounded shadow-inner lg:w-56 lg:h-56"
+                    :style="{'background-image': 'url(\'' + (album.image_url || '/images/header.jpg') + '\')' }"
+                >
+                </div>
+                <div>
+                    <div>
+                        {{ album.name }}
+                    </div>
+                    <div class="text-sm text-gray-400">
+                        {{ moment(album.released_at).format('L') }}
+                    </div>
+                </div>
             </div>
         </div>
     </div>

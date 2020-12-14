@@ -15,9 +15,8 @@ class CreateEventSongTable extends Migration
     {
         Schema::create('event_song', function (Blueprint $table) {
             $table->id();
-            $table->integer('event_id');
-            $table->integer('song_id');
-            $table->timestamps();
+            $table->char('event_id', 26);
+            $table->char('song_id', 26);
         });
     }
 

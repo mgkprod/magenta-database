@@ -16,7 +16,20 @@ class AlbumController extends Controller
 
     public function create()
     {
-        return inertia('albums/create');
+        $availabilities = [
+            'unreleased' => 'Inédit',
+            'announced' => 'Annoncé',
+            'published' => 'Publié',
+        ];
+
+        $types = [
+            'ep' => 'Ep',
+            'single' => 'Single',
+            'album' => 'Album',
+            'mixtape' => 'Mixtape',
+        ];
+
+        return inertia('albums/create', compact('types', 'availabilities'));
     }
 
     public function store(Request $request)
@@ -28,7 +41,16 @@ class AlbumController extends Controller
         $album = new Album();
         $album->name = $request->name;
         $album->released_at = $request->released_at;
+        $album->type = $request->type;
+        $album->availability = $request->availability;
+        $album->details = $request->details;
         $album->save();
+
+        if ($request->file('image')) {
+            $album
+                ->addMediaFromRequest('image')
+                ->toMediaCollection('images');
+        }
 
         return redirect()->route('albums.index');
     }
@@ -42,7 +64,20 @@ class AlbumController extends Controller
 
     public function edit(Album $album)
     {
-        return inertia('albums/edit', compact('album'));
+        $availabilities = [
+            'unreleased' => 'Inédit',
+            'announced' => 'Annoncé',
+            'published' => 'Publié',
+        ];
+
+        $types = [
+            'ep' => 'Ep',
+            'single' => 'Single',
+            'album' => 'Album',
+            'mixtape' => 'Mixtape',
+        ];
+
+        return inertia('albums/edit', compact('availabilities', 'types', 'album'));
     }
 
     public function update(Request $request, Album $album)
@@ -53,12 +88,24 @@ class AlbumController extends Controller
 
         $album->name = $request->name;
         $album->released_at = $request->released_at;
+        $album->type = $request->type;
+        $album->availability = $request->availability;
+        $album->details = $request->details;
         $album->save();
+
+        if ($request->file('image')) {
+            $album
+                ->clearMediaCollection('images');
+
+            $album
+                ->addMediaFromRequest('image')
+                ->toMediaCollection('images');
+        }
 
         return redirect()->route('albums.index');
     }
 
-    public function destroy(Request $request, Album $album)
+    public function destroy(Album $album)
     {
         $album->delete();
 

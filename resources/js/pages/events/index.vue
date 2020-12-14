@@ -13,11 +13,22 @@
             <div
                 v-for="event in events"
                 v-bind:key="event.id"
-                class="flex flex-col items-center justify-center w-48 h-24 m-4 transition duration-200 ease-in-out transform bg-cover border border-gray-900 rounded shadow-inner cursor-pointer lg:w-56 lg:h-32 hover:rotate-1 hover:scale-105"
-                :style="{'background-image': 'url(\'' + (event.image_url || '/images/header.jpg') + '\')' }"
+                class="flex flex-col m-4 transition duration-200 ease-in-out transform cursor-pointer justify-left hover:scale-105"
                 @click="$inertia.get(route('events.show', event))"
             >
-                <div class="text-sm font-bold lg:text-base">{{ event.name }}</div>
+                <div
+                    class="w-48 h-24 mb-2 bg-cover border border-gray-900 rounded shadow-inner lg:w-56 lg:h-32 "
+                    :style="{'background-image': 'url(\'' + (event.image_url || '/images/header.jpg') + '\')' }"
+                >
+                </div>
+                <div>
+                    <div>
+                        {{ event.name }}
+                    </div>
+                    <div class="text-sm text-gray-400">
+                        {{ moment(event.happened_at).format('L') }}
+                    </div>
+                </div>
             </div>
         </div>
     </div>

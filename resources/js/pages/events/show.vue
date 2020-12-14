@@ -16,9 +16,21 @@
             </button>
         </div>
 
-        <img :src="event.image_url" :alt="event.name" class="w-64">
+        <div class="flex flex-col lg:flex-row">
+            <div class="w-full mb-8 lg:w-1/3">
+                <img v-if="event.image_url" :src="event.image_url" :alt="event.name" class="w-full max-w-md mb-8 border border-gray-900 rounded shadow-inner">
+                <div class="text-xl font-semibold">{{ event.name }}</div>
+                <div class="text-gray-400">Date : {{ moment(event.happened_at).format('L') }}</div>
+                <div class="text-gray-400">Ajouté le : {{ moment(event.created_at).format('L') }}</div>
 
-        {{ event.name }}
+                <div class="w-full mt-4 whitespace-pre-wrap" v-if="event.details">
+                    <vue-simple-markdown :source="event.details"></vue-simple-markdown>
+                </div>
+            </div>
+
+            <div class="w-full lg:mb-0 lg:ml-8 lg:w-2/3">
+            </div>
+        </div>
     </div>
 </template>
 

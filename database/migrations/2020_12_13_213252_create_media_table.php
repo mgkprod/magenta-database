@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateMediaTable extends Migration
 {
@@ -11,7 +11,11 @@ class CreateMediaTable extends Migration
         Schema::create('media', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->morphs('model');
+            // $table->morphs('model');
+            $table->string('model_type');
+            $table->char('model_id', 26);
+            $table->index(['model_type', 'model_id']);
+
             $table->uuid('uuid')->nullable()->unique();
             $table->string('collection_name');
             $table->string('name');

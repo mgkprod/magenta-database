@@ -2,10 +2,22 @@ import "./bootstrap"
 import Vue from 'vue'
 import { App, plugin } from '@inertiajs/inertia-vue'
 import { InertiaProgress } from '@inertiajs/progress/src'
+import moment from 'moment';
+import VueSimpleMarkdown from 'vue-simple-markdown'
 
 Vue.config.productionTip = false
-Vue.mixin({ methods: { route: window.route } })
+
+moment.lang('fr');
+
+Vue.prototype._ = window._
+
+Vue.mixin({ methods: {
+    route: window.route,
+    moment,
+} })
+
 Vue.use(plugin)
+Vue.use(VueSimpleMarkdown)
 
 InertiaProgress.init()
 

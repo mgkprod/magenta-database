@@ -14,7 +14,7 @@ class CreateEventsTable extends Migration
     public function up()
     {
         Schema::create('events', function (Blueprint $table) {
-            $table->id();
+            $table->char('id', 26)->primary();
             $table->string('name');
             $table->datetime('happened_at')->nullable();
             $table->longText('details')->nullable();

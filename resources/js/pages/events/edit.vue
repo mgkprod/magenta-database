@@ -57,7 +57,7 @@
 
         mounted() {
             this.form.name = this.event.name
-            this.form.happened_at = this.event.happened_at || ''
+            this.form.happened_at = this.event.happened_at
             this.form.details = this.event.details
         },
 
@@ -67,10 +67,10 @@
 
                 var data = new FormData()
                 data.append('_method', 'put')
-                data.append('name', this.form.name)
-                data.append('happened_at', this.form.happened_at)
-                data.append('details', this.form.details)
-                data.append('image', this.form.image)
+                data.append('name', this.form.name || '')
+                data.append('happened_at', this.form.happened_at || '')
+                data.append('details', this.form.details || '')
+                data.append('image', this.form.image || '')
 
                 this.$inertia.post(
                     this.route('events.update', this.event),
