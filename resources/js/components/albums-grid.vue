@@ -11,11 +11,11 @@
                 <div class="flex items-center justify-center" slot="preloader"><i class="fas fa-spin fa-spinner text-gray-default"></i></div>
             </vue-load-image>
 
-            <div class="px-4 py-2">
-                <div>
+            <div class="px-4 py-3">
+                <div class="break-all truncate">
                     {{ album.name }}
                 </div>
-                <div class="text-sm text-gray-400">
+                <div class="text-sm text-gray-default">
                     {{ moment(album.released_at).format('YYYY') }}
                 </div>
             </div>

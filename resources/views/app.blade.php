@@ -29,9 +29,6 @@
                     .then(() => loadFont("https://rsms.me/inter/font-files/Inter.var.woff2?3.13"))
                     .then(() => loadFont("/fonts/EurostileExt-Bla.woff2"))
 
-                    // Images
-                    .then(() => loadImage("/images/logo.svg"))
-
                     // Core
                     .then(() => loadStyle("{{ mix('/css/app.css') }}"))
                     .then(() => loadScript("{{ mix('/js/app.js') }}"))

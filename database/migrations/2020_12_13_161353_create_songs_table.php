@@ -18,7 +18,7 @@ class CreateSongsTable extends Migration
             $table->string('title');
             $table->string('alt_title')->nullable();
             $table->string('artist');
-            $table->string('type')->default('main'); // main, remix, live, concert
+            $table->string('type')->default('main'); // main, remix, live
             $table->string('availability')->default('unreleased');
             $table->datetime('released_at')->nullable();
             $table->datetime('first_time_played_at')->nullable();

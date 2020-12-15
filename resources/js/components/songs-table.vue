@@ -18,13 +18,19 @@
             </div>
             <div class="flex-auto mx-2">
                 {{ song.title }}<br>
-                <span class="text-gray-default">{{ song.artist }}</span>
+                <span class="text-sm text-gray-default">
+                    {{ song.artist }}
+                    <span v-if="song.version_name"><span class="text-gray-dark">&bull;</span> {{ song.version_name }}</span>
+                </span>
             </div>
             <div class="w-32 mx-2 text-left text-gray-default">
                 <span v-if="song.type == 'original'">Originale</span>
+                <span v-if="song.type == 'clip'">Clip</span>
                 <span v-if="song.type == 'remix'">Remix</span>
+                <span v-if="song.type == 'extended-mix'">Extended Mix</span>
+                <span v-if="song.type == 'live-rework'">Live Rework</span>
+                <span v-if="song.type == 'rework'">Rework</span>
                 <span v-if="song.type == 'live'">Live</span>
-                <span v-if="song.type == 'concert'">Concert</span>
             </div>
             <div class="w-32 mx-2 text-left text-gray-default">
                 <span v-if="song.availability == 'unreleased'">Inédit</span>
@@ -32,7 +38,15 @@
                 <span v-if="song.availability == 'published'">Publié</span>
             </div>
             <div class="w-32 mx-2 text-left text-gray-default">
-                {{ moment(song.first_time_played_at).format('L') }}
+                <span v-if="song.first_time_played_at">
+                    {{ moment(song.first_time_played_at).format('L') }}
+                </span>
+                <span v-else-if="song.released_at">
+                    {{ moment(song.released_at).format('YYYY') }}
+                </span>
+                <span v-else>
+                    N/A
+                </span>
             </div>
         </div>
     </div>

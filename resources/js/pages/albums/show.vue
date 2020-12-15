@@ -29,25 +29,33 @@
             </div>
 
             <div>
+                <div class="mb-2 text-xs uppercase text-gray-default">{{ album.type }}</div>
                 <h1 class="mb-4 text-4xl font-semibold">
                     {{ album.name }}
                     <div class="text-xl">{{ album.artist }}</div>
                 </h1>
-                <div class="text-gray-400">
+                <div class="text-gray-default">
                     Disponibilité :
                     <span v-if="album.availability == 'published'">Publié</span>
                     <span v-if="album.availability == 'unreleased'">Inédit</span>
                     <span v-if="album.availability == 'announced'">Annoncé</span>
                 </div>
-                <div class="text-gray-400">
+                <div class="text-gray-default">
                     Année de sortie :
                     <span v-if="album.released_at">{{ moment(album.released_at).format('YYYY') }}</span>
                     <span v-else>N/A</span>
                 </div>
-                <div class="text-gray-400">Ajouté le : {{ moment(album.created_at).format('L') }}</div>
+                <div class="text-gray-default">Ajouté le : {{ moment(album.created_at).format('L') }}</div>
 
                 <div class="w-full mt-4 whitespace-pre-wrap" v-if="album.details">
                     <vue-simple-markdown :source="album.details"></vue-simple-markdown>
+                </div>
+
+                <div class="mt-8">
+                    <div class="inline-flex items-center px-4 py-1 mx-1 text-sm font-semibold transition duration-200 ease-in-out rounded cursor-pointer bg-gray-darker text-gray-default hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500" @click="play()">
+                        <i class="mr-2 text-xs opacity-50 fas fa-play"></i>
+                        <span>Écouter</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -60,6 +68,7 @@
 
 <script>
     import VueLoadImage from 'vue-load-image'
+    import { EventBus } from '../../event-bus.js';
 
     export default {
         layout: require('../../layouts/app').default,
@@ -77,6 +86,11 @@
                 this.$inertia.delete(
                     this.route('albums.destroy', this.album)
                 );
+            },
+            play(){
+                EventBus.$emit('play:album', {
+                    album: this.album
+                });
             }
         }
     }

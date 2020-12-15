@@ -3,10 +3,16 @@ import animate from "animateplus"
 animate({
     elements: ".base rect",
     easing: 'linear',
-    duration: 0,
-    transform: ["translate(-100%)", "translate(-100%)"],
+    duration: 200,
+    opacity: [1, 0],
 }).then(options => animate({
-    ...options,
+    elements: ".base rect",
+    duration: 0,
+    transform: ["translate(0%)", "translate(-100%)"],
+    opacity: [0, 1],
+})).then(options => animate({
+    elements: ".base rect",
+    easing: 'linear',
     duration: 2000,
     delay: index => index * 30,
     blur: {x: 10, y: 0},

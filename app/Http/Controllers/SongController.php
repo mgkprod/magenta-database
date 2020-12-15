@@ -7,6 +7,7 @@ use App\Models\Event;
 use App\Models\Song;
 use FFMpeg\FFProbe;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class SongController extends Controller
@@ -16,11 +17,45 @@ class SongController extends Controller
         $this->middleware('auth')->except(['index', 'show']);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $songs = Song::query()
+        $filters = [
+            'unreleased',
+            'really-unreleased',
+            'lost',
+        ];
+
+        $request->validate([
+            'filter' => ['nullable', Rule::in($filters)],
+        ]);
+
+        $songs = Song::query();
+
+        if ($request->filter == 'unreleased') {
+            // Unreleased songs
+            $songs = $songs->where('availability', 'unreleased');
+        }
+
+        if ($request->filter == 'really-unreleased') {
+            // Unreleased songs, without variants
+            $songs = $songs
+                ->where('availability', 'unreleased')
+                ->has('variants', '=', 1);
+        }
+
+        if ($request->filter == 'lost') {
+            // Songs that does not belongs to an album nor an event
+            $songs = $songs
+                ->whereDoesntHave('albums')
+                ->whereDoesntHave('events');
+        }
+
+        $songs = $songs
+            ->orderBy('first_time_played_at', 'DESC')
+            ->orderBy('released_at', 'DESC')
             ->orderBy('created_at', 'DESC')
-            ->get();
+            ->paginate(15)
+            ->withQueryString();
 
         return inertia('songs/index', compact('songs'));
     }
@@ -37,8 +72,10 @@ class SongController extends Controller
             'original' => 'Originale',
             'clip' => 'Clip',
             'remix' => 'Remix',
+            'extended-mix' => 'Extended Mix',
+            'live-rework' => 'Live Rework',
+            'rework' => 'Rework',
             'live' => 'Live',
-            'concert' => 'Concert',
         ];
 
         return inertia('songs/create', compact('types', 'availabilities'));
@@ -104,8 +141,10 @@ class SongController extends Controller
             'original' => 'Originale',
             'clip' => 'Clip',
             'remix' => 'Remix',
+            'extended-mix' => 'Extended Mix',
+            'live-rework' => 'Live Rework',
+            'rework' => 'Rework',
             'live' => 'Live',
-            'concert' => 'Concert',
         ];
 
         return inertia('songs/edit', compact('song', 'availabilities', 'types'));

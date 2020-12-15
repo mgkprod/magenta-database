@@ -43,34 +43,45 @@
             </div>
 
             <div>
+                <div class="mb-2 text-xs uppercase text-gray-default">Track</div>
                 <h1 class="mb-4 text-4xl font-semibold">
                     {{ song.title }}
                     <div class="text-xl">{{ song.artist }}</div>
                 </h1>
-                <div v-if="song.alt_title" class="text-gray-400">Titre alternatif : {{ song.alt_title }}</div>
-                <div class="text-gray-400">
+                <div v-if="song.alt_title" class="text-gray-default">Titre alternatif : {{ song.alt_title }}</div>
+                <div class="text-gray-default">
                     Version :
                     <span v-if="song.type == 'original'">Originale</span>
+                    <span v-if="song.type == 'clip'">Clip</span>
                     <span v-if="song.type == 'remix'">Remix</span>
+                    <span v-if="song.type == 'extended-mix'">Extended Mix</span>
+                    <span v-if="song.type == 'live-rework'">Live Rework</span>
                     <span v-if="song.type == 'live'">Live</span>
-                    <span v-if="song.type == 'concert'">Concert</span>
+                    <span v-if="song.type == 'rework'">Rework</span>
                 </div>
-                <div class="text-gray-400">
+                <div class="text-gray-default">
                     Disponibilité :
                     <span v-if="song.availability == 'unreleased'">Inédit</span>
                     <span v-if="song.availability == 'announced'">Annoncé</span>
                     <span v-if="song.availability == 'published'">Publié</span>
                 </div>
-                <div v-if="song.first_time_played_at" class="text-gray-400">Première diffusion le : {{ moment(song.first_time_played_at).format('L') }}</div>
-                <div v-if="song.released_at" class="text-gray-400">
+                <div v-if="song.first_time_played_at" class="text-gray-default">Première diffusion le : {{ moment(song.first_time_played_at).format('L') }}</div>
+                <div v-if="song.released_at" class="text-gray-default">
                     Année de sortie :
                     <span v-if="song.released_at">{{ moment(song.released_at).format('YYYY') }}</span>
                     <span v-else>N/A</span>
                 </div>
-                <div class="text-gray-400">Ajouté le : {{ moment(song.created_at).format('L') }}</div>
+                <div class="text-gray-default">Ajouté le : {{ moment(song.created_at).format('L') }}</div>
 
                 <div class="w-full mt-4 whitespace-pre-wrap" v-if="song.details">
                     <vue-simple-markdown :source="song.details"></vue-simple-markdown>
+                </div>
+
+                <div class="mt-8">
+                    <div class="inline-flex items-center px-4 py-1 mx-1 text-sm font-semibold transition duration-200 ease-in-out rounded cursor-pointer bg-gray-darker text-gray-default hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500" @click="play()">
+                        <i class="mr-2 text-xs opacity-50 fas fa-play"></i>
+                        <span>Écouter</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -92,7 +103,7 @@
                     v-bind:key="media.id"
                     class="flex flex-row items-center px-2 py-3 mb-2 transition-all duration-200 ease-in-out rounded hover:bg-gray-darker"
                 >
-                    <div class="w-8 mx-2 text-center transition-all duration-200 ease-in-out text-gray-default hover:text-gray-lighter" @click="play(media)">
+                    <div class="w-8 mx-2 text-center transition-all duration-200 ease-in-out text-gray-default hover:text-gray-lighter" @click="play_media(media)">
                         <i class="text-xs fas fa-play"></i>
                     </div>
                     <div class="w-64 mx-2 text-left ">
@@ -101,12 +112,20 @@
                             <span v-if="media.custom_properties.bit_rate">{{ Math.round(media.custom_properties.bit_rate / 1000) }} kbps</span>
                             <span v-else-if="media.custom_properties.bits_per_raw_sample">{{ media.custom_properties.bits_per_raw_sample }} bits</span>
                             <span v-else-if="media.custom_properties.bits_per_sample">{{ media.custom_properties.bits_per_sample }} bits</span>
-                            <span class="text-gray-dark">/</span>
+                            <span class="text-gray-dark">&bull;</span>
                             {{ media.custom_properties.sample_rate / 1000 }} kHz
                         </div>
                     </div>
                     <div class="flex-auto mx-2 text-left text-gray-default">
-                        {{ media.custom_properties.source || 'N/A' }}
+                        <span v-if="media.custom_properties.source == 'youtube'">
+                            YouTube
+                        </span>
+                        <span v-else-if="media.custom_properties.source" class="capitalize">
+                            {{ media.custom_properties.source }}
+                        </span>
+                        <span v-else>
+                            N/A
+                        </span>
                     </div>
                     <div class="w-16 mx-2 text-left text-gray-default">
                         {{ moment.duration(media.custom_properties.duration, 'seconds').format('mm:ss', { trim: false }) }}
@@ -165,7 +184,12 @@
                     this.route('songs.files.destroy', { song: this.song, media })
                 );
             },
-            play(media){
+            play(){
+                EventBus.$emit('play:song', {
+                    song: this.song,
+                });
+            },
+            play_media(media){
                 EventBus.$emit('play:media', {
                     song: this.song,
                     media: media,

@@ -10,7 +10,7 @@
                 </div>
 
                 <inertia-link
-                    class="flex items-center px-4 py-3 text-sm font-semibold transition duration-200 ease-in-out border-l-8 border-transparent active:bg-transparent focus:outline-none hover:text-pink-300 hover:bg-pink-900"
+                    class="flex items-center px-4 py-3 text-sm font-semibold transition duration-200 ease-in-out border-l-4 border-transparent active:bg-transparent focus:outline-none hover:text-pink-300 hover:bg-pink-900"
                     :class="{ 'border-pink-700 text-pink-300 bg-pink-900': route().current('songs*') }"
                     :href="route('songs.index')"
                 >
@@ -18,7 +18,7 @@
                 </inertia-link>
 
                 <inertia-link
-                    class="flex items-center px-4 py-3 text-sm font-semibold transition duration-200 ease-in-out border-l-8 border-transparent active:bg-transparent focus:outline-none hover:text-blue-300 hover:bg-blue-900"
+                    class="flex items-center px-4 py-3 text-sm font-semibold transition duration-200 ease-in-out border-l-4 border-transparent active:bg-transparent focus:outline-none hover:text-blue-300 hover:bg-blue-900"
                     :class="{ 'border-blue-700 text-blue-300 bg-blue-900': route().current('albums*') }"
                     :href="route('albums.index')"
                 >
@@ -26,7 +26,7 @@
                 </inertia-link>
 
                 <inertia-link
-                    class="flex items-center px-4 py-3 text-sm font-semibold transition duration-200 ease-in-out border-l-8 border-transparent active:bg-transparent focus:outline-none hover:text-yellow-300 hover:bg-yellow-900"
+                    class="flex items-center px-4 py-3 text-sm font-semibold transition duration-200 ease-in-out border-l-4 border-transparent active:bg-transparent focus:outline-none hover:text-yellow-300 hover:bg-yellow-900"
                     :class="{ 'border-yellow-700 text-yellow-300 bg-yellow-900': route().current('events*') }"
                     :href="route('events.index')"
                 >
@@ -36,7 +36,7 @@
                 <div class="mt-auto"></div>
 
                 <inertia-link
-                    class="flex items-center px-4 py-3 text-sm font-semibold transition duration-200 ease-in-out border-l-8 border-transparent active:bg-transparent focus:outline-none hover:text-gray-300 hover:bg-gray-900"
+                    class="flex items-center px-4 py-3 text-sm font-semibold transition duration-200 ease-in-out border-l-4 border-transparent active:bg-transparent focus:outline-none hover:text-gray-300 hover:bg-gray-900"
                     :class="{ 'border-gray-700 text-gray-300 bg-gray-900': route().current('index') }"
                     :href="route('index')"
                 >
@@ -63,7 +63,7 @@
                                 </inertia-link>
 
                                 <div class="w-full mb-4">
-                                    <inertia-link class="hover:underline" :href="route('songs.show', player.song)">{{ player.song.title }}</inertia-link><br>
+                                    <inertia-link class="hover:underline" :href="route('songs.show', player.song)">{{ player.song.display_title }}</inertia-link><br>
                                     <span class="text-gray-default">{{ player.song.artist }}</span>
                                 </div>
 
@@ -148,8 +148,6 @@
                 </transition>
             </main>
         </div>
-
-        <!-- Footer? -->
     </div>
 </template>
 
@@ -185,6 +183,9 @@
 
         mounted(){
             EventBus.$on('play:media', payload => this.play(payload));
+            EventBus.$on('play:event', payload => this.fetchEvent(payload));
+            EventBus.$on('play:album', payload => this.fetchAlbum(payload));
+            EventBus.$on('play:song', payload => this.fetchSong(payload));
 
             setInterval(() => { this.update_seek(); }, 500);
 
@@ -206,6 +207,24 @@
         },
 
         methods: {
+            fetchEvent(payload) {
+                axios.get('/api/events/' + payload.event.id + '/songs')
+                    .then((response) => {
+                        console.log(response);
+                    });
+            },
+            fetchAlbum(payload) {
+                axios.get('/api/albums/' + payload.album.id + '/songs')
+                    .then((response) => {
+                        console.log(response);
+                    });
+            },
+            fetchSong(payload) {
+                axios.get('/api/songs/' + payload.song.id + '/medias?best=true')
+                    .then((response) => {
+                        console.log(response);
+                    });
+            },
             play(payload){
                 let first_time = true;
 

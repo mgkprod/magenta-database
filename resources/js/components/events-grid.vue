@@ -3,7 +3,7 @@
         <div
             v-for="event in events"
             v-bind:key="event.id"
-            class="flex flex-col m-4 transition duration-200 ease-in-out transform rounded shadow-md cursor-pointer w-52 justify-left bg-gray-darker hover:bg-gray-dark hover:shadow-lg hover:scale-105"
+            class="flex flex-col w-64 m-4 transition duration-200 ease-in-out transform rounded shadow-md cursor-pointer justify-left bg-gray-darker hover:bg-gray-dark hover:shadow-lg hover:scale-105"
             @click="$inertia.get(route('events.show', event))"
         >
             <vue-load-image class="bg-black bg-opacity-50 rounded-t aspect-w-16 aspect-h-9">
@@ -11,11 +11,11 @@
                 <div class="flex items-center justify-center" slot="preloader"><i class="fas fa-spin fa-spinner text-gray-default"></i></div>
             </vue-load-image>
 
-            <div class="px-4 py-2">
-                <div>
+            <div class="px-4 py-3">
+                <div class="break-all truncate">
                     {{ event.name }}
                 </div>
-                <div class="text-sm text-gray-400">
+                <div class="text-sm text-gray-default">
                     {{ moment(event.happened_at).format('MM/YYYY') }}
                 </div>
             </div>
