@@ -17,7 +17,8 @@
                 <!-- <i class="text-xs fas fa-play"></i> -->
             </div>
             <div class="flex-auto mx-2">
-                {{ song.title }}
+                {{ song.title }}<br>
+                <span class="text-gray-default">{{ song.artist }}</span>
             </div>
             <div class="w-32 mx-2 text-left text-gray-default">
                 <span v-if="song.type == 'original'">Originale</span>

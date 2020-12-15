@@ -21,12 +21,18 @@
                 <div class="bg-cover" :style="{ 'background-image': 'url(' + album.image_url + ')' }"></div>
             </div>
 
-            <div class="flex-none w-56 h-56 mr-8">
-                <img :src="album.image_url" :alt="album.name" class="border rounded shadow border-gray-darker">
+            <div class="flex-none w-64 mr-8">
+                <vue-load-image class="bg-black bg-opacity-50 rounded-t shadow-xl aspect-w-1 aspect-h-1">
+                    <img slot="image" :src="album.image_url" class="object-cover w-full h-full" />
+                    <div class="flex items-center justify-center" slot="preloader"><i class="fas fa-spin fa-spinner text-gray-default"></i></div>
+                </vue-load-image>
             </div>
 
             <div>
-                <h1 class="mb-4 text-4xl font-semibold">{{ album.name }}</h1>
+                <h1 class="mb-4 text-4xl font-semibold">
+                    {{ album.name }}
+                    <div class="text-xl">{{ album.artist }}</div>
+                </h1>
                 <div class="text-gray-400">
                     Disponibilité :
                     <span v-if="album.availability == 'published'">Publié</span>
@@ -53,8 +59,14 @@
 </template>
 
 <script>
+    import VueLoadImage from 'vue-load-image'
+
     export default {
         layout: require('../../layouts/app').default,
+
+        components: {
+            VueLoadImage
+        },
 
         props: {
             album: Object,

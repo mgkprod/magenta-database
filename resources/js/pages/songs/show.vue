@@ -35,12 +35,18 @@
                 <div class="bg-cover" :style="{ 'background-image': 'url(\'' + song.image_url + '\')' }"></div>
             </div>
 
-            <div class="flex-none w-56 h-56 mr-8">
-                <img :src="song.image_url" :alt="song.name" class="border rounded shadow border-gray-darker">
+            <div class="flex-none w-64 mr-8">
+                <vue-load-image class="bg-black bg-opacity-50 rounded-t shadow-xl aspect-w-1 aspect-h-1">
+                    <img slot="image" :src="song.image_url" class="object-cover w-full h-full" />
+                    <div class="flex items-center justify-center" slot="preloader"><i class="fas fa-spin fa-spinner text-gray-default"></i></div>
+                </vue-load-image>
             </div>
 
             <div>
-                <h1 class="mb-4 text-4xl font-semibold">{{ song.title }}</h1>
+                <h1 class="mb-4 text-4xl font-semibold">
+                    {{ song.title }}
+                    <div class="text-xl">{{ song.artist }}</div>
+                </h1>
                 <div v-if="song.alt_title" class="text-gray-400">Titre alternatif : {{ song.alt_title }}</div>
                 <div class="text-gray-400">
                     Version :
@@ -73,7 +79,9 @@
             <div class="flex flex-col mb-8">
                 <div class="flex flex-row px-2 py-2 mb-2 border-b border-gray-darker">
                     <div class="w-8 mx-2 text-xs text-center uppercase text-gray-default"></div>
-                    <div class="flex-auto mx-2 text-xs text-left uppercase text-gray-default">Fichier</div>
+                    <div class="w-64 mx-2 text-xs text-left uppercase text-gray-default">Info</div>
+                    <div class="flex-auto mx-2 text-xs text-left uppercase text-gray-default">Source</div>
+                    <div class="w-16 mx-2 text-xs text-left uppercase text-gray-default">Durée</div>
                     <div class="w-16 mx-2 text-xs text-left uppercase text-gray-default">Taille</div>
                     <div class="w-32 mx-2 text-xs text-left uppercase text-gray-default">Ajouté</div>
                     <div v-if="$page.props.user" class="w-8 mx-2 text-xs text-center uppercase text-gray-default"></div>
@@ -84,11 +92,24 @@
                     v-bind:key="media.id"
                     class="flex flex-row items-center px-2 py-3 mb-2 transition-all duration-200 ease-in-out rounded hover:bg-gray-darker"
                 >
-                    <div class="w-8 mx-2 text-center transition-all duration-200 ease-in-out text-gray-dark hover:text-gray-default" @click="play(media)">
+                    <div class="w-8 mx-2 text-center transition-all duration-200 ease-in-out text-gray-default hover:text-gray-lighter" @click="play(media)">
                         <i class="text-xs fas fa-play"></i>
                     </div>
-                    <div class="flex-auto mx-2">
-                        {{ media.custom_properties.name }}
+                    <div class="w-64 mx-2 text-left ">
+                        {{ media.custom_properties.codec_name }}<br>
+                        <div class="text-xs">
+                            <span v-if="media.custom_properties.bit_rate">{{ Math.round(media.custom_properties.bit_rate / 1000) }} kbps</span>
+                            <span v-else-if="media.custom_properties.bits_per_raw_sample">{{ media.custom_properties.bits_per_raw_sample }} bits</span>
+                            <span v-else-if="media.custom_properties.bits_per_sample">{{ media.custom_properties.bits_per_sample }} bits</span>
+                            <span class="text-gray-dark">/</span>
+                            {{ media.custom_properties.sample_rate / 1000 }} kHz
+                        </div>
+                    </div>
+                    <div class="flex-auto mx-2 text-left text-gray-default">
+                        {{ media.custom_properties.source || 'N/A' }}
+                    </div>
+                    <div class="w-16 mx-2 text-left text-gray-default">
+                        {{ moment.duration(media.custom_properties.duration, 'seconds').format('mm:ss', { trim: false }) }}
                     </div>
                     <div class="w-16 mx-2 text-left text-gray-default">
                         {{ getReadableFileSizeString(media.size) }}
@@ -122,9 +143,14 @@
 
 <script>
     import { EventBus } from '../../event-bus.js';
+    import VueLoadImage from 'vue-load-image'
 
     export default {
         layout: require('../../layouts/app').default,
+
+        components: {
+            VueLoadImage
+        },
 
         props: ['song', 'medias', 'variants'],
 

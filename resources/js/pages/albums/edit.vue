@@ -9,6 +9,13 @@
             />
 
             <form-input class="mb-6"
+                label="Artist"
+                v-model="form.artist"
+                :errors="$page.props.errors.artist"
+                required
+            />
+
+            <form-input class="mb-6"
                 label="Released at"
                 v-model="form.released_at"
                 :errors="$page.props.errors.released_at"
@@ -64,6 +71,7 @@
             return {
                 form: {
                     name: '',
+                    artist: '',
                     released_at: '',
                     availability: '',
                     type: '',
@@ -75,6 +83,7 @@
 
         mounted() {
             this.form.name = this.album.name
+            this.form.artist = this.album.artist
             this.form.released_at = this.album.released_at
             this.form.availability = this.album.availability
             this.form.type = this.album.type
@@ -88,6 +97,7 @@
                 var data = new FormData()
                 data.append('_method', 'put')
                 data.append('name', this.form.name || '')
+                data.append('artist', this.form.artist || '')
                 data.append('released_at', this.form.released_at || '')
                 data.append('availability', this.form.availability || '')
                 data.append('type', this.form.type || '')

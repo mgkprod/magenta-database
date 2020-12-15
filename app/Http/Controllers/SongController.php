@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Album;
 use App\Models\Event;
 use App\Models\Song;
+use FFMpeg\FFProbe;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -46,6 +47,7 @@ class SongController extends Controller
         $song = new Song();
         $song->title = $request->title;
         $song->alt_title = $request->alt_title;
+        $song->artist = $request->artist;
         $song->type = $request->type;
         $song->availability = $request->availability;
         $song->released_at = $request->released_at;
@@ -110,6 +112,7 @@ class SongController extends Controller
 
         $song->title = $request->title;
         $song->alt_title = $request->alt_title;
+        $song->artist = $request->artist;
         $song->type = $request->type;
         $song->availability = $request->availability;
         $song->released_at = $request->released_at;
@@ -158,10 +161,29 @@ class SongController extends Controller
     public function storeFile(Request $request, Song $song)
     {
         if ($request->file('audio')) {
-            $song
+            $media = $song
                 ->addMediaFromRequest('audio')
-                ->withCustomProperties(['name' => $request->name])
+                ->withCustomProperties(['source' => $request->source])
                 ->toMediaCollection('medias');
+
+            $probe = FFProbe::create()
+                ->streams($media->getPath())
+                ->audios()
+                ->first();
+
+            foreach ([
+                'codec_name',
+                'sample_rate',
+                'channels',
+                'duration',
+                'bit_rate',
+                'bits_per_raw_sample',
+                'bits_per_sample',
+            ] as $property) {
+                $media->setCustomProperty($property, $probe->get($property));
+            }
+
+            $media->save();
         }
 
         return redirect()->route('songs.show', $song);

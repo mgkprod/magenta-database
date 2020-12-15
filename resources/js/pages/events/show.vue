@@ -22,7 +22,10 @@
             </div>
 
             <div class="flex-none mr-8 w-72">
-                <img :src="event.image_url" :alt="event.name" class="border rounded shadow border-gray-darker">
+                <vue-load-image class="bg-black bg-opacity-50 rounded-t shadow-xl aspect-w-16 aspect-h-9">
+                    <img slot="image" :src="event.image_url" class="object-cover w-full h-full" />
+                    <div class="flex items-center justify-center" slot="preloader"><i class="fas fa-spin fa-spinner text-gray-default"></i></div>
+                </vue-load-image>
             </div>
 
             <div>
@@ -47,8 +50,14 @@
 </template>
 
 <script>
+    import VueLoadImage from 'vue-load-image'
+
     export default {
         layout: require('../../layouts/app').default,
+
+        components: {
+            VueLoadImage
+        },
 
         props: {
             event: Object,

@@ -42,6 +42,7 @@ class AlbumController extends Controller
 
         $album = new Album();
         $album->name = $request->name;
+        $album->artist = $request->artist;
         $album->released_at = $request->released_at;
         $album->type = $request->type;
         $album->availability = $request->availability;
@@ -89,6 +90,7 @@ class AlbumController extends Controller
         ]);
 
         $album->name = $request->name;
+        $album->artist = $request->artist;
         $album->released_at = $request->released_at;
         $album->type = $request->type;
         $album->availability = $request->availability;

@@ -6,12 +6,12 @@
             class="flex flex-col m-4 transition duration-200 ease-in-out transform rounded shadow-md cursor-pointer w-52 justify-left bg-gray-darker hover:bg-gray-dark hover:shadow-lg hover:scale-105"
             @click="$inertia.get(route('events.show', event))"
         >
-            <div
-                class="bg-cover rounded-t aspect-w-16 aspect-h-9"
-                :style="{'background-image': 'url(\'' + (event.image_url || '/images/header.jpg') + '\')' }"
-            >
-            </div>
-            <div class="p-3">
+            <vue-load-image class="bg-black bg-opacity-50 rounded-t aspect-w-16 aspect-h-9">
+                <img slot="image" :src="event.image_url" class="object-cover w-full h-full rounded-t" />
+                <div class="flex items-center justify-center" slot="preloader"><i class="fas fa-spin fa-spinner text-gray-default"></i></div>
+            </vue-load-image>
+
+            <div class="px-4 py-2">
                 <div>
                     {{ event.name }}
                 </div>
@@ -24,7 +24,13 @@
 </template>
 
 <script>
+    import VueLoadImage from 'vue-load-image'
+
     export default {
-        props: ['events']
+        props: ['events'],
+
+        components: {
+            VueLoadImage
+        }
     }
 </script>

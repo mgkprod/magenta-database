@@ -29,6 +29,8 @@ class Album extends Model implements HasMedia
 
     public function getImageUrlAttribute()
     {
-        return optional($this->getFirstMedia('images'))->getFullUrl();
+        return $this->getFirstMedia('images')
+            ? $this->getFirstMedia('images')->getFullUrl()
+            : url('images/default.jpg');
     }
 }

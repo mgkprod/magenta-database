@@ -13,6 +13,12 @@
                 :errors="$page.props.errors.alt_title"
             />
 
+            <form-input class="mb-6"
+                label="Artist"
+                v-model="form.artist"
+                :errors="$page.props.errors.artist"
+            />
+
             <form-select class="mb-6"
                 label="Type"
                 v-model="form.type"
@@ -82,6 +88,7 @@
                 form: {
                     title: '',
                     alt_title: '',
+                    artist: '',
                     type: '',
                     availability: '',
                     released_at: '',
@@ -105,6 +112,7 @@
                 data.append('_method', 'put')
                 data.append('title', this.form.title || '')
                 data.append('alt_title', this.form.alt_title || '')
+                data.append('artist', this.form.artist || '')
                 data.append('type', this.form.type || '')
                 data.append('availability', this.form.availability || '')
                 data.append('released_at', this.form.released_at || '')

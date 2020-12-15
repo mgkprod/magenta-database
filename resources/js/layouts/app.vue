@@ -45,44 +45,64 @@
 
                 <div class="mb-8"></div>
 
-                <div class="border-b bg-gray-darker border-gray-dark" v-if="player.howl">
-                    <div class="flex flex-col justify-between px-4 py-4">
-                        <img :src="player.song.image_url" :alt="player.song.name" class="mb-4 border rounded shadow border-gray-darker">
+                <transition
+                    name="custom-classes-transition"
+                    enter-class="slide-top-enter"
+                    enter-active-class="slide-top-enter-active"
+                    leave-class="slide-bottom-leave"
+                    leave-active-class="slide-bottom-leave-active"
+                >
+                    <div class="border-b-4 bg-gray-darker border-gray-dark" v-if="player.howl">
+                        <div class="relative flex flex-col justify-between px-4 py-4">
+                            <div class="z-10">
+                                <inertia-link class="hover:underline" :href="route('songs.show', player.song)">
+                                    <img :src="player.song.image_url" :alt="player.song.name" class="mb-4 border rounded shadow border-gray-darker">
+                                </inertia-link>
 
-                        <div class="w-full mb-4">
-                            {{ player.song.title }}
-                        </div>
-                        <input
-                            class="w-auto mb-4 overflow-hidden rounded-lg appearance-none bg-gray-default focus:outline-none"
-                            type="range"
-                            min="0"
-                            :max="player.seek_max"
-                            step="0.01"
-                            v-model="player.seek"
-                            style="height: 8px"
-                            @input="set_seek()"
-                        />
+                                <div class="w-full mb-4">
+                                    <inertia-link class="hover:underline" :href="route('songs.show', player.song)">{{ player.song.title }}</inertia-link><br>
+                                    <span class="text-gray-default">{{ player.song.artist }}</span>
+                                </div>
 
-                        <div class="flex flex-row items-center justify-between text-gray-default">
-                            <div class="text-xs">
-                                {{ moment.duration(player.seek, 'seconds').format('mm:ss', { trim: false }) }}
+                                <input
+                                    class="w-full mb-4 overflow-hidden rounded-lg appearance-none bg-gray-default focus:outline-none"
+                                    type="range"
+                                    min="0"
+                                    :max="player.seek_max"
+                                    step="0.01"
+                                    v-model="player.seek"
+                                    style="height: 8px"
+                                    @input="set_seek()"
+                                />
+
+                                <div class="flex flex-row items-center justify-between text-gray-default">
+                                    <div class="text-xs">
+                                        {{ moment.duration(player.seek, 'seconds').format('mm:ss', { trim: false }) }}
+                                    </div>
+                                    <div class="text-xs">
+                                        <span v-if="player.seek_max != 0">
+                                            {{ moment.duration(player.seek_max, 'seconds').format('mm:ss', { trim: false }) }}
+                                        </span>
+                                        <span v-else>
+                                            --:--
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="text-xs">
-                                <span v-if="player.seek_max != 0">
-                                    {{ moment.duration(player.seek_max, 'seconds').format('mm:ss', { trim: false }) }}
-                                </span>
-                                <span v-else>
-                                    --:--
-                                </span>
-                            </div>
+
+                            <canvas ref="canvas" class="absolute inset-0 top-auto z-0 w-full h-24"></canvas>
                         </div>
                     </div>
-                </div>
+                </transition>
                 <div class="bg-gray-darker">
                     <div class="flex flex-row items-center justify-center px-4 py-4 text-gray-default">
                         <div class="mr-4">
                             <i
-                                v-if="player.howl"
+                                v-if="player.is_loading"
+                                class="fas fa-fw fa-spinner fa-spin "
+                            />
+                            <i
+                                v-else-if="player.howl"
                                 @click="pause()"
                                 class="transition duration-200 ease-in-out fas fa-fw hover:text-gray-lightest"
                                 :class="{
@@ -111,8 +131,18 @@
             </div>
 
             <!-- Content -->
-            <main class="w-full min-h-0 overflow-y-auto">
-                <slot></slot>
+            <main class="w-full min-h-0 overflow-x-hidden overflow-y-auto">
+                <transition
+                    name="custom-classes-transition"
+                    enter-class="slide-left-enter"
+                    enter-active-class="slide-left-enter-active"
+                    leave-class="slide-left-leave"
+                    leave-active-class="slide-left-leave-active"
+                >
+                    <div class="w-full min-h-0" v-if="show">
+                        <slot></slot>
+                    </div>
+                </transition>
             </main>
         </div>
 
@@ -121,12 +151,13 @@
 </template>
 
 <script>
-    import { Howl, Howler } from 'howler';
     import { EventBus } from '../event-bus.js';
+    import { Howl, Howler } from 'howler';
 
     export default {
         data() {
             return {
+                show: false,
                 player: {
                     show: false,
                     howl: undefined,
@@ -135,6 +166,11 @@
                     volume: 0.5,
                     seek: 0,
                     seek_max: 0,
+                },
+                visualizer: {
+                    analyser: undefined,
+                    freq_data: undefined,
+                    buffer_length: undefined,
                 }
             }
         },
@@ -143,6 +179,10 @@
             EventBus.$on('play:media', payload => this.play(payload));
 
             setInterval(() => { this.update_seek(); }, 500);
+
+            this.show = true
+            this.$inertia.on('before', (event) => { this.show = false })
+            this.$inertia.on('success', (event) => { this.show = true })
         },
 
         watch: {
@@ -159,12 +199,17 @@
 
         methods: {
             play(payload){
+                let first_time = true;
+
                 if (this.player.howl) {
                     this.player.howl.unload();
+                    first_time = false;
                 }
 
                 this.player.song = payload.song;
                 this.player.media = payload.media;
+                this.player.seek_max = 0;
+                this.player.is_loading = true;
 
                 this.player.howl = new Howl({
                     src: [this.player.media.url],
@@ -174,8 +219,12 @@
                     onpause: () => { this.player.is_playing = false },
                     onend: () => { this.player.is_playing = false },
                     onstop: () => { this.player.is_playing = false },
-                    onload: () => { this.player.seek = 0; this.player.seek_max = this.player.howl.duration() },
+                    onload: () => { this.player.is_loading = false; this.player.seek = 0; this.player.seek_max = this.player.howl.duration() },
                 });
+
+                if (first_time) {
+                    this.visualizer_init();
+                }
 
                 this.player.show = true;
                 this.player.is_playing = true;
@@ -195,7 +244,48 @@
             },
             set_seek(){
                 this.player.howl ? this.player.howl.seek(this.player.seek) : ''
-            }
+            },
+            visualizer_init(){
+                this.visualizer.analyser = Howler.ctx.createAnalyser();
+                Howler.masterGain.connect(this.visualizer.analyser);
+
+                this.visualizer.analyser.fftSize = 128;
+                this.visualizer.buffer_length = this.visualizer.analyser.frequencyBinCount;
+
+                this.visualizer.freq_data = new Uint8Array(this.visualizer.buffer_length);
+
+                requestAnimationFrame(this.visualizer_frame);
+            },
+            visualizer_frame(){
+                this.visualizer.analyser.getByteFrequencyData(this.visualizer.freq_data);
+
+                let width = this.$refs.canvas.width;
+                let height = this.$refs.canvas.height;
+                let ctx = this.$refs.canvas.getContext("2d");
+
+                ctx.fillStyle = "rgb(40, 40, 40)";
+                ctx.fillRect(0, 0, width, height);
+
+                let bar_width = (width / this.visualizer.buffer_length) * 2.5;
+
+                let gradient = ctx.createLinearGradient(0, 0, 200, 0);
+                gradient.addColorStop(0, '#424242');
+                gradient.addColorStop(1, '#424242');
+
+                let x = 0;
+
+                for (let i = 0; i < this.visualizer.buffer_length; i++) {
+                    let freq_data = this.visualizer.freq_data[i];
+                    let bar_height = (freq_data / 255) * height;
+
+                    ctx.fillStyle = gradient;
+                    ctx.fillRect(x, (height - bar_height), bar_width, bar_height);
+
+                    x += bar_width - 1;
+                }
+
+                requestAnimationFrame(this.visualizer_frame);
+            },
         }
     }
 </script>
