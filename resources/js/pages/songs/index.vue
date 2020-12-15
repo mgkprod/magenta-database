@@ -89,8 +89,6 @@
     export default {
         layout: require('../../layouts/app').default,
 
-        props: {
-            songs: Array
-        }
+        props: ['songs']
     }
 </script>

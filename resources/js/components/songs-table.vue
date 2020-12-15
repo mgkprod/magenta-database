@@ -13,11 +13,20 @@
             class="flex flex-row items-center px-2 py-3 mb-2 transition-all duration-200 ease-in-out rounded cursor-pointer hover:bg-gray-darker"
             @click="$inertia.get(route('songs.show', song))"
         >
-            <div class="w-8 mx-2 text-center transition-all duration-200 ease-in-out text-gray-dark hover:text-gray-default" @click.prevent="">
-                <!-- <i class="text-xs fas fa-play"></i> -->
+            <div class="w-8 mx-2 text-center transition-all duration-200 ease-in-out text-gray-dark hover:text-gray-default" @click.stop="play_song(song)">
+                <span v-if="$curr_song_id == song.id">
+                    <i class="text-gray-default fas fa-volume-up fa-fw"></i>
+                </span>
+                <span v-else>
+                    <i class="text-xs fas fa-fw fa-play"></i>
+                </span>
             </div>
             <div class="flex-auto mx-2">
-                {{ song.title }}<br>
+                <span :class="{
+                    'text-pink-500': $curr_song_id == song.id
+                }">
+                    {{ song.title }}
+                </span><br>
                 <span class="text-sm text-gray-default">
                     {{ song.artist }}
                     <span v-if="song.version_name"><span class="text-gray-dark">&bull;</span> {{ song.version_name }}</span>
@@ -53,7 +62,17 @@
 </template>
 
 <script>
+    import { EventBus } from '../event-bus.js';
+
     export default {
-        props: ['songs']
+        props: ['songs'],
+
+        methods: {
+            play_song(song){
+                EventBus.$emit('play:song', {
+                    song: song,
+                });
+            }
+        }
     }
 </script>

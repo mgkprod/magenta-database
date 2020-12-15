@@ -119,6 +119,17 @@
                         </div>
                         <div class="mr-4">
                             <i
+                                v-if="player.queue.length"
+                                @click="play_from_queue()"
+                                class="transition duration-200 ease-in-out fa-forward fas fa-fw hover:text-gray-lightest"
+                            />
+                            <i
+                                v-else
+                                class="fas fa-fw fa-forward text-gray-dark"
+                            />
+                        </div>
+                        <div class="mr-4">
+                            <i
                                 @click="mute()"
                                 class="transition duration-200 ease-in-out fas fa-fw hover:text-gray-lightest"
                                 :class="{
@@ -172,6 +183,7 @@
                     volume: 0.5,
                     seek: 0,
                     seek_max: 0,
+                    queue: [],
                 },
                 visualizer: {
                     analyser: undefined,
@@ -182,10 +194,10 @@
         },
 
         mounted(){
-            EventBus.$on('play:media', payload => this.play(payload));
-            EventBus.$on('play:event', payload => this.fetchEvent(payload));
-            EventBus.$on('play:album', payload => this.fetchAlbum(payload));
-            EventBus.$on('play:song', payload => this.fetchSong(payload));
+            EventBus.$on('play:media', payload => { this.player.queue = []; this.play(payload) });
+            EventBus.$on('play:event', payload => this.fetch_event(payload));
+            EventBus.$on('play:album', payload => this.fetch_album(payload));
+            EventBus.$on('play:song', payload => this.fetch_song(payload));
 
             setInterval(() => { this.update_seek(); }, 500);
 
@@ -207,25 +219,36 @@
         },
 
         methods: {
-            fetchEvent(payload) {
+            fetch_event(payload) {
                 axios.get('/api/events/' + payload.event.id + '/songs')
                     .then((response) => {
-                        console.log(response);
+                        this.player.queue = response.data.songs;
+                        this.play_from_queue();
                     });
             },
-            fetchAlbum(payload) {
+            fetch_album(payload) {
                 axios.get('/api/albums/' + payload.album.id + '/songs')
                     .then((response) => {
-                        console.log(response);
+                        this.player.queue = response.data.songs;
+                        this.play_from_queue();
                     });
             },
-            fetchSong(payload) {
+            fetch_song(payload) {
                 axios.get('/api/songs/' + payload.song.id + '/medias?best=true')
                     .then((response) => {
-                        console.log(response);
+                        this.play({
+                            song: payload.song,
+                            media: response.data.media,
+                        })
                     });
             },
-            play(payload){
+            play_from_queue(){
+                if (this.player.queue.length) {
+                    let song = this.player.queue.shift();
+                    this.fetch_song({ song });
+                }
+            },
+            play(payload) {
                 let first_time = true;
 
                 if (this.player.howl) {
@@ -238,14 +261,17 @@
                 this.player.seek_max = 0;
                 this.player.is_loading = true;
 
+                this.$curr_song_id = payload.song.id;
+                this.$curr_media_id = payload.media.id;
+
                 this.player.howl = new Howl({
                     src: [this.player.media.url],
                     autoplay: true,
                     volume: this.player.volume,
-                    onplay: () => { this.player.is_playing = true },
-                    onpause: () => { this.player.is_playing = false },
-                    onend: () => { this.player.is_playing = false },
-                    onstop: () => { this.player.is_playing = false },
+                    onplay: () => { },
+                    onpause: () => { },
+                    onend: () => { this.play_from_queue() },
+                    onstop: () => { },
                     onload: () => { this.player.is_loading = false; this.player.seek = 0; this.player.seek_max = this.player.howl.duration() },
                 });
 
@@ -254,7 +280,6 @@
                 }
 
                 this.player.show = true;
-                this.player.is_playing = true;
             },
             pause(){
                 this.player.howl.playing()

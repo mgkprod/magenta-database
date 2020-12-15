@@ -24,6 +24,26 @@ Vue.use(VueSimpleMarkdown)
 
 InertiaProgress.init()
 
+let global_data = new Vue({
+    data: {
+        $curr_song_id: undefined,
+        $curr_media_id: undefined,
+    }
+});
+
+Vue.mixin({
+    computed: {
+        $curr_song_id: {
+            get: function () { return global_data.$data.$curr_song_id },
+            set: function (new_song_id) { global_data.$data.$curr_song_id = new_song_id; }
+        },
+        $curr_media_id: {
+            get: function () { return global_data.$data.$curr_media_id },
+            set: function (new_song_id) { global_data.$data.$curr_media_id = new_song_id; }
+        }
+    }
+})
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue

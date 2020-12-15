@@ -103,8 +103,13 @@
                     v-bind:key="media.id"
                     class="flex flex-row items-center px-2 py-3 mb-2 transition-all duration-200 ease-in-out rounded hover:bg-gray-darker"
                 >
-                    <div class="w-8 mx-2 text-center transition-all duration-200 ease-in-out text-gray-default hover:text-gray-lighter" @click="play_media(media)">
-                        <i class="text-xs fas fa-play"></i>
+                    <div class="w-8 mx-2 text-center transition-all duration-200 ease-in-out text-gray-dark hover:text-gray-default" @click="play_media(media)">
+                        <span v-if="$curr_media_id == media.id">
+                            <i class="text-gray-default fas fa-volume-up fa-fw"></i>
+                        </span>
+                        <span v-else>
+                            <i class="text-xs fas fa-fw fa-play"></i>
+                        </span>
                     </div>
                     <div class="w-64 mx-2 text-left ">
                         {{ media.custom_properties.codec_name }}<br>
