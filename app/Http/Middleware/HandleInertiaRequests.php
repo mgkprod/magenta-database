@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use Closure;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -16,10 +17,27 @@ class HandleInertiaRequests extends Middleware
     protected $rootView = 'app';
 
     /**
+     * Handle the incoming request.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  Closure                  $next
+     * @return Response
+     */
+    public function handle(Request $request, Closure $next)
+    {
+        return parent::handle($request, $next)->setCache([
+            'no_cache' => true,
+            'no_store' => true,
+            'must_revalidate' => true,
+            'private' => true,
+        ]);
+    }
+
+    /**
      * Determines the current asset version.
      *
      * @see https://inertiajs.com/asset-versioning
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return string|null
      */
     public function version(Request $request)
@@ -31,7 +49,7 @@ class HandleInertiaRequests extends Middleware
      * Defines the props that are shared by default.
      *
      * @see https://inertiajs.com/shared-data
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return array
      */
     public function share(Request $request)
@@ -42,7 +60,7 @@ class HandleInertiaRequests extends Middleware
                 ? $request->user()->only('id', 'name', 'email')
                 : null,
             'errors' => fn () => $this->sharedValidationErrors($request),
-            'flash' => fn() => [
+            'flash' => fn () => [
                 'success' => $request->session()->get('success'),
                 'warning' => $request->session()->get('warning'),
                 'error' => $request->session()->get('error'),
@@ -50,7 +68,7 @@ class HandleInertiaRequests extends Middleware
         ]);
     }
 
-     /**
+    /**
      * Resolve shared validation errors.
      *
      * @return \Illuminate\Contracts\Support\MessageBag|\stdClass
