@@ -16,6 +16,7 @@ class EventController extends Controller
     {
         $events = Event::query()
             ->orderBy('happened_at', 'DESC')
+            ->orderBy('created_at', 'DESC')
             ->get();
 
         return inertia('events/index', compact('events'));

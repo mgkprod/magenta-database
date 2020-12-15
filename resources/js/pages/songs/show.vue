@@ -61,10 +61,10 @@
                     <span v-if="song.availability == 'announced'">Annoncé</span>
                     <span v-if="song.availability == 'published'">Publié</span>
                 </div>
-                <div class="text-gray-400">Première diffusion le : {{ moment(song.first_time_played_at).format('L') }}</div>
-                <div class="text-gray-400">
-                    Date de sortie :
-                    <span v-if="song.released_at">{{ moment(song.released_at).format('L') }}</span>
+                <div v-if="song.first_time_played_at" class="text-gray-400">Première diffusion le : {{ moment(song.first_time_played_at).format('L') }}</div>
+                <div v-if="song.released_at" class="text-gray-400">
+                    Année de sortie :
+                    <span v-if="song.released_at">{{ moment(song.released_at).format('YYYY') }}</span>
                     <span v-else>N/A</span>
                 </div>
                 <div class="text-gray-400">Ajouté le : {{ moment(song.created_at).format('L') }}</div>

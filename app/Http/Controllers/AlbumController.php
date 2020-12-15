@@ -16,6 +16,7 @@ class AlbumController extends Controller
     {
         $albums = Album::query()
             ->orderBy('released_at', 'DESC')
+            ->orderBy('created_at', 'DESC')
             ->get();
 
         return inertia('albums/index', compact('albums'));

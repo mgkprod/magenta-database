@@ -40,8 +40,8 @@
                     <span v-if="album.availability == 'announced'">Annoncé</span>
                 </div>
                 <div class="text-gray-400">
-                    Date de sortie :
-                    <span v-if="album.released_at">{{ moment(album.released_at).format('L') }}</span>
+                    Année de sortie :
+                    <span v-if="album.released_at">{{ moment(album.released_at).format('YYYY') }}</span>
                     <span v-else>N/A</span>
                 </div>
                 <div class="text-gray-400">Ajouté le : {{ moment(album.created_at).format('L') }}</div>

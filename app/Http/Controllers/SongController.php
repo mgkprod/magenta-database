@@ -35,6 +35,7 @@ class SongController extends Controller
 
         $types = [
             'original' => 'Originale',
+            'clip' => 'Clip',
             'remix' => 'Remix',
             'live' => 'Live',
             'concert' => 'Concert',
@@ -101,6 +102,7 @@ class SongController extends Controller
 
         $types = [
             'original' => 'Originale',
+            'clip' => 'Clip',
             'remix' => 'Remix',
             'live' => 'Live',
             'concert' => 'Concert',
@@ -171,7 +173,10 @@ class SongController extends Controller
                 ->withCustomProperties(['source' => $request->source])
                 ->toMediaCollection('medias');
 
-            $probe = FFProbe::create()
+            $probe = FFProbe::create([
+                'ffmpeg.binaries' => config('services.ffmpeg.ffmpeg_path'),
+                'ffprobe.binaries' => config('services.ffmpeg.ffprobe_path'),
+            ])
                 ->streams($media->getPath())
                 ->audios()
                 ->first();
