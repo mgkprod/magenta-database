@@ -33,6 +33,14 @@
                     <span class="tracking-tighter uppercase font-eurostile-extended">Events</span>
                 </inertia-link>
 
+                <inertia-link
+                    class="flex items-center px-4 py-3 text-sm font-semibold transition duration-200 ease-in-out border-l-4 border-transparent active:bg-transparent focus:outline-none hover:text-purple-300 hover:bg-purple-900"
+                    :class="{ 'border-purple-700 text-purple-300 bg-purple-900': route().current('search*') }"
+                    :href="route('search.index')"
+                >
+                    <span class="tracking-tighter uppercase font-eurostile-extended">Search</span>
+                </inertia-link>
+
                 <div class="mt-auto"></div>
 
                 <inertia-link

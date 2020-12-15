@@ -3,6 +3,7 @@
 use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SongController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +31,8 @@ Route::delete('songs/{song}/files/{media}', [SongController::class, 'destroyFile
 
 Route::resource('albums', AlbumController::class);
 Route::resource('events', EventController::class);
+
+Route::get('search', SearchController::class)->name('search.index');
 
 Route::group(['middleware' => 'auth'], function () {
 });

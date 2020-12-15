@@ -2,8 +2,8 @@
     <label class="block">
         <span v-if="label" class="block mb-2 text-sm font-bold text-gray-100" v-text="label"></span>
 
-        <input class="w-full px-4 py-2 text-sm font-semibold text-gray-500 transition duration-200 ease-in-out bg-gray-900 rounded shadow-inner appearance-none hover:text-gray-300 hover:bg-gray-800 active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500"
-            :class="{ 'bg-red-100 mb-1 border-red-500': errors.length }"
+        <input class="w-full px-4 py-2 mx-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-darker text-gray-default active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500"
+            :class="{ 'bg-red-900 mb-1 border-red-500': errors.length }"
             v-bind="$attrs"
             v-on="{ ...$listeners, input: event => $emit('input', event.target.value) }">
 

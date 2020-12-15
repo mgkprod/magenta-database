@@ -21,6 +21,7 @@
         "php-ffmpeg/php-ffmpeg": "^0.16.0",
         "rorecek/laravel-ulid": "^2.0",
         "spatie/laravel-medialibrary": "^9.0.0",
+        "spatie/laravel-searchable": "^1.9",
         "tightenco/ziggy": "^1.0.4"
     },
     "require-dev": {

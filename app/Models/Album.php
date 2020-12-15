@@ -6,8 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 use Rorecek\Ulid\HasUlid;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\Searchable\Searchable;
+use Spatie\Searchable\SearchResult;
 
-class Album extends Model implements HasMedia
+class Album extends Model implements HasMedia, Searchable
 {
     use InteractsWithMedia;
     use HasUlid;
@@ -32,5 +34,14 @@ class Album extends Model implements HasMedia
         return $this->getFirstMedia('images')
             ? $this->getFirstMedia('images')->getFullUrl()
             : url('images/default.jpg');
+    }
+
+    public function getSearchResult(): SearchResult
+    {
+        return new \Spatie\Searchable\SearchResult(
+            $this,
+            $this->name,
+            route('albums.show', $this)
+         );
     }
 }
