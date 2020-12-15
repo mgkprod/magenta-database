@@ -1,5 +1,7 @@
 import animate from "animateplus"
 
+window.isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+
 animate({
     elements: ".base rect",
     easing: 'linear',
@@ -48,6 +50,8 @@ window.loadStyle = function(src) {
 
 window.loadFont = function(src) {
     return new Promise(function (resolve, reject) {
+        if (window.isFirefox) resolve(true);
+
         let link = document.createElement('link')
         link.href = src
         link.rel = 'preload'
@@ -76,6 +80,8 @@ window.loadScript = function(src) {
 
 window.loadImage = function(src) {
     return new Promise(function (resolve, reject) {
+        if (window.isFirefox) resolve(true);
+
         let link = document.createElement('link')
         link.href = src
         link.rel = 'preload'
