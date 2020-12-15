@@ -11,6 +11,11 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class SongController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index', 'show']);
+    }
+
     public function index()
     {
         $songs = Song::query()

@@ -56,7 +56,10 @@
                         <div class="relative flex flex-col justify-between px-4 py-4">
                             <div class="z-10">
                                 <inertia-link class="hover:underline" :href="route('songs.show', player.song)">
-                                    <img :src="player.song.image_url" :alt="player.song.name" class="mb-4 border rounded shadow border-gray-darker">
+                                    <vue-load-image class="mb-4 bg-black bg-opacity-50 rounded shadow-xl aspect-w-1 aspect-h-1 ">
+                                        <img slot="image" :src="player.song.image_url" class="object-cover w-full h-full rounded" />
+                                        <div class="flex items-center justify-center" slot="preloader"><i class="fas fa-spin fa-spinner text-gray-default"></i></div>
+                                    </vue-load-image>
                                 </inertia-link>
 
                                 <div class="w-full mb-4">
@@ -153,8 +156,13 @@
 <script>
     import { EventBus } from '../event-bus.js';
     import { Howl, Howler } from 'howler';
+    import VueLoadImage from 'vue-load-image'
 
     export default {
+        components: {
+            VueLoadImage
+        },
+
         data() {
             return {
                 show: false,
