@@ -101,7 +101,7 @@
                     <div class="w-64 mx-2 text-xs text-left uppercase text-gray-default">Info</div>
                     <div class="flex-auto mx-2 text-xs text-left uppercase text-gray-default">Source</div>
                     <div class="w-16 mx-2 text-xs text-left uppercase text-gray-default">Durée</div>
-                    <div class="w-16 mx-2 text-xs text-left uppercase text-gray-default">Taille</div>
+                    <div class="w-20 mx-2 text-xs text-left uppercase text-gray-default">Taille</div>
                     <div class="w-32 mx-2 text-xs text-left uppercase text-gray-default">Ajouté</div>
                     <div class="w-10 mx-2 text-xs text-center uppercase text-gray-default"></div>
                 </div>
@@ -144,7 +144,7 @@
                     <div class="w-16 mx-2 text-left text-gray-default">
                         {{ moment.duration(media.custom_properties.duration, 'seconds').format('mm:ss', { trim: false }) }}
                     </div>
-                    <div class="w-16 mx-2 text-left text-gray-default">
+                    <div class="w-20 mx-2 text-left text-gray-default">
                         {{ getReadableFileSizeString(media.size) }}
                     </div>
                     <div class="w-32 mx-2 text-left text-gray-default">
@@ -166,7 +166,7 @@
                 <div class="flex flex-col mb-8">
                     <div class="flex flex-row px-2 py-2 mb-2 border-b border-gray-darker">
                         <div class="flex-auto mx-2 text-xs text-left uppercase text-gray-default">Nom</div>
-                        <div class="w-16 mx-2 text-xs text-left uppercase text-gray-default">Taille</div>
+                        <div class="w-20 mx-2 text-xs text-left uppercase text-gray-default">Taille</div>
                         <div class="w-32 mx-2 text-xs text-left uppercase text-gray-default">Ajouté</div>
                         <div class="w-10 mx-2 text-xs text-center uppercase text-gray-default"></div>
                     </div>
@@ -180,7 +180,7 @@
                             <span v-if="file.custom_properties.name">{{ file.custom_properties.name }}</span>
                             <span v-else>{{ file.name }}</span>
                         </div>
-                        <div class="w-16 mx-2 text-left text-gray-default">
+                        <div class="w-20 mx-2 text-left text-gray-default">
                             {{ getReadableFileSizeString(file.size) }}
                         </div>
                         <div class="w-32 mx-2 text-left text-gray-default">
