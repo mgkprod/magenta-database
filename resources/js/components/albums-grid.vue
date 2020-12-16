@@ -12,11 +12,11 @@
             </vue-load-image>
 
             <div class="px-4 py-3">
-                <div class="break-all truncate">
-                    {{ album.name }}
-                </div>
-                <div class="text-sm text-gray-default">
-                    {{ moment(album.released_at).format('YYYY') }}
+                <div class="break-all truncate">{{ album.name }}</div>
+                <div>
+                    <span class="text-sm text-gray-default">{{ album.artist }}</span>
+                    <span class="text-gray-dark">&bull;</span>
+                    <span class="text-sm text-gray-default">{{ moment(album.released_at).format('YYYY') }}</span>
                 </div>
             </div>
         </div>
