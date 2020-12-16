@@ -17,9 +17,9 @@
 
             <inertia-link
                 class="inline-flex items-center px-4 py-1 mx-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-darker text-gray-default hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500"
-                :href="route('songs.files.create', song)"
+                :href="route('songs.medias.create', song)"
             >
-                <i class="mr-2 opacity-50 fas fa-folder"></i> Add file
+                <i class="mr-2 opacity-50 fas fa-compact-disc"></i> Add media
             </inertia-link>
 
             <button
@@ -187,7 +187,7 @@
             },
             destroy_media(media) {
                 this.$inertia.delete(
-                    this.route('songs.files.destroy', { song: this.song, media })
+                    this.route('songs.medias.destroy', { song: this.song, media })
                 );
             },
             play(){

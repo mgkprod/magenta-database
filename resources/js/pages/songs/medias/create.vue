@@ -48,7 +48,7 @@
                 data.append('audio', this.form.audio || '')
 
                 this.$inertia.post(
-                    this.route('songs.files.store', this.song),
+                    this.route('songs.medias.store', this.song),
                     data
                 )
             }

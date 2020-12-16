@@ -25,9 +25,9 @@ Route::resource('songs', SongController::class);
 Route::get('songs/{song}/edit/relations', [SongController::class, 'editRelations'])->name('songs.edit-relations');
 Route::put('songs/{song}/relations', [SongController::class, 'updateRelations'])->name('songs.update-relations');
 
-Route::get('songs/{song}/files/create', [SongController::class, 'createFile'])->name('songs.files.create');
-Route::post('songs/{song}/files', [SongController::class, 'storeFile'])->name('songs.files.store');
-Route::delete('songs/{song}/files/{media}', [SongController::class, 'destroyFile'])->name('songs.files.destroy');
+Route::get('songs/{song}/medias/create', [SongController::class, 'createMedia'])->name('songs.medias.create');
+Route::post('songs/{song}/medias', [SongController::class, 'storeMedia'])->name('songs.medias.store');
+Route::delete('songs/{song}/medias/{media}', [SongController::class, 'destroyMedia'])->name('songs.medias.destroy');
 
 Route::resource('albums', AlbumController::class);
 Route::resource('events', EventController::class);

@@ -202,12 +202,12 @@ class SongController extends Controller
         return redirect()->route('songs.index');
     }
 
-    public function createFile(Song $song)
+    public function createMedia(Song $song)
     {
-        return inertia('songs/files/create', compact('song'));
+        return inertia('songs/medias/create', compact('song'));
     }
 
-    public function storeFile(Request $request, Song $song)
+    public function storeMedia(Request $request, Song $song)
     {
         if ($request->file('audio')) {
             $media = $song
@@ -241,7 +241,7 @@ class SongController extends Controller
         return redirect()->route('songs.show', $song);
     }
 
-    public function destroyFile(Request $request, Song $song, Media $media)
+    public function destroyMedia(Request $request, Song $song, Media $media)
     {
         $media->delete();
 
