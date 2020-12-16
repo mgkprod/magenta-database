@@ -29,6 +29,11 @@ Route::get('songs/{song}/medias/create', [SongController::class, 'createMedia'])
 Route::post('songs/{song}/medias', [SongController::class, 'storeMedia'])->name('songs.medias.store');
 Route::delete('songs/{song}/medias/{media}', [SongController::class, 'destroyMedia'])->name('songs.medias.destroy');
 
+Route::get('songs/{song}/files/create', [SongController::class, 'createFile'])->name('songs.files.create');
+Route::post('songs/{song}/files/chunk', [SongController::class, 'storeFileChunk'])->name('songs.files.store.chunk');
+Route::post('songs/{song}/files', [SongController::class, 'storeFile'])->name('songs.files.store');
+Route::delete('songs/{song}/files/{file}', [SongController::class, 'destroyFile'])->name('songs.files.destroy');
+
 Route::resource('albums', AlbumController::class);
 Route::resource('events', EventController::class);
 

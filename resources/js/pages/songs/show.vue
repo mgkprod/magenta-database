@@ -17,6 +17,13 @@
 
             <inertia-link
                 class="inline-flex items-center px-4 py-1 mx-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-darker text-gray-default hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500"
+                :href="route('songs.files.create', song)"
+            >
+                <i class="mr-2 opacity-50 fas fa-folder-open"></i> Add file
+            </inertia-link>
+
+            <inertia-link
+                class="inline-flex items-center px-4 py-1 mx-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-darker text-gray-default hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500"
                 :href="route('songs.medias.create', song)"
             >
                 <i class="mr-2 opacity-50 fas fa-compact-disc"></i> Add media
@@ -148,6 +155,38 @@
                 </div>
             </div>
 
+            <template v-if="files && files.length">
+                <h2 class="mb-4 text-xl font-semibold">Fichiers</h2>
+                <div class="flex flex-col mb-8">
+                    <div class="flex flex-row px-2 py-2 mb-2 border-b border-gray-darker">
+                        <div class="flex-auto mx-2 text-xs text-left uppercase text-gray-default">Nom</div>
+                        <div class="w-16 mx-2 text-xs text-left uppercase text-gray-default">Taille</div>
+                        <div class="w-32 mx-2 text-xs text-left uppercase text-gray-default">Ajouté</div>
+                        <div v-if="$page.props.user" class="w-8 mx-2 text-xs text-center uppercase text-gray-default"></div>
+                    </div>
+
+                    <div
+                        v-for="file in files"
+                        v-bind:key="file.id"
+                        class="flex flex-row items-center px-2 py-3 mb-2 transition-all duration-200 ease-in-out rounded hover:bg-gray-darker"
+                    >
+                        <div class="flex-auto mx-2 text-left">
+                            <span v-if="file.custom_properties.name">{{ file.custom_properties.name }}</span>
+                            <span v-else>{{ file.name }}</span>
+                        </div>
+                        <div class="w-16 mx-2 text-left text-gray-default">
+                            {{ getReadableFileSizeString(file.size) }}
+                        </div>
+                        <div class="w-32 mx-2 text-left text-gray-default">
+                            {{ moment(file.created_at).format('L') }}
+                        </div>
+                        <div v-if="$page.props.user" class="w-8 mx-2 text-center transition-all duration-200 ease-in-out text-gray-dark hover:text-gray-default" @click="destroy_file(file)">
+                            <i class="text-xs fas fa-trash"></i>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
             <template v-if="variants">
                 <h2 class="mb-4 text-xl font-semibold">Variantes</h2>
                 <songs-table class="mb-8" :songs="variants"></songs-table>
@@ -177,7 +216,7 @@
             VueLoadImage
         },
 
-        props: ['song', 'medias', 'variants'],
+        props: ['song', 'medias', 'files', 'variants'],
 
         methods: {
             destroy() {
@@ -188,6 +227,11 @@
             destroy_media(media) {
                 this.$inertia.delete(
                     this.route('songs.medias.destroy', { song: this.song, media })
+                );
+            },
+            destroy_file(file) {
+                this.$inertia.delete(
+                    this.route('songs.files.destroy', { song: this.song, file })
                 );
             },
             play(){

@@ -7,6 +7,7 @@ use App\Models\Event;
 use App\Models\Song;
 use FFMpeg\FFProbe;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -128,7 +129,14 @@ class SongController extends Controller
             $media->url = $media->getUrl();
         }
 
-        return inertia('songs/show', compact('song', 'medias', 'variants'));
+        $files = $song->getMedia('files');
+        $files = Song::score($files);
+
+        foreach ($files as $media) {
+            $media->url = $media->getUrl();
+        }
+
+        return inertia('songs/show', compact('song', 'medias', 'files', 'variants'));
     }
 
     public function edit(Song $song)
@@ -244,6 +252,42 @@ class SongController extends Controller
     public function destroyMedia(Request $request, Song $song, Media $media)
     {
         $media->delete();
+
+        return redirect()->route('songs.show', $song);
+    }
+
+    public function createFile(Song $song)
+    {
+        $handle = uniqid();
+
+        return inertia('songs/files/create', compact('song', 'handle'));
+    }
+
+    public function storeFileChunk(Request $request, Song $song)
+    {
+        $append_to_file = storage_path('app/temp/' . $request->handle);
+        [, $data] = explode(';base64,', $request->file_data);
+        $data = base64_decode($data);
+        file_put_contents($append_to_file, $data, FILE_APPEND);
+
+        return response()->json(['success' => true]);
+    }
+
+    public function storeFile(Request $request, Song $song)
+    {
+        Storage::move('temp/' . $request->handle, 'temp/' . $request->file_name);
+
+        $file = $song
+            ->addMediaFromDisk('temp/' . $request->file_name)
+            ->withCustomProperties(['name' => $request->name])
+            ->toMediaCollection('files');
+
+        return redirect()->route('songs.show', $song);
+    }
+
+    public function destroyFile(Request $request, Song $song, Media $file)
+    {
+        $file->delete();
 
         return redirect()->route('songs.show', $song);
     }
