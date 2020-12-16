@@ -66,6 +66,8 @@
                 :errors="$page.props.errors.image"
             />
 
+            <form-checkbox class="mb-4" label="Downloadable?" name="is_downloadable" v-model="form.is_downloadable"  :errors="$page.props.errors.is_downloadable" />
+
             <button class="flex items-center px-4 py-2 text-sm font-semibold text-gray-500 transition duration-200 ease-in-out bg-gray-900 rounded shadow-inner hover:text-gray-300 hover:bg-gray-800 active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500">
                 Edit
             </button>
@@ -96,6 +98,7 @@
                     variant_agg: '',
                     details: '',
                     image: undefined,
+                    is_downloadable: false,
                 }
             }
         },
@@ -120,6 +123,7 @@
                 data.append('variant_agg', this.form.variant_agg || '')
                 data.append('details', this.form.details || '')
                 data.append('image', this.form.image || '')
+                data.append('is_downloadable', this.form.is_downloadable || false)
 
                 this.$inertia.post(
                     this.route('songs.update', this.song),

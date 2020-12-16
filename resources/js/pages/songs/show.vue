@@ -103,7 +103,7 @@
                     <div class="w-16 mx-2 text-xs text-left uppercase text-gray-default">Durée</div>
                     <div class="w-16 mx-2 text-xs text-left uppercase text-gray-default">Taille</div>
                     <div class="w-32 mx-2 text-xs text-left uppercase text-gray-default">Ajouté</div>
-                    <div v-if="$page.props.user" class="w-8 mx-2 text-xs text-center uppercase text-gray-default"></div>
+                    <div class="w-10 mx-2 text-xs text-center uppercase text-gray-default"></div>
                 </div>
 
                 <div
@@ -149,8 +149,13 @@
                     <div class="w-32 mx-2 text-left text-gray-default">
                         {{ moment(media.created_at).format('L') }}
                     </div>
-                    <div v-if="$page.props.user" class="w-8 mx-2 text-center transition-all duration-200 ease-in-out text-gray-dark hover:text-gray-default" @click="destroy_media(media)">
-                        <i class="text-xs fas fa-trash"></i>
+                    <div class="w-10 mx-2 text-center text-gray-dark">
+                        <a v-if="song.is_downloadable" class="transition-all duration-200 ease-in-out hover:text-gray-default" :href="media.url" target="_blank">
+                            <i class="text-xs fas fa-arrow-down"></i>
+                        </a>
+                        <button v-if="$page.props.user" class="ml-2 transition-all duration-200 ease-in-out hover:text-gray-default" @click="destroy_media(media)">
+                            <i class="text-xs fas fa-trash"></i>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -162,7 +167,7 @@
                         <div class="flex-auto mx-2 text-xs text-left uppercase text-gray-default">Nom</div>
                         <div class="w-16 mx-2 text-xs text-left uppercase text-gray-default">Taille</div>
                         <div class="w-32 mx-2 text-xs text-left uppercase text-gray-default">Ajouté</div>
-                        <div v-if="$page.props.user" class="w-8 mx-2 text-xs text-center uppercase text-gray-default"></div>
+                        <div class="w-10 mx-2 text-xs text-center uppercase text-gray-default"></div>
                     </div>
 
                     <div
@@ -180,8 +185,13 @@
                         <div class="w-32 mx-2 text-left text-gray-default">
                             {{ moment(file.created_at).format('L') }}
                         </div>
-                        <div v-if="$page.props.user" class="w-8 mx-2 text-center transition-all duration-200 ease-in-out text-gray-dark hover:text-gray-default" @click="destroy_file(file)">
-                            <i class="text-xs fas fa-trash"></i>
+                        <div class="w-10 mx-2 text-center text-gray-dark">
+                            <a class="transition-all duration-200 ease-in-out hover:text-gray-default" :href="file.url" target="_blank">
+                                <i class="text-xs fas fa-arrow-down"></i>
+                            </a>
+                            <button v-if="$page.props.user" class="ml-2 transition-all duration-200 ease-in-out hover:text-gray-default" @click="destroy_file(file)">
+                                <i class="text-xs fas fa-trash"></i>
+                            </button>
                         </div>
                     </div>
                 </div>

@@ -19,6 +19,7 @@ class Song extends Model implements HasMedia, Searchable
     protected $casts = [
         'released_at' => 'date',
         'first_time_played_at' => 'date',
+        'is_downloadable' => 'boolean',
     ];
 
     protected $appends = [

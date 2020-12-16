@@ -99,6 +99,7 @@ class SongController extends Controller
         $song->first_time_played_at = $request->first_time_played_at;
         $song->variant_agg = $request->variant_agg;
         $song->details = $request->details;
+        $song->is_downloadable = ($request->is_downloadable == 'true');
         $song->save();
 
         if ($request->file('image')) {
@@ -176,6 +177,7 @@ class SongController extends Controller
         $song->first_time_played_at = $request->first_time_played_at;
         $song->variant_agg = $request->variant_agg;
         $song->details = $request->details;
+        $song->is_downloadable = ($request->is_downloadable == 'true');
 
         if ($request->file('image')) {
             $song
