@@ -112,14 +112,18 @@
                             <i class="text-xs fas fa-fw fa-play"></i>
                         </span>
                     </div>
-                    <div class="w-64 mx-2 text-left ">
-                        {{ media.custom_properties.codec_name }}<br>
+                    <div class="w-64 mx-2 text-left">
+                        {{ media.custom_properties.codec_name }}
                         <div class="text-xs">
                             <span v-if="media.custom_properties.bit_rate">{{ Math.round(media.custom_properties.bit_rate / 1000) }} kbps</span>
                             <span v-else-if="media.custom_properties.bits_per_raw_sample">{{ media.custom_properties.bits_per_raw_sample }} bits</span>
                             <span v-else-if="media.custom_properties.bits_per_sample">{{ media.custom_properties.bits_per_sample }} bits</span>
                             <span class="text-gray-dark">&bull;</span>
                             {{ media.custom_properties.sample_rate / 1000 }} kHz
+                            <template v-if="$page.props.user">
+                                <span class="text-gray-dark">&bull;</span>
+                                {{ media.score }}
+                            </template>
                         </div>
                     </div>
                     <div class="flex-auto mx-2 text-left text-gray-default">

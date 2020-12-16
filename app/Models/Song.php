@@ -120,7 +120,9 @@ class Song extends Model implements HasMedia, Searchable
             $media->score = $score;
         }
 
-        return $medias;
+        return $medias
+            ->sortByDesc('score')
+            ->values();
     }
 
     public function getSearchResult(): SearchResult

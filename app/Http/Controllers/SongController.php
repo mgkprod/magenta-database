@@ -122,7 +122,7 @@ class SongController extends Controller
         }
 
         $medias = $song->getMedia('medias');
-        $medias = Song::score($medias)->sortByDesc('score');
+        $medias = Song::score($medias);
 
         foreach ($medias as $media) {
             $media->url = $media->getUrl();

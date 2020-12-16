@@ -40,9 +40,7 @@ Route::get('/songs/{song}/medias', function (Request $request, Song $song) {
 
     if ($request->best) {
         return response()->json([
-            'media' => $medias
-                ->sortByDesc('score')
-                ->first(),
+            'media' => $medias->first(),
         ]);
     }
 
