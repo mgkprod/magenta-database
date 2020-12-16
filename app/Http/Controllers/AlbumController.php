@@ -14,12 +14,13 @@ class AlbumController extends Controller
 
     public function index()
     {
-        $albums = Album::query()
+        $grouped_albums = Album::query()
             ->orderBy('released_at', 'DESC')
             ->orderBy('created_at', 'DESC')
-            ->get();
+            ->get()
+            ->groupBy('artist');
 
-        return inertia('albums/index', compact('albums'));
+        return inertia('albums/index', compact('grouped_albums'));
     }
 
     public function create()

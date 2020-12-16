@@ -10,7 +10,10 @@
         </div>
 
         <div class="p-8">
-            <albums-grid :albums="albums"></albums-grid>
+            <div v-for="(albums, artist) in grouped_albums" v-bind:key="artist">
+                <h2 class="mb-4 text-xl font-semibold">{{ artist }}</h2>
+                <albums-grid class="mb-8" :albums="albums"></albums-grid>
+            </div>
         </div>
     </div>
 </template>
@@ -19,8 +22,6 @@
     export default {
         layout: require('../../layouts/app').default,
 
-        props: {
-            albums: Array
-        }
+        props: ['grouped_albums']
     }
 </script>
