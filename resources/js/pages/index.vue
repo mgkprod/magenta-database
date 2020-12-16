@@ -6,7 +6,7 @@
             </div>
 
             <p class="mb-8">
-                Ce site est une base de données communautaire qui référence la plupart des tracks du groupe.<br>
+                Ce site est une base de données communautaire qui référence les tracks connues du groupe MAGENTA et de leurs projets liés.<br>
                 L'objectif est de garder une trace des différentes réinterprétations musicales et des tracks non publiées.<br>
                 <br>
                 Le site est alimenté par les contributions des membres du Discord. N'hésitez pas à <a href="https://bit.ly/magentadiscord" target="_blank" class="transition duration-200 ease-in-out text-gray-default hover:text-gray-lighter">nous rejoindre</a> !<br>
