@@ -57,6 +57,7 @@
                     <span v-if="song.type == 'extended-mix'">Extended Mix</span>
                     <span v-if="song.type == 'live-rework'">Live Rework</span>
                     <span v-if="song.type == 'live'">Live</span>
+                    <span v-if="song.type == 'radio-edit'">Radio Edit</span>
                     <span v-if="song.type == 'rework'">Rework</span>
                 </div>
                 <div class="text-gray-default">

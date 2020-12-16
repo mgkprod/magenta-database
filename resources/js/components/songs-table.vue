@@ -38,8 +38,9 @@
                 <span v-if="song.type == 'remix'">Remix</span>
                 <span v-if="song.type == 'extended-mix'">Extended Mix</span>
                 <span v-if="song.type == 'live-rework'">Live Rework</span>
-                <span v-if="song.type == 'rework'">Rework</span>
                 <span v-if="song.type == 'live'">Live</span>
+                <span v-if="song.type == 'rework'">Rework</span>
+                <span v-if="song.type == 'radio-edit'">Radio Edit</span>
             </div>
             <div class="w-32 mx-2 text-left text-gray-default">
                 <span v-if="song.availability == 'unreleased'">Inédit</span>

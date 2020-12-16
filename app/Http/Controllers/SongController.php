@@ -76,6 +76,7 @@ class SongController extends Controller
             'live-rework' => 'Live Rework',
             'rework' => 'Rework',
             'live' => 'Live',
+            'radio-edit' => 'Radio Edit',
         ];
 
         return inertia('songs/create', compact('types', 'availabilities'));
@@ -121,6 +122,7 @@ class SongController extends Controller
         }
 
         $medias = $song->getMedia('medias');
+        $medias = Song::score($medias)->sortByDesc('score');
 
         foreach ($medias as $media) {
             $media->url = $media->getUrl();
@@ -145,6 +147,7 @@ class SongController extends Controller
             'live-rework' => 'Live Rework',
             'rework' => 'Rework',
             'live' => 'Live',
+            'radio-edit' => 'Radio Edit',
         ];
 
         return inertia('songs/edit', compact('song', 'availabilities', 'types'));

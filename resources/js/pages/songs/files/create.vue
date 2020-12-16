@@ -2,7 +2,7 @@
     <div class="p-8">
         <form @submit.prevent="submit">
             <form-input class="mb-6"
-                label="Name"
+                label="Source"
                 v-model="form.source"
                 :errors="$page.props.errors.source"
             />

@@ -65,6 +65,7 @@ class Song extends Model implements HasMedia, Searchable
             'remix' => 'Remix',
             'rework' => 'Rework',
             'live' => 'Live',
+            'radio-edit' => 'Radio Edit',
             'live-rework' => 'Live Rework',
             'extended-mix' => 'Extended Mix',
         ];
@@ -74,6 +75,8 @@ class Song extends Model implements HasMedia, Searchable
         } else {
             return $types[$this->type];
         }
+
+        return null;
     }
 
     public function getImageUrlAttribute()
@@ -86,8 +89,8 @@ class Song extends Model implements HasMedia, Searchable
     public static function score($medias)
     {
         $codec_names = [
-            'flac' => 10,
-            'opus' => 10,
+            'flac' => 15,
+            'opus' => 15,
             'mp3' => 5,
             'aac' => 5,
         ];
