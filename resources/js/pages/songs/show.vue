@@ -136,6 +136,7 @@
                     <div class="flex-auto mx-2 text-left text-gray-default">
                         <span v-if="media.custom_properties.source == 'youtube'"><i class="mr-1 opacity-50 fa-fw fab fa-youtube"></i> YouTube</span>
                         <span v-else-if="media.custom_properties.source == 'soundcloud'"><i class="mr-1 opacity-50 fa-fw fab fa-soundcloud"></i> SoundCloud</span>
+                        <span v-else-if="media.custom_properties.source == 'deezer'"><i class="mr-1 opacity-50 fa-fw fab fa-deezer"></i> Deezer</span>
                         <span v-else-if="media.custom_properties.source == 'qobuz'"><i class="mr-1 opacity-50 fa-fw fas fa-compact-disc"></i> Qobuz</span>
                         <span v-else-if="media.custom_properties.source" class="capitalize">{{ media.custom_properties.source }}</span>
                         <span v-else>N/A</span>
