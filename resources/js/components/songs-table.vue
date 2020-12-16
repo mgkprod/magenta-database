@@ -2,6 +2,7 @@
     <div class="flex flex-col">
         <div class="flex flex-row px-2 py-2 mb-2 border-b border-gray-darker">
             <div class="w-8 mx-2 text-xs text-center uppercase text-gray-default"></div>
+            <div class="w-10 mx-2 text-xs text-center uppercase text-gray-default"></div>
             <div class="flex-auto mx-2 text-xs text-left uppercase text-gray-default">Titre</div>
             <div class="w-32 mx-2 text-xs text-left uppercase text-gray-default">Version</div>
             <div class="w-32 mx-2 text-xs text-left uppercase text-gray-default">Disponibilité</div>
@@ -20,6 +21,12 @@
                 <span v-else>
                     <i class="text-xs fas fa-fw fa-play"></i>
                 </span>
+            </div>
+            <div class="w-10 mx-2">
+                <vue-load-image class="rounded-t aspect-w-1 aspect-h-1">
+                    <img slot="image" :src="song.image_url" class="object-cover w-full h-full shadow-xl animate__animated animate__fadeIn animate__fastest" />
+                    <div class="flex items-center justify-center opacity-50" :style="{ 'background-color': song.image_dominant_color }" slot="preloader"><i class="text-xs text-white fas fa-spin fa-spinner"></i></div>
+                </vue-load-image>
             </div>
             <div class="flex-auto mx-2">
                 <span :class="{
@@ -64,9 +71,14 @@
 
 <script>
     import { EventBus } from '../event-bus.js';
+    import VueLoadImage from 'vue-load-image'
 
     export default {
         props: ['songs'],
+
+        components: {
+            VueLoadImage
+        },
 
         methods: {
             play_song(song){
