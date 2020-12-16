@@ -43,7 +43,7 @@
             </div>
             <div class="w-32 mx-2 text-left text-gray-default">
                 <span v-if="song.availability == 'unreleased'">Inédit</span>
-                <span v-if="song.availability == 'announced'">Annoncé</span>
+                <span v-if="song.availability == 'deleted'">Supprimé</span>
                 <span v-if="song.availability == 'published'">Publié</span>
             </div>
             <div class="w-32 mx-2 text-left text-gray-default">

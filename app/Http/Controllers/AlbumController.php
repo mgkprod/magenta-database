@@ -26,7 +26,7 @@ class AlbumController extends Controller
     {
         $availabilities = [
             'unreleased' => 'Inédit',
-            'announced' => 'Annoncé',
+            'deleted' => 'Supprimé',
             'published' => 'Publié',
         ];
 
@@ -75,7 +75,7 @@ class AlbumController extends Controller
     {
         $availabilities = [
             'unreleased' => 'Inédit',
-            'announced' => 'Annoncé',
+            'deleted' => 'Supprimé',
             'published' => 'Publié',
         ];
 

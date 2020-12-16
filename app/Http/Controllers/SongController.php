@@ -64,7 +64,7 @@ class SongController extends Controller
     {
         $availabilities = [
             'unreleased' => 'Inédit',
-            'announced' => 'Annoncé',
+            'deleted' => 'Supprimé',
             'published' => 'Publié',
         ];
 
@@ -133,7 +133,7 @@ class SongController extends Controller
     {
         $availabilities = [
             'unreleased' => 'Inédit',
-            'announced' => 'Annoncé',
+            'deleted' => 'Supprimé',
             'published' => 'Publié',
         ];
 

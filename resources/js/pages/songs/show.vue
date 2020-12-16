@@ -62,7 +62,7 @@
                 <div class="text-gray-default">
                     Disponibilité :
                     <span v-if="song.availability == 'unreleased'">Inédit</span>
-                    <span v-if="song.availability == 'announced'">Annoncé</span>
+                    <span v-if="song.availability == 'deleted'">Supprimé</span>
                     <span v-if="song.availability == 'published'">Publié</span>
                 </div>
                 <div v-if="song.first_time_played_at" class="text-gray-default">Première diffusion le : {{ moment(song.first_time_played_at).format('L') }}</div>

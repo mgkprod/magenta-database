@@ -38,7 +38,7 @@
                     Disponibilité :
                     <span v-if="album.availability == 'published'">Publié</span>
                     <span v-if="album.availability == 'unreleased'">Inédit</span>
-                    <span v-if="album.availability == 'announced'">Annoncé</span>
+                    <span v-if="album.availability == 'deleted'">Supprimé</span>
                 </div>
                 <div class="text-gray-default">
                     Année de sortie :
