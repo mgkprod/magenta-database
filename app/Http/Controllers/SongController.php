@@ -21,9 +21,11 @@ class SongController extends Controller
     public function index(Request $request)
     {
         $filters = [
+            'published',
+            'published-lost',
             'unreleased',
             'really-unreleased',
-            'lost',
+            'deleted',
         ];
 
         $request->validate([
@@ -31,6 +33,18 @@ class SongController extends Controller
         ]);
 
         $songs = Song::query();
+
+        if ($request->filter == 'published') {
+            // Published songs
+            $songs = $songs->where('availability', 'published');
+        }
+
+        if ($request->filter == 'published-lost') {
+            // Songs that does not belongs to an album nor an event
+            $songs = $songs
+                ->whereDoesntHave('albums')
+                ->whereDoesntHave('events');
+        }
 
         if ($request->filter == 'unreleased') {
             // Unreleased songs
@@ -44,11 +58,9 @@ class SongController extends Controller
                 ->has('variants', '=', 1);
         }
 
-        if ($request->filter == 'lost') {
-            // Songs that does not belongs to an album nor an event
-            $songs = $songs
-                ->whereDoesntHave('albums')
-                ->whereDoesntHave('events');
+        if ($request->filter == 'deleted') {
+            // Delted songs
+            $songs = $songs->where('availability', 'deleted');
         }
 
         $songs = $songs

@@ -19,11 +19,18 @@
                     Tous
                 </inertia-link>
                 <inertia-link
-                    :href="route('songs.index', {filter: 'really-unreleased'})"
+                    :href="route('songs.index', {filter: 'published'})"
                     class="block mx-2"
-                    :class="{'border-b-4 border-pink-700 text-gray-lighter': route().current('songs.index', {filter: 'really-unreleased'})}"
+                    :class="{'border-b-4 border-pink-700 text-gray-lighter': route().current('songs.index', {filter: 'published'})}"
                 >
-                    Inédits sans variantes
+                    Publiés
+                </inertia-link>
+                <inertia-link
+                    :href="route('songs.index', {filter: 'published-lost'})"
+                    class="block mx-2"
+                    :class="{'border-b-4 border-pink-700 text-gray-lighter': route().current('songs.index', {filter: 'published-lost'})}"
+                >
+                    Publiés sans album
                 </inertia-link>
                 <inertia-link
                     :href="route('songs.index', {filter: 'unreleased'})"
@@ -32,26 +39,39 @@
                 >
                     Inédits
                 </inertia-link>
-                <inertia-link
-                    :href="route('songs.index', {filter: 'lost'})"
+                   <inertia-link
+                    :href="route('songs.index', {filter: 'really-unreleased'})"
                     class="block mx-2"
-                    :class="{'border-b-4 border-pink-700 text-gray-lighter': route().current('songs.index', {filter: 'lost'})}"
+                    :class="{'border-b-4 border-pink-700 text-gray-lighter': route().current('songs.index', {filter: 'really-unreleased'})}"
                 >
-                    Perdus
+                    Inédits sans variantes
+                </inertia-link>
+                <inertia-link
+                    :href="route('songs.index', {filter: 'deleted'})"
+                    class="block mx-2"
+                    :class="{'border-b-4 border-pink-700 text-gray-lighter': route().current('songs.index', {filter: 'deleted'})}"
+                >
+                    Supprimés
                 </inertia-link>
             </div>
 
             <p v-if="route().current('songs.index', {filter: undefined})" class="mb-8 text-sm">
                 <i class="mr-2 opacity-50 fas fa-info-circle"></i> Tous les tracks référencés
             </p>
+            <p v-if="route().current('songs.index', {filter: 'published'})" class="mb-8 text-sm">
+                <i class="mr-2 opacity-50 fas fa-info-circle"></i> Tous les tracks officiels
+            </p>
+            <p v-if="route().current('songs.index', {filter: 'published-lost'})" class="mb-8 text-sm">
+                <i class="mr-2 opacity-50 fas fa-info-circle"></i> Les tracks officiels qui ne sont pas dans à un album ou présent dans un event
+            </p>
             <p v-if="route().current('songs.index', {filter: 'really-unreleased'})" class="mb-8 text-sm">
-                <i class="mr-2 opacity-50 fas fa-info-circle"></i> Les tracks qui sont jamais sortis et qu'on a entendu qu'une fois
+                <i class="mr-2 opacity-50 fas fa-info-circle"></i> Les tracks qui n'ont pas eu de release et qu'on a entendu qu'une fois
             </p>
             <p v-if="route().current('songs.index', {filter: 'unreleased'})" class="mb-8 text-sm">
                 <i class="mr-2 opacity-50 fas fa-info-circle"></i> Les tracks qui n'ont pas eu de release officielle
             </p>
-            <p v-if="route().current('songs.index', {filter: 'lost'})" class="mb-8 text-sm">
-                <i class="mr-2 opacity-50 fas fa-info-circle"></i> Les tracks qui ne sont pas liés à un album ou à un event
+            <p v-if="route().current('songs.index', {filter: 'deleted'})" class="mb-8 text-sm">
+                <i class="mr-2 opacity-50 fas fa-info-circle"></i> Les tracks qui ont été publiés un jour et qui sont aujourd'hui retirés des plateformes
             </p>
 
             <songs-table class="mb-4" :songs="songs.data"></songs-table>
