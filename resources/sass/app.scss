@@ -25,6 +25,12 @@
          url('/fonts/EurostileExt-Bla.otf') format('truetype');
 }
 
+@import '~animate.css/animate.css';
+
+.animate__fastest {
+    animation-duration: 200ms;
+}
+
 @tailwind base;
 
 @tailwind components;
@@ -53,6 +59,22 @@
 
         filter: opacity(40%) blur(15px);
         transform: scale(1.15);
+        z-index: -1;
+    }
+}
+
+.bg-color-gradient-container {
+    position: absolute;
+    top: 0; left: 0;
+    bottom: 0; right: 0;
+    overflow: hidden;
+    z-index: -1;
+
+    .bg-color-gradient {
+        width: 100%;
+        height: 100%;
+
+        filter: brightness(.5);
         z-index: -1;
     }
 }

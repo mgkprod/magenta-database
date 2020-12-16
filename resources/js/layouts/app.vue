@@ -65,7 +65,7 @@
                             <div class="z-10">
                                 <inertia-link class="hover:underline" :href="route('songs.show', player.song)">
                                     <vue-load-image class="mb-4 bg-black bg-opacity-50 rounded shadow-xl aspect-w-1 aspect-h-1 ">
-                                        <img slot="image" :src="player.song.image_url" class="object-cover w-full h-full rounded" />
+                                        <img slot="image" :src="player.song.image_url" class="object-cover w-full h-full rounded animate__animated animate__fadeIn animate__fastest" />
                                         <div class="flex items-center justify-center" slot="preloader"><i class="fas fa-spin fa-spinner text-gray-default"></i></div>
                                     </vue-load-image>
                                 </inertia-link>

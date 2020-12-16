@@ -18,13 +18,13 @@
 
         <div class="relative flex flex-row items-start justify-start p-8 border-b-4 border-gray-darker">
             <div class="bg-cover-container">
-                <div class="bg-cover" :style="{ 'background-image': 'url(' + album.image_url + ')' }"></div>
+                <div class="bg-cover bg-gradient-to-br from-black to-black" :style="{ '--tw-gradient-from': album.image_dominant_color }"></div>
             </div>
 
             <div class="flex-none w-64 mr-8">
-                <vue-load-image class="bg-black bg-opacity-50 rounded-t shadow-xl aspect-w-1 aspect-h-1">
-                    <img slot="image" :src="album.image_url" class="object-cover w-full h-full" />
-                    <div class="flex items-center justify-center" slot="preloader"><i class="fas fa-spin fa-spinner text-gray-default"></i></div>
+                <vue-load-image class="shadow-xl aspect-w-1 aspect-h-1">
+                    <img slot="image" :src="album.image_url" class="object-cover w-full h-full animate__animated animate__fadeIn animate__fastest" />
+                    <div class="flex items-center justify-center opacity-50" :style="{ 'background-color': album.image_dominant_color }" slot="preloader"><i class="text-white fas fa-spin fa-spinner"></i></div>
                 </vue-load-image>
             </div>
 

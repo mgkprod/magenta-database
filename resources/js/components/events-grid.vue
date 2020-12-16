@@ -7,8 +7,8 @@
             @click="$inertia.get(route('events.show', event))"
         >
             <vue-load-image class="bg-black bg-opacity-50 rounded-t aspect-w-16 aspect-h-9">
-                <img slot="image" :src="event.image_url" class="object-cover w-full h-full rounded-t" />
-                <div class="flex items-center justify-center" slot="preloader"><i class="fas fa-spin fa-spinner text-gray-default"></i></div>
+                <img slot="image" :src="event.image_url" class="object-cover w-full h-full rounded-t animate__animated animate__fadeIn animate__fastest" />
+                <div class="flex items-center justify-center rounded-t opacity-50" :style="{ 'background-color': event.image_dominant_color }" slot="preloader"><i class="text-white fas fa-spin fa-spinner"></i></div>
             </vue-load-image>
 
             <div class="px-4 py-3">

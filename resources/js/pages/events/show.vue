@@ -18,13 +18,13 @@
 
         <div class="relative flex flex-row items-start justify-start p-8 border-b-4 border-gray-darker">
             <div class="bg-cover-container">
-                <div class="bg-cover" :style="{ 'background-image': 'url(' + event.image_url + ')' }"></div>
+                <div class="bg-cover bg-gradient-to-br from-black to-black" :style="{ '--tw-gradient-from': event.image_dominant_color }"></div>
             </div>
 
             <div class="flex-none mr-8 w-72">
-                <vue-load-image class="bg-black bg-opacity-50 rounded-t shadow-xl aspect-w-16 aspect-h-9">
-                    <img slot="image" :src="event.image_url" class="object-cover w-full h-full" />
-                    <div class="flex items-center justify-center" slot="preloader"><i class="fas fa-spin fa-spinner text-gray-default"></i></div>
+                <vue-load-image class="shadow-xl aspect-w-16 aspect-h-9">
+                    <img slot="image" :src="event.image_url" class="object-cover w-full h-full animate__animated animate__fadeIn animate__fastest" />
+                    <div class="flex items-center justify-center opacity-50" :style="{ 'background-color': event.image_dominant_color }" slot="preloader"><i class="text-white fas fa-spin fa-spinner"></i></div>
                 </vue-load-image>
             </div>
 
