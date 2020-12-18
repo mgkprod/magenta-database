@@ -75,6 +75,49 @@
                                     <span class="text-gray-default">{{ player.song.artist }}</span>
                                 </div>
 
+                                <div class="flex flex-row items-center justify-center w-full mb-4">
+                                    <div class="mx-2">
+                                        <i
+                                            v-if="player.queue.length"
+                                            @click="play_from_queue()"
+                                            class="transition duration-200 ease-in-out fa-backward fas fa-fw hover:text-gray-lightest"
+                                        />
+                                        <i
+                                            v-else
+                                            class="fas fa-fw fa-backward text-gray-dark"
+                                        />
+                                    </div>
+                                    <div class="mx-2">
+                                        <i
+                                            v-if="player.is_loading"
+                                            class="fas fa-fw fa-spinner fa-spin "
+                                        />
+                                        <i
+                                            v-else-if="player.howl"
+                                            @click="pause()"
+                                            class="transition duration-200 ease-in-out fas fa-fw hover:text-gray-lightest"
+                                            :class="{
+                                                'fa-play': !player.howl.playing(),
+                                                'fa-pause': player.howl.playing(),
+                                            }" />
+                                        <i
+                                            v-else
+                                            class="fas fa-fw fa-play text-gray-dark"
+                                        />
+                                    </div>
+                                    <div class="mx-2">
+                                        <i
+                                            v-if="player.queue.length"
+                                            @click="play_from_queue()"
+                                            class="transition duration-200 ease-in-out fa-forward fas fa-fw hover:text-gray-lightest"
+                                        />
+                                        <i
+                                            v-else
+                                            class="fas fa-fw fa-forward text-gray-dark"
+                                        />
+                                    </div>
+                                </div>
+
                                 <input
                                     class="w-full mb-4 overflow-hidden rounded-lg appearance-none bg-gray-default focus:outline-none"
                                     type="range"
@@ -86,7 +129,7 @@
                                     @input="set_seek()"
                                 />
 
-                                <div class="flex flex-row items-center justify-between text-gray-default">
+                                <div class="flex flex-row items-center justify-between w-full text-gray-default">
                                     <div class="text-xs">
                                         {{ moment.duration(player.seek, 'seconds').format('mm:ss', { trim: false }) }}
                                     </div>
@@ -100,42 +143,12 @@
                                     </div>
                                 </div>
                             </div>
-
                             <canvas ref="canvas" class="absolute inset-0 top-auto z-0 w-full h-24"></canvas>
                         </div>
                     </div>
                 </transition>
                 <div class="bg-gray-darker">
                     <div class="flex flex-row items-center justify-center px-4 py-4 text-gray-default">
-                        <div class="mr-4">
-                            <i
-                                v-if="player.is_loading"
-                                class="fas fa-fw fa-spinner fa-spin "
-                            />
-                            <i
-                                v-else-if="player.howl"
-                                @click="pause()"
-                                class="transition duration-200 ease-in-out fas fa-fw hover:text-gray-lightest"
-                                :class="{
-                                    'fa-play': !player.howl.playing(),
-                                    'fa-pause': player.howl.playing(),
-                                }" />
-                            <i
-                                v-else
-                                class="fas fa-fw fa-play text-gray-dark"
-                            />
-                        </div>
-                        <div class="mr-4">
-                            <i
-                                v-if="player.queue.length"
-                                @click="play_from_queue()"
-                                class="transition duration-200 ease-in-out fa-forward fas fa-fw hover:text-gray-lightest"
-                            />
-                            <i
-                                v-else
-                                class="fas fa-fw fa-forward text-gray-dark"
-                            />
-                        </div>
                         <div class="mr-4">
                             <i
                                 @click="mute()"
