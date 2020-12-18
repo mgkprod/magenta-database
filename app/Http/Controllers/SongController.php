@@ -129,11 +129,8 @@ class SongController extends Controller
 
         $variants = $song
             ->variants
-            ->where('id', '!=', $song->id);
-
-        if (count($variants) == 0) {
-            $variants = null;
-        }
+            ->where('id', '!=', $song->id)
+            ->values();
 
         $medias = $song->getMedia('medias');
         $medias = Song::score($medias);
