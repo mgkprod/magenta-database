@@ -8,6 +8,10 @@
 
 .
 
+## Demo
+
+[Interface tour (0.6.0)](./.github/demo-0.6.0.mp4)
+
 ## Credits
 
 - [Simon Rubuano](https://github.com/mgkprod)
