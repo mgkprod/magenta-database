@@ -75,10 +75,21 @@
                                     <span class="text-gray-default">{{ player.song.artist }}</span>
                                 </div>
 
-                                <div class="flex flex-row items-center justify-center w-full mb-4">
+                                <div class="flex flex-row items-center justify-center w-full mb-4 text-gray-default">
+                                    <div class="mr-2 text-xs">
+                                        <i
+                                            v-if="player.queue.length"
+                                            @click="toggle_random()"
+                                            class="transition duration-200 ease-in-out fa-random fas fa-fw hover:text-gray-lightest"
+                                            :class="{
+                                                'text-gray-dark': !player.random,
+                                                'text-gray-default': player.random,
+                                            }"
+                                        />
+                                    </div>
                                     <div class="mx-2">
                                         <i
-                                            v-if="!(this.player.queue_index <= 0)"
+                                            v-if="!(player.queue_index <= 0)"
                                             @click="backward()"
                                             class="transition duration-200 ease-in-out fa-backward fas fa-fw hover:text-gray-lightest"
                                         />
@@ -107,7 +118,7 @@
                                     </div>
                                     <div class="mx-2">
                                         <i
-                                            v-if="!(this.player.queue_index >= (this.player.queue.length - 1))"
+                                            v-if="!((player.queue_index >= (player.queue.length - 1))) || this.player.random || this.player.loop != 'disabled'"
                                             @click="forward()"
                                             class="transition duration-200 ease-in-out fa-forward fas fa-fw hover:text-gray-lightest"
                                         />
@@ -115,6 +126,17 @@
                                             v-else
                                             class="fas fa-fw fa-forward text-gray-dark"
                                         />
+                                    </div>
+                                    <div class="relative ml-2 text-xs">
+                                        <i
+                                            @click="toggle_loop()"
+                                            class="transition duration-200 ease-in-out fa-redo fas fa-fw hover:text-gray-lightest"
+                                            :class="{
+                                                'text-gray-dark': player.loop == 'disabled',
+                                                'text-gray-default': player.loop == 'queue' || player.loop == 'self'
+                                            }"
+                                        />
+                                        <div :class="{ 'hidden': player.loop != 'self' }" class="absolute bottom-0 right-0 leading-none text-pink-500" style="font-size: 0.1rem"><i class="fas fa-circle"></i></div>
                                     </div>
                                 </div>
 
@@ -207,6 +229,8 @@
                     seek_max: 0,
                     queue: [],
                     queue_index: 0,
+                    random: false,
+                    loop: 'disabled',
                 },
                 visualizer: {
                     analyser: undefined,
@@ -286,10 +310,20 @@
                 this.fetch_song({ song });
             },
             forward(){
-                this.player.queue_index++;
+                if (this.player.loop == 'self') {
+                    // Don't increment the queue_index
+                } else if (this.player.random) {
+                    this.player.queue_index = Math.floor(Math.random() * this.player.queue.length);
+                } else {
+                    this.player.queue_index++;
+                }
                 if (this.player.queue_index >= this.player.queue.length) {
-                    this.player.queue_index = (this.player.queue.length - 1);
-                    return;
+                    if (this.player.loop == 'queue') {
+                        this.player.queue_index = 0;
+                    } else {
+                        this.player.queue_index = (this.player.queue.length - 1);
+                        return;
+                    }
                 }
 
                 let song = this.player.queue[this.player.queue_index];
@@ -337,6 +371,14 @@
                 this.player.volume == 0
                     ? this.player.volume = 0.5
                     : this.player.volume = 0
+            },
+            toggle_random(){
+                this.player.random = !this.player.random;
+            },
+            toggle_loop(){
+                if (this.player.loop == 'disabled') this.player.loop = 'queue';
+                else if (this.player.loop == 'queue') this.player.loop = 'self';
+                else if (this.player.loop == 'self') this.player.loop = 'disabled';
             },
             update_seek(){
                 this.player.seek = this.player.howl ? this.player.howl.seek() : 0
