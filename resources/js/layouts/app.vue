@@ -264,6 +264,10 @@
                             this.player.queue = [];
                             this.player.queue_index = -1;
                         }
+                        if (payload.context) {
+                            this.player.queue = payload.context;
+                            this.player.queue_index = _.findIndex(payload.context, payload.song);
+                        }
                         this.play({
                             song: payload.song,
                             media: response.data.media,
