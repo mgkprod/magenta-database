@@ -220,6 +220,7 @@
             return {
                 show: false,
                 player: {
+                    ghost_howl: undefined,
                     show: false,
                     howl: undefined,
                     song: undefined,
@@ -251,6 +252,29 @@
             this.show = true
             this.$inertia.on('before', (event) => { this.show = false })
             this.$inertia.on('success', (event) => { this.show = true })
+
+            this.player.ghost_howl = new Howl({
+                src: ['/audios/5-seconds-of-silence.mp3'],
+                preload: true,
+                html5: true,
+                loop: true,
+                onplay: () => {
+                    if ('mediaSession' in navigator) {
+                        navigator.mediaSession.metadata = new MediaMetadata({
+                            title: this.player.song.display_title,
+                            artist: this.player.song.artist,
+                            artwork: [
+                                { src: this.player.song.image_url, sizes: '256x256', type: 'image/png' },
+                            ]
+                        });
+
+                        navigator.mediaSession.setActionHandler('play', this.pause);
+                        navigator.mediaSession.setActionHandler('pause', this.pause);
+                        navigator.mediaSession.setActionHandler('previoustrack', this.backward);
+                        navigator.mediaSession.setActionHandler('nexttrack', this.forward);
+                    }
+                },
+            });
         },
 
         watch: {
@@ -347,43 +371,29 @@
 
                 this.player.howl = new Howl({
                     src: [this.player.media.url],
-                    html5: true,
                     autoplay: true,
                     volume: this.player.volume,
-                    onplay: () => { },
-                    onpause: () => { },
+                    onplay: () => { this.player.ghost_howl.play() },
+                    onpause: () => { this.player.ghost_howl.pause() },
                     onend: () => { this.forward() },
-                    onstop: () => { },
+                    onstop: () => { this.player.ghost_howl.stop() },
                     onload: () => { this.player.is_loading = false; this.player.seek = 0; this.player.seek_max = this.player.howl.duration() },
                 });
 
-                if ('mediaSession' in navigator) {
-                    navigator.mediaSession.metadata = new MediaMetadata({
-                        title: this.player.song.display_title,
-                        artist: this.player.song.artist,
-                        artwork: [
-                            { src: this.player.song.image_url, sizes: '256x256', type: 'image/png' },
-                        ]
-                    });
-                }
-
                 if (first_time) {
                     this.visualizer_init();
-
-                    if ('mediaSession' in navigator) {
-                        navigator.mediaSession.setActionHandler('play', this.pause);
-                        navigator.mediaSession.setActionHandler('pause', this.pause);
-                        navigator.mediaSession.setActionHandler('previoustrack', this.backward);
-                        navigator.mediaSession.setActionHandler('nexttrack', this.forward);
-                    }
                 }
 
                 this.player.show = true;
             },
             pause(){
-                this.player.howl.playing()
-                    ? this.player.howl.pause()
-                    : this.player.howl.play()
+                if (this.player.howl.playing()) {
+                    this.player.howl.pause()
+                    this.player.ghost_howl.pause()
+                } else {
+                    this.player.howl.play()
+                    this.player.ghost_howl.play()
+                }
             },
             mute(){
                 this.player.volume == 0
