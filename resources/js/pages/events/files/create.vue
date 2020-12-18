@@ -28,7 +28,7 @@
     export default {
         layout: require('../../../layouts/app').default,
 
-        props: ['song', 'handle'],
+        props: ['event', 'handle'],
 
         data() {
             return {
@@ -84,7 +84,7 @@
             },
             complete(){
                 this.$inertia.post(
-                    this.route('songs.files.store', this.song),
+                    this.route('events.files.store', this.event),
                     { handle: this.handle, name: this.form.name, file_name: this.upload.file.name, file_size: this.upload.file.size, file_type: this.upload.file.type }
                 )
             }

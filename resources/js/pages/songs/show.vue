@@ -163,39 +163,7 @@
 
             <template v-if="files && files.length">
                 <h2 class="mb-4 text-xl font-semibold">Fichiers</h2>
-                <div class="flex flex-col mb-8">
-                    <div class="flex flex-row px-2 py-2 mb-2 border-b border-gray-darker">
-                        <div class="flex-auto mx-2 text-xs text-left uppercase text-gray-default">Nom</div>
-                        <div class="w-20 mx-2 text-xs text-left uppercase text-gray-default">Taille</div>
-                        <div class="w-32 mx-2 text-xs text-left uppercase text-gray-default">Ajouté</div>
-                        <div class="w-10 mx-2 text-xs text-center uppercase text-gray-default"></div>
-                    </div>
-
-                    <div
-                        v-for="file in files"
-                        v-bind:key="file.id"
-                        class="flex flex-row items-center px-2 py-3 mb-2 transition-all duration-200 ease-in-out rounded hover:bg-gray-darker"
-                    >
-                        <div class="flex-auto mx-2 text-left">
-                            <span v-if="file.custom_properties.name">{{ file.custom_properties.name }}</span>
-                            <span v-else>{{ file.name }}</span>
-                        </div>
-                        <div class="w-20 mx-2 text-left text-gray-default">
-                            {{ getReadableFileSizeString(file.size) }}
-                        </div>
-                        <div class="w-32 mx-2 text-left text-gray-default">
-                            {{ moment(file.created_at).format('L') }}
-                        </div>
-                        <div class="w-10 mx-2 text-center text-gray-dark">
-                            <a class="transition-all duration-200 ease-in-out hover:text-gray-default" :href="file.url" target="_blank">
-                                <i class="text-xs fas fa-arrow-down"></i>
-                            </a>
-                            <button v-if="$page.props.user" class="ml-2 transition-all duration-200 ease-in-out hover:text-gray-default" @click="destroy_file(file)">
-                                <i class="text-xs fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                <files-table class="mb-8" :files="files"></files-table>
             </template>
 
             <template v-if="variants">
@@ -238,11 +206,6 @@
             destroy_media(media) {
                 this.$inertia.delete(
                     this.route('songs.medias.destroy', { song: this.song, media })
-                );
-            },
-            destroy_file(file) {
-                this.$inertia.delete(
-                    this.route('songs.files.destroy', { song: this.song, file })
                 );
             },
             play(){

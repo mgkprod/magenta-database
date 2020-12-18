@@ -3,6 +3,13 @@
         <div class="flex flex-row justify-end w-full px-4 py-4 bg-black border-b-4 border-gray-darker" v-if="$page.props.user">
             <inertia-link
                 class="inline-flex items-center px-4 py-1 mx-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-darker text-gray-default hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500"
+                :href="route('albums.files.create', album)"
+            >
+                <i class="mr-2 opacity-50 fas fa-folder-open"></i> Add file
+            </inertia-link>
+
+            <inertia-link
+                class="inline-flex items-center px-4 py-1 mx-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-darker text-gray-default hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500"
                 :href="route('albums.edit', album)"
             >
                 <i class="mr-2 opacity-50 fas fa-edit"></i> Edit
@@ -61,7 +68,12 @@
         </div>
 
         <div class="w-full p-8 pb-0">
-            <songs-table :songs="album.songs"></songs-table>
+            <songs-table class="mb-8" :songs="album.songs"></songs-table>
+
+            <template v-if="files && files.length">
+                <h2 class="mb-4 text-xl font-semibold">Fichiers</h2>
+                <files-table class="mb-8" :files="files"></files-table>
+            </template>
         </div>
     </div>
 </template>
@@ -77,9 +89,7 @@
             VueLoadImage
         },
 
-        props: {
-            album: Object,
-        },
+        props: ['album', 'files'],
 
         methods: {
             destroy() {

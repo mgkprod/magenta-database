@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class EventController extends Controller
 {
@@ -52,7 +53,13 @@ class EventController extends Controller
     {
         $event->load(['songs']);
 
-        return inertia('events/show', compact('event'));
+        $files = $event->getMedia('files');
+
+        foreach ($files as $media) {
+            $media->url = $media->getUrl();
+        }
+
+        return inertia('events/show', compact('event', 'files'));
     }
 
     public function edit(Event $event)
@@ -81,6 +88,25 @@ class EventController extends Controller
         }
 
         return redirect()->route('events.index');
+    }
+
+    public function createFile(Event $event)
+    {
+        $handle = uniqid();
+
+        return inertia('events/files/create', compact('event', 'handle'));
+    }
+
+    public function storeFile(Request $request, Event $event)
+    {
+        Storage::move('temp/' . $request->handle, 'temp/' . $request->file_name);
+
+        $file = $event
+            ->addMediaFromDisk('temp/' . $request->file_name)
+            ->withCustomProperties(['name' => $request->name])
+            ->toMediaCollection('files');
+
+        return redirect()->route('events.show', $event);
     }
 
     public function destroy(Event $event)

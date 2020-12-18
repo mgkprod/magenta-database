@@ -140,7 +140,6 @@ class SongController extends Controller
         }
 
         $files = $song->getMedia('files');
-        $files = Song::score($files);
 
         foreach ($files as $media) {
             $media->url = $media->getUrl();
@@ -274,16 +273,6 @@ class SongController extends Controller
         return inertia('songs/files/create', compact('song', 'handle'));
     }
 
-    public function storeFileChunk(Request $request, Song $song)
-    {
-        $append_to_file = storage_path('app/temp/' . $request->handle);
-        [, $data] = explode(';base64,', $request->file_data);
-        $data = base64_decode($data);
-        file_put_contents($append_to_file, $data, FILE_APPEND);
-
-        return response()->json(['success' => true]);
-    }
-
     public function storeFile(Request $request, Song $song)
     {
         Storage::move('temp/' . $request->handle, 'temp/' . $request->file_name);
@@ -292,13 +281,6 @@ class SongController extends Controller
             ->addMediaFromDisk('temp/' . $request->file_name)
             ->withCustomProperties(['name' => $request->name])
             ->toMediaCollection('files');
-
-        return redirect()->route('songs.show', $song);
-    }
-
-    public function destroyFile(Request $request, Song $song, Media $file)
-    {
-        $file->delete();
 
         return redirect()->route('songs.show', $song);
     }

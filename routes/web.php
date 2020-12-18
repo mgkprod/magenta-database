@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SongController;
@@ -24,18 +25,22 @@ Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::resource('songs', SongController::class);
 Route::get('songs/{song}/edit/relations', [SongController::class, 'editRelations'])->name('songs.edit-relations');
 Route::put('songs/{song}/relations', [SongController::class, 'updateRelations'])->name('songs.update-relations');
-
 Route::get('songs/{song}/medias/create', [SongController::class, 'createMedia'])->name('songs.medias.create');
 Route::post('songs/{song}/medias', [SongController::class, 'storeMedia'])->name('songs.medias.store');
 Route::delete('songs/{song}/medias/{media}', [SongController::class, 'destroyMedia'])->name('songs.medias.destroy');
-
 Route::get('songs/{song}/files/create', [SongController::class, 'createFile'])->name('songs.files.create');
-Route::post('songs/{song}/files/chunk', [SongController::class, 'storeFileChunk'])->name('songs.files.store.chunk');
 Route::post('songs/{song}/files', [SongController::class, 'storeFile'])->name('songs.files.store');
-Route::delete('songs/{song}/files/{file}', [SongController::class, 'destroyFile'])->name('songs.files.destroy');
 
 Route::resource('albums', AlbumController::class);
+Route::get('albums/{album}/files/create', [AlbumController::class, 'createFile'])->name('albums.files.create');
+Route::post('albums/{album}/files', [AlbumController::class, 'storeFile'])->name('albums.files.store');
+
 Route::resource('events', EventController::class);
+Route::get('events/{event}/files/create', [EventController::class, 'createFile'])->name('events.files.create');
+Route::post('events/{event}/files', [EventController::class, 'storeFile'])->name('events.files.store');
+
+Route::post('files/chunk', [FileController::class, 'storeChunk'])->name('files.store.chunk');
+Route::delete('files/{file}', [FileController::class, 'destroy'])->name('files.destroy');
 
 Route::get('search', SearchController::class)->name('search.index');
 

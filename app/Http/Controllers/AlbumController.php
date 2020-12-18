@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Album;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AlbumController extends Controller
 {
@@ -69,7 +70,13 @@ class AlbumController extends Controller
     {
         $album->load(['songs']);
 
-        return inertia('albums/show', compact('album'));
+        $files = $album->getMedia('files');
+
+        foreach ($files as $media) {
+            $media->url = $media->getUrl();
+        }
+
+        return inertia('albums/show', compact('album', 'files'));
     }
 
     public function edit(Album $album)
@@ -114,6 +121,25 @@ class AlbumController extends Controller
         }
 
         return redirect()->route('albums.index');
+    }
+
+    public function createFile(Album $album)
+    {
+        $handle = uniqid();
+
+        return inertia('albums/files/create', compact('album', 'handle'));
+    }
+
+    public function storeFile(Request $request, Album $album)
+    {
+        Storage::move('temp/' . $request->handle, 'temp/' . $request->file_name);
+
+        $file = $album
+            ->addMediaFromDisk('temp/' . $request->file_name)
+            ->withCustomProperties(['name' => $request->name])
+            ->toMediaCollection('files');
+
+        return redirect()->route('albums.show', $album);
     }
 
     public function destroy(Album $album)
