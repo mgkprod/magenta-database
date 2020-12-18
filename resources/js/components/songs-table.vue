@@ -84,6 +84,7 @@
             play_song(song){
                 EventBus.$emit('play:song', {
                     song: song,
+                    empty_queue: true,
                 });
             }
         }

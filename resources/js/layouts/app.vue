@@ -78,8 +78,8 @@
                                 <div class="flex flex-row items-center justify-center w-full mb-4">
                                     <div class="mx-2">
                                         <i
-                                            v-if="player.queue.length"
-                                            @click="play_from_queue()"
+                                            v-if="!(this.player.queue_index <= 0)"
+                                            @click="backward()"
                                             class="transition duration-200 ease-in-out fa-backward fas fa-fw hover:text-gray-lightest"
                                         />
                                         <i
@@ -107,8 +107,8 @@
                                     </div>
                                     <div class="mx-2">
                                         <i
-                                            v-if="player.queue.length"
-                                            @click="play_from_queue()"
+                                            v-if="!(this.player.queue_index >= (this.player.queue.length - 1))"
+                                            @click="forward()"
                                             class="transition duration-200 ease-in-out fa-forward fas fa-fw hover:text-gray-lightest"
                                         />
                                         <i
@@ -205,6 +205,7 @@
                     seek: 0,
                     seek_max: 0,
                     queue: [],
+                    queue_index: 0,
                 },
                 visualizer: {
                     analyser: undefined,
@@ -244,30 +245,50 @@
                 axios.get('/api/events/' + payload.event.id + '/songs')
                     .then((response) => {
                         this.player.queue = response.data.songs;
-                        this.play_from_queue();
+                        this.player.queue_index = -1;
+                        this.forward();
                     });
             },
             fetch_album(payload) {
                 axios.get('/api/albums/' + payload.album.id + '/songs')
                     .then((response) => {
                         this.player.queue = response.data.songs;
-                        this.play_from_queue();
+                        this.player.queue_index = -1;
+                        this.forward();
                     });
             },
             fetch_song(payload) {
                 axios.get('/api/songs/' + payload.song.id + '/medias?best=true')
                     .then((response) => {
+                        if (payload.empty_queue) {
+                            this.player.queue = [];
+                            this.player.queue_index = -1;
+                        }
                         this.play({
                             song: payload.song,
                             media: response.data.media,
                         })
                     });
             },
-            play_from_queue(){
-                if (this.player.queue.length) {
-                    let song = this.player.queue.shift();
-                    this.fetch_song({ song });
+            backward(){
+                this.player.queue_index--;
+                if (this.player.queue_index < 0) {
+                    this.player.queue_index = 0;
+                    return;
                 }
+
+                let song = this.player.queue[this.player.queue_index];
+                this.fetch_song({ song });
+            },
+            forward(){
+                this.player.queue_index++;
+                if (this.player.queue_index >= this.player.queue.length) {
+                    this.player.queue_index = (this.player.queue.length - 1);
+                    return;
+                }
+
+                let song = this.player.queue[this.player.queue_index];
+                this.fetch_song({ song });
             },
             play(payload) {
                 let first_time = true;
@@ -291,7 +312,7 @@
                     volume: this.player.volume,
                     onplay: () => { },
                     onpause: () => { },
-                    onend: () => { this.play_from_queue() },
+                    onend: () => { this.forward() },
                     onstop: () => { },
                     onload: () => { this.player.is_loading = false; this.player.seek = 0; this.player.seek_max = this.player.howl.duration() },
                 });

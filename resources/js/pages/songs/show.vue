@@ -248,6 +248,7 @@
             play(){
                 EventBus.$emit('play:song', {
                     song: this.song,
+                    empty_queue: true,
                 });
             },
             play_media(media){
