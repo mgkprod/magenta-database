@@ -347,6 +347,7 @@
 
                 this.player.howl = new Howl({
                     src: [this.player.media.url],
+                    html5: true,
                     autoplay: true,
                     volume: this.player.volume,
                     onplay: () => { },
@@ -356,8 +357,25 @@
                     onload: () => { this.player.is_loading = false; this.player.seek = 0; this.player.seek_max = this.player.howl.duration() },
                 });
 
+                if ('mediaSession' in navigator) {
+                    navigator.mediaSession.metadata = new MediaMetadata({
+                        title: this.player.song.display_title,
+                        artist: this.player.song.artist,
+                        artwork: [
+                            { src: this.player.song.image_url, sizes: '256x256', type: 'image/png' },
+                        ]
+                    });
+                }
+
                 if (first_time) {
                     this.visualizer_init();
+
+                    if ('mediaSession' in navigator) {
+                        navigator.mediaSession.setActionHandler('play', this.pause);
+                        navigator.mediaSession.setActionHandler('pause', this.pause);
+                        navigator.mediaSession.setActionHandler('previoustrack', this.backward);
+                        navigator.mediaSession.setActionHandler('nexttrack', this.forward);
+                    }
                 }
 
                 this.player.show = true;
