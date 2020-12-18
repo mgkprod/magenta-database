@@ -149,14 +149,15 @@
                 </transition>
                 <div class="bg-gray-darker">
                     <div class="flex flex-row items-center justify-center px-4 py-4 text-gray-default">
-                        <div class="mr-4">
+                        <div class="mr-4 text-left fa-fw">
                             <i
                                 @click="mute()"
-                                class="transition duration-200 ease-in-out fas fa-fw hover:text-gray-lightest"
+                                class="transition duration-200 ease-in-out fas hover:text-gray-lightest"
                                 :class="{
-                                    'fa-volume-off': player.volume == 0,
-                                    'fa-volume-down': player.volume > 0 && player.volume < 0.5,
-                                    'fa-volume-up': player.volume >= 0.5,
+                                    'fa-volume-mute': player.volume == 0,
+                                    'fa-volume-off': player.volume > 0 && player.volume < 0.25,
+                                    'fa-volume-down': player.volume > 0.25 && player.volume < 0.50,
+                                    'fa-volume-up': player.volume >= 0.50,
                                     'fa-volume-up ': player.volume == 1,
                                 }"/>
                         </div>
