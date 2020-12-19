@@ -50,7 +50,7 @@
                 </div>
 
                 <div class="mt-8">
-                    <div class="inline-flex items-center px-4 py-1 text-sm font-semibold transition duration-200 ease-in-out rounded cursor-pointer bg-gray-darker text-gray-default hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500" @click="play()">
+                    <div class="inline-flex items-center px-4 py-2 font-semibold transition duration-200 ease-in-out bg-black bg-opacity-50 rounded cursor-pointer text-gray-default active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500 hover:bg-opacity-70" @click="play()">
                         <i class="mr-2 text-xs opacity-50 fas fa-play"></i>
                         <span>Écouter</span>
                     </div>
