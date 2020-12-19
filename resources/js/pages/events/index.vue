@@ -9,7 +9,7 @@
             </inertia-link>
         </div>
 
-        <div class="p-8">
+        <div class="p-4 md:p-8">
             <events-grid :events="events"></events-grid>
         </div>
     </div>

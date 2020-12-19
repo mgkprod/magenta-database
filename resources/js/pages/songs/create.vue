@@ -1,5 +1,5 @@
 <template>
-    <div class="p-8">
+    <div class="p-4 md:p-8">
         <form @submit.prevent="submit">
             <form-input class="mb-6"
                 label="Title"

@@ -220,7 +220,7 @@
             </transition>
 
             <!-- Content -->
-            <main class="w-full min-h-0 overflow-x-hidden overflow-y-auto">
+            <main class="w-full min-h-0 overflow-x-hidden overflow-y-auto" scroll-region>
                 <transition
                     name="custom-classes-transition"
                     enter-class="slide-left-enter"

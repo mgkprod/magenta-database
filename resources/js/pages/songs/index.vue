@@ -9,50 +9,60 @@
             </inertia-link>
         </div>
 
-        <div class="p-8">
-            <div class="flex flex-row mb-4 -mx-2 font-semibold">
-                <inertia-link
-                    :href="route('songs.index', {filter: undefined})"
-                    class="block mx-2"
-                    :class="{'border-b-4 border-pink-700 text-gray-lighter': route().current('songs.index', {filter: undefined})}"
-                >
-                    Tous
-                </inertia-link>
-                <inertia-link
-                    :href="route('songs.index', {filter: 'published'})"
-                    class="block mx-2"
-                    :class="{'border-b-4 border-pink-700 text-gray-lighter': route().current('songs.index', {filter: 'published'})}"
-                >
-                    Publiés
-                </inertia-link>
-                <inertia-link
-                    :href="route('songs.index', {filter: 'published-lost'})"
-                    class="block mx-2"
-                    :class="{'border-b-4 border-pink-700 text-gray-lighter': route().current('songs.index', {filter: 'published-lost'})}"
-                >
-                    Publiés sans album
-                </inertia-link>
-                <inertia-link
-                    :href="route('songs.index', {filter: 'unreleased'})"
-                    class="block mx-2"
-                    :class="{'border-b-4 border-pink-700 text-gray-lighter': route().current('songs.index', {filter: 'unreleased'})}"
-                >
-                    Inédits
-                </inertia-link>
-                   <inertia-link
-                    :href="route('songs.index', {filter: 'really-unreleased'})"
-                    class="block mx-2"
-                    :class="{'border-b-4 border-pink-700 text-gray-lighter': route().current('songs.index', {filter: 'really-unreleased'})}"
-                >
-                    Inédits sans variantes
-                </inertia-link>
-                <inertia-link
-                    :href="route('songs.index', {filter: 'deleted'})"
-                    class="block mx-2"
-                    :class="{'border-b-4 border-pink-700 text-gray-lighter': route().current('songs.index', {filter: 'deleted'})}"
-                >
-                    Supprimés
-                </inertia-link>
+        <div class="p-4 md:p-8">
+            <div class="fade-overflow-x">
+                <div class="flex flex-row items-start justify-start mb-4 overflow-x-auto font-semibold" scroll-region>
+                    <inertia-link
+                        :href="route('songs.index', {filter: undefined})"
+                        class="flex-none block mr-2"
+                        preserve-scroll
+                        :class="{'border-b-4 border-pink-700 text-gray-lighter': route().current('songs.index', {filter: undefined})}"
+                    >
+                        Tous
+                    </inertia-link>
+                    <inertia-link
+                        :href="route('songs.index', {filter: 'published'})"
+                        class="flex-none block mx-2"
+                        preserve-scroll
+                        :class="{'border-b-4 border-pink-700 text-gray-lighter': route().current('songs.index', {filter: 'published'})}"
+                    >
+                        Publiés
+                    </inertia-link>
+                    <inertia-link
+                        :href="route('songs.index', {filter: 'published-lost'})"
+                        class="flex-none block mx-2"
+                        preserve-scroll
+                        :class="{'border-b-4 border-pink-700 text-gray-lighter': route().current('songs.index', {filter: 'published-lost'})}"
+                    >
+                        Publiés sans album
+                    </inertia-link>
+                    <inertia-link
+                        :href="route('songs.index', {filter: 'unreleased'})"
+                        class="flex-none block mx-2"
+                        preserve-scroll
+                        :class="{'border-b-4 border-pink-700 text-gray-lighter': route().current('songs.index', {filter: 'unreleased'})}"
+                    >
+                        Inédits
+                    </inertia-link>
+                    <inertia-link
+                        :href="route('songs.index', {filter: 'really-unreleased'})"
+                        class="flex-none block mx-2"
+                        preserve-scroll
+                        :class="{'border-b-4 border-pink-700 text-gray-lighter': route().current('songs.index', {filter: 'really-unreleased'})}"
+                    >
+                        Inédits sans variantes
+                    </inertia-link>
+                    <inertia-link
+                        :href="route('songs.index', {filter: 'deleted'})"
+                        class="flex-none block ml-2"
+                        preserve-scroll
+                        :class="{'border-b-4 border-pink-700 text-gray-lighter': route().current('songs.index', {filter: 'deleted'})}"
+                    >
+                        Supprimés
+                    </inertia-link>
+
+                    <div class="flex-none w-16 h-1"></div>
+                </div>
             </div>
 
             <p v-if="route().current('songs.index', {filter: undefined})" class="mb-8 text-sm">

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="p-8">
+        <div class="p-4 md:p-8">
             <form @submit.prevent="submit" class="mb-8">
                 <div class="flex flex-row items-center">
                     <form-input

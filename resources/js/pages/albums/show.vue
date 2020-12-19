@@ -23,12 +23,12 @@
             </button>
         </div>
 
-        <div class="relative flex flex-row items-start justify-start p-8 border-b-4 border-gray-darker">
+        <div class="relative flex flex-col items-start justify-start p-8 border-b-4 sm:flex-row border-gray-darker">
             <div class="bg-cover-container">
                 <div class="bg-cover bg-gradient-to-br from-black to-black" :style="{ '--tw-gradient-from': album.image_dominant_color }"></div>
             </div>
 
-            <div class="flex-none w-64 mr-8">
+            <div class="flex-none w-64 mb-8 sm:w-48 lg:w-64 sm:mb-0 sm:mr-8">
                 <vue-load-image class="shadow-xl aspect-w-1 aspect-h-1">
                     <img slot="image" :src="album.image_url" class="object-cover w-full h-full animate__animated animate__fadeIn animate__fastest" />
                     <div class="flex items-center justify-center opacity-50" :style="{ 'background-color': album.image_dominant_color }" slot="preloader"><i class="text-white fas fa-spin fa-spinner"></i></div>
@@ -59,7 +59,7 @@
                 </div>
 
                 <div class="mt-8">
-                    <div class="inline-flex items-center px-4 py-1 mx-1 text-sm font-semibold transition duration-200 ease-in-out rounded cursor-pointer bg-gray-darker text-gray-default hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500" @click="play()">
+                    <div class="inline-flex items-center px-4 py-1 text-sm font-semibold transition duration-200 ease-in-out rounded cursor-pointer bg-gray-darker text-gray-default hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500" @click="play()">
                         <i class="mr-2 text-xs opacity-50 fas fa-play"></i>
                         <span>Écouter</span>
                     </div>
@@ -67,7 +67,7 @@
             </div>
         </div>
 
-        <div class="w-full p-8 pb-0">
+        <div class="w-full p-4 pb-0 md:p-8">
             <songs-table class="mb-8" :songs="album.songs"></songs-table>
 
             <template v-if="files && files.length">

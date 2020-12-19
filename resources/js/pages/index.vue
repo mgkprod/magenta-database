@@ -1,6 +1,6 @@
 <template>
     <div class="h-full">
-        <div class="p-8">
+        <div class="p-4 md:p-8">
             <div class="mb-8 text-2xl">
                 Bienvenue sur la <h1 class="inline italic tracking-tighter uppercase font-eurostile-extended">MAGENTA Database</h1>
             </div>

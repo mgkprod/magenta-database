@@ -37,12 +37,12 @@
             </button>
         </div>
 
-        <div class="relative flex flex-row items-start justify-start p-8 border-b-4 border-gray-darker">
+        <div class="relative flex flex-col items-start justify-start p-8 border-b-4 sm:flex-row border-gray-darker">
             <div class="bg-cover-container">
                 <div class="bg-cover bg-gradient-to-br from-black to-black" :style="{ '--tw-gradient-from': song.image_dominant_color }"></div>
             </div>
 
-            <div class="flex-none w-64 mr-8">
+            <div class="flex-none w-64 mb-8 sm:w-48 lg:w-64 sm:mb-0 sm:mr-8">
                 <vue-load-image class="shadow-xl aspect-w-1 aspect-h-1">
                     <img slot="image" :src="song.image_url" class="object-cover w-full h-full animate__animated animate__fadeIn animate__fastest" />
                     <div class="flex items-center justify-center opacity-50" :style="{ 'background-color': song.image_dominant_color }" slot="preloader"><i class="text-white fas fa-spin fa-spinner"></i></div>
@@ -86,7 +86,7 @@
                 </div>
 
                 <div class="mt-8">
-                    <div class="inline-flex items-center px-4 py-1 mx-1 text-sm font-semibold transition duration-200 ease-in-out rounded cursor-pointer bg-gray-darker text-gray-default hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500" @click="play()">
+                    <div class="inline-flex items-center px-4 py-1 text-sm font-semibold transition duration-200 ease-in-out rounded cursor-pointer bg-gray-darker text-gray-default hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500" @click="play()">
                         <i class="mr-2 text-xs opacity-50 fas fa-play"></i>
                         <span>Écouter</span>
                     </div>
@@ -94,16 +94,16 @@
             </div>
         </div>
 
-        <div class="w-full p-8 pb-0">
+        <div class="w-full p-4 pb-0 md:p-8">
             <div class="flex flex-col mb-8">
                 <div class="flex flex-row px-2 py-2 mb-2 border-b border-gray-darker">
-                    <div class="w-8 mx-2 text-xs text-center uppercase text-gray-default"></div>
-                    <div class="w-64 mx-2 text-xs text-left uppercase text-gray-default">Info</div>
-                    <div class="flex-auto mx-2 text-xs text-left uppercase text-gray-default">Source</div>
-                    <div class="w-16 mx-2 text-xs text-left uppercase text-gray-default">Durée</div>
-                    <div class="w-20 mx-2 text-xs text-left uppercase text-gray-default">Taille</div>
-                    <div class="w-32 mx-2 text-xs text-left uppercase text-gray-default">Ajouté</div>
-                    <div class="w-10 mx-2 text-xs text-center uppercase text-gray-default"></div>
+                    <div class="flex-none w-8 text-xs text-center uppercase md:mx-2 text-gray-default"></div>
+                    <div class="flex-auto mx-2 text-xs text-left uppercase truncate text-gray-default">Info</div>
+                    <div class="flex-none hidden w-24 mx-2 text-xs text-left uppercase sm:block lg:w-36 text-gray-default">Source</div>
+                    <div class="flex-none w-16 mx-2 text-xs text-left uppercase text-gray-default">Durée</div>
+                    <div class="flex-none hidden w-20 mx-2 text-xs text-left uppercase sm:block text-gray-default">Taille</div>
+                    <div class="flex-none hidden w-32 mx-2 text-xs text-left uppercase lg:block text-gray-default">Ajouté</div>
+                    <div class="flex-none w-10 text-xs text-center uppercase md:mx-2 text-gray-default"></div>
                 </div>
 
                 <div
@@ -111,7 +111,7 @@
                     v-bind:key="media.id"
                     class="flex flex-row items-center px-2 py-3 mb-2 transition-all duration-200 ease-in-out rounded hover:bg-gray-darker"
                 >
-                    <div class="w-8 mx-2 text-center transition-all duration-200 ease-in-out text-gray-dark hover:text-gray-default" @click="play_media(media)">
+                    <div class="flex-none w-8 text-center transition-all duration-200 ease-in-out md:mx-2 text-gray-dark hover:text-gray-default" @click="play_media(media)">
                         <span v-if="$curr_media_id == media.id">
                             <i class="text-gray-default fas fa-volume-up fa-fw"></i>
                         </span>
@@ -119,7 +119,7 @@
                             <i class="text-xs fas fa-fw fa-play"></i>
                         </span>
                     </div>
-                    <div class="w-64 mx-2 text-left">
+                    <div class="flex-auto mx-2 text-left truncate">
                         {{ media.custom_properties.codec_name }}
                         <div class="text-xs">
                             <span v-if="media.custom_properties.bit_rate">{{ Math.round(media.custom_properties.bit_rate / 1000) }} kbps</span>
@@ -133,7 +133,7 @@
                             </template>
                         </div>
                     </div>
-                    <div class="flex-auto mx-2 text-left text-gray-default">
+                    <div class="flex-none hidden w-24 mx-2 text-left truncate sm:block lg:w-36 text-gray-default">
                         <span v-if="media.custom_properties.source == 'youtube'"><i class="mr-1 opacity-50 fa-fw fab fa-youtube"></i> YouTube</span>
                         <span v-else-if="media.custom_properties.source == 'soundcloud'"><i class="mr-1 opacity-50 fa-fw fab fa-soundcloud"></i> SoundCloud</span>
                         <span v-else-if="media.custom_properties.source == 'deezer'"><i class="mr-1 opacity-50 fa-fw fab fa-deezer"></i> Deezer</span>
@@ -141,16 +141,16 @@
                         <span v-else-if="media.custom_properties.source" class="capitalize">{{ media.custom_properties.source }}</span>
                         <span v-else>N/A</span>
                     </div>
-                    <div class="w-16 mx-2 text-left text-gray-default">
+                    <div class="flex-none w-16 mx-2 text-left text-gray-default">
                         {{ moment.duration(media.custom_properties.duration, 'seconds').format('mm:ss', { trim: false }) }}
                     </div>
-                    <div class="w-20 mx-2 text-left text-gray-default">
+                    <div class="flex-none hidden w-20 mx-2 text-left sm:block text-gray-default">
                         {{ getReadableFileSizeString(media.size) }}
                     </div>
-                    <div class="w-32 mx-2 text-left text-gray-default">
+                    <div class="flex-none hidden w-32 mx-2 text-left lg:block text-gray-default">
                         {{ moment(media.created_at).format('L') }}
                     </div>
-                    <div class="w-10 mx-2 text-center text-gray-dark">
+                    <div class="flex-none w-10 text-center md:mx-2 text-gray-dark">
                         <a v-if="song.is_downloadable" class="transition-all duration-200 ease-in-out hover:text-gray-default" :href="media.url" target="_blank">
                             <i class="text-xs fas fa-arrow-down"></i>
                         </a>
