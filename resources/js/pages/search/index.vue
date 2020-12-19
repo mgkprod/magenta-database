@@ -11,22 +11,22 @@
                         placeholder="On écoute quoi ?"
                     />
 
-                    <i class="ml-4 text-xs transition-all duration-200 ease-in-out fas fa-search text-gray-dark hover:text-gray-default" @click="submit"></i>
+                    <i class="ml-4 text-xs transition-all duration-200 ease-in-out fas fa-search text-gray-light dark:text-gray-dark hover:text-gray-dark dark:hover:text-gray-default" @click="submit"></i>
                 </div>
             </form>
 
             <template v-if="q">
                 <h2 class="mb-4 text-xl font-semibold">Tracks</h2>
                 <songs-table v-if="results.songs && results.songs.length" class="mb-8" :songs="results.songs"></songs-table>
-                <div class="mb-8 text-sm text-gray-dark" v-else>Aucun track trouvé</div>
+                <div class="mb-8 text-sm text-gray-light dark:text-gray-dark" v-else>Aucun track trouvé</div>
 
                 <h2 class="mb-4 text-xl font-semibold">Albums</h2>
                 <albums-grid v-if="results.albums && results.albums.length" class="mb-8" :albums="results.albums"></albums-grid>
-                <div class="mb-8 text-sm text-gray-dark" v-else>Aucun album trouvé</div>
+                <div class="mb-8 text-sm text-gray-light dark:text-gray-dark" v-else>Aucun album trouvé</div>
 
                 <h2 class="mb-4 text-xl font-semibold">Events</h2>
                 <events-grid v-if="results.events && results.events.length" class="mb-8" :events="results.events"></events-grid>
-                <div class="mb-8 text-sm text-gray-dark" v-else>Aucun event trouvé</div>
+                <div class="mb-8 text-sm text-gray-light dark:text-gray-dark" v-else>Aucun event trouvé</div>
             </template>
         </div>
     </div>

@@ -1,8 +1,8 @@
 <template>
     <div>
-        <div class="flex flex-row justify-end w-full px-4 py-4 bg-black border-b-4 border-gray-darker" v-if="$page.props.user">
+        <div class="flex flex-row justify-end w-full px-4 py-4 bg-white border-b-4 dark:bg-black border-gray-lighter dark:border-gray-darker" v-if="$page.props.user">
             <inertia-link
-                class="inline-flex items-center px-4 py-1 mx-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-darker text-gray-default hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500"
+                class="inline-flex items-center px-4 py-1 mx-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default hover:bg-gray-light dark:hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500"
                 :href="route('songs.create')"
             >
                 <i class="mr-2 opacity-50 fas fa-plus"></i> Add
@@ -16,7 +16,7 @@
                         :href="route('songs.index', {filter: undefined})"
                         class="flex-none block mr-2"
                         preserve-scroll
-                        :class="{'border-b-4 border-pink-700 text-gray-lighter': route().current('songs.index', {filter: undefined})}"
+                        :class="{'border-b-4 border-pink-700 text-gray-dark dark:text-gray-lighter': route().current('songs.index', {filter: undefined})}"
                     >
                         Tous
                     </inertia-link>
@@ -24,7 +24,7 @@
                         :href="route('songs.index', {filter: 'published'})"
                         class="flex-none block mx-2"
                         preserve-scroll
-                        :class="{'border-b-4 border-pink-700 text-gray-lighter': route().current('songs.index', {filter: 'published'})}"
+                        :class="{'border-b-4 border-pink-700 text-gray-dark dark:text-gray-lighter': route().current('songs.index', {filter: 'published'})}"
                     >
                         Publiés
                     </inertia-link>
@@ -32,7 +32,7 @@
                         :href="route('songs.index', {filter: 'published-lost'})"
                         class="flex-none block mx-2"
                         preserve-scroll
-                        :class="{'border-b-4 border-pink-700 text-gray-lighter': route().current('songs.index', {filter: 'published-lost'})}"
+                        :class="{'border-b-4 border-pink-700 text-gray-dark dark:text-gray-lighter': route().current('songs.index', {filter: 'published-lost'})}"
                     >
                         Publiés sans album
                     </inertia-link>
@@ -40,7 +40,7 @@
                         :href="route('songs.index', {filter: 'unreleased'})"
                         class="flex-none block mx-2"
                         preserve-scroll
-                        :class="{'border-b-4 border-pink-700 text-gray-lighter': route().current('songs.index', {filter: 'unreleased'})}"
+                        :class="{'border-b-4 border-pink-700 text-gray-dark dark:text-gray-lighter': route().current('songs.index', {filter: 'unreleased'})}"
                     >
                         Inédits
                     </inertia-link>
@@ -48,7 +48,7 @@
                         :href="route('songs.index', {filter: 'really-unreleased'})"
                         class="flex-none block mx-2"
                         preserve-scroll
-                        :class="{'border-b-4 border-pink-700 text-gray-lighter': route().current('songs.index', {filter: 'really-unreleased'})}"
+                        :class="{'border-b-4 border-pink-700 text-gray-dark dark:text-gray-lighter': route().current('songs.index', {filter: 'really-unreleased'})}"
                     >
                         Inédits sans variantes
                     </inertia-link>
@@ -56,7 +56,7 @@
                         :href="route('songs.index', {filter: 'deleted'})"
                         class="flex-none block ml-2"
                         preserve-scroll
-                        :class="{'border-b-4 border-pink-700 text-gray-lighter': route().current('songs.index', {filter: 'deleted'})}"
+                        :class="{'border-b-4 border-pink-700 text-gray-dark dark:text-gray-lighter': route().current('songs.index', {filter: 'deleted'})}"
                     >
                         Supprimés
                     </inertia-link>
@@ -91,13 +91,13 @@
                     v-if="songs.prev_page_url"
                     preserve-scroll
                     :href="songs.prev_page_url"
-                    class="transition duration-200 ease-in-out text-gray-default hover:text-gray-lightest"
+                    class="transition duration-200 ease-in-out text-gray-dark dark:text-gray-default hover:text-gray-darker dark:hover:text-gray-lightest"
                 >
                     <i class="fas fa-angle-left"></i>
                 </inertia-link>
                 <div v-else></div>
 
-                <div class="mx-4 text-xs text-gray-default">
+                <div class="mx-4 text-xs text-gray-dark dark:text-gray-default">
                     {{ songs.current_page }} / {{ songs.last_page }}
                 </div>
 
@@ -105,7 +105,7 @@
                     preserve-scroll
                     v-if="songs.next_page_url"
                     :href="songs.next_page_url"
-                    class="transition duration-200 ease-in-out text-gray-default hover:text-gray-lightest"
+                    class="transition duration-200 ease-in-out text-gray-dark dark:text-gray-default hover:text-gray-darker dark:hover:text-gray-lightest"
                 >
                     <i class="fas fa-angle-right"></i>
                 </inertia-link>

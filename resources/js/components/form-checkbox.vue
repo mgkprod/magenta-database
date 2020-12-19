@@ -3,7 +3,7 @@
         <label class="inline-flex items-center">
             <input
                 type="checkbox"
-                class="w-5 h-5 transition duration-200 ease-in-out rounded appearance-none bg-gray-darker text-gray-default form-checkbox focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500"
+                class="w-5 h-5 transition duration-200 ease-in-out rounded appearance-none bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default form-checkbox focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500"
                 v-bind="$attrs"
                 :checked="value"
                 @change="$emit('input', $event.target.checked)"

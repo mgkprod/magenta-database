@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col w-full min-h-screen mx-auto bg-black">
+    <div class="flex flex-col w-full min-h-screen mx-auto bg-white dark:bg-black">
 
         <main class="flex flex-col flex-auto max-w-full">
             <div class="relative flex items-center justify-center w-full min-h-screen p-4 mx-auto overflow-hidden max-w-10xl lg:p-8">

@@ -9,9 +9,17 @@
         @routes
 
         <link href="{{ mix('/css/preloader.css') }}" rel="stylesheet" />
+
+        <script>
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.querySelector('html').classList.add('dark')
+            } else {
+                document.querySelector('html').classList.remove('dark')
+            }
+        </script>
     </head>
 
-    <body class="h-full min-h-screen font-sans antialiased text-gray-lightest bg-gray-darkest">
+    <body class="h-full min-h-screen font-sans antialiased bg-white text-gray-dark dark:text-gray-lightest dark:bg-gray-darkest">
         <div class="preloader">
             <div class="base">{!! File::get(base_path('resources/public/images/loader.svg')) !!}</div>
             <div class="logo">{!! File::get(base_path('resources/public/images/logo_alt.svg')) !!}</div>

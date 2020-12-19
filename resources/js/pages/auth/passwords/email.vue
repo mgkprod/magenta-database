@@ -1,5 +1,5 @@
 <template>
-    <form class="flex flex-col overflow-hidden bg-white rounded shadow-sm" @submit.prevent="submit">
+    <form class="flex flex-col overflow-hidden bg-black rounded shadow-sm dark:bg-white" @submit.prevent="submit">
         <div class="flex-grow w-full p-8">
             <h1 class="mb-8 text-2xl font-semibold text-center">Reset password</h1>
 
@@ -16,7 +16,7 @@
                     autofocus
                     autocomplete="email" />
 
-            <button class="w-full py-3 text-sm font-semibold text-white transition duration-200 ease-in-out rounded bg-primary-500 active:bg-transparent focus:ring-2 focus:ring-opacity-50 focus:ring-primary-500 hover:bg-primary-600 focus:outline-none focus:shadow-outline">Send password reset link</button>
+            <button class="w-full py-3 text-sm font-semibold text-black transition duration-200 ease-in-out rounded dark:text-white bg-primary-500 active:bg-transparent focus:ring-2 focus:ring-opacity-50 focus:ring-primary-500 hover:bg-primary-600 focus:outline-none focus:shadow-outline">Send password reset link</button>
         </div>
         <div class="w-full px-5 py-4 text-sm text-center bg-gray-50">
             Remembered your password? <inertia-link :href="route('login')" class="transition duration-200 ease-in-out text-primary-500 hover:text-primary-400">Sign in</inertia-link>

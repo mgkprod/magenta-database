@@ -10,10 +10,10 @@ module.exports = {
             "resources/**/*.vue"
         ],
         options: {
-            // defaultExtractor: (content) => content.match(/[\w-/.:]+(?<!:)/g) || [],
-            whitelistPatterns: [/-active$/, /-enter$/, /-leave-to$/, /show$/],
+            safelist: ["dark"],
         },
     },
+    darkMode: 'class',
     theme: {
         extend: {
             fontFamily: {

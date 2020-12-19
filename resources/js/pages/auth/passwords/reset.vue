@@ -1,5 +1,5 @@
 <template>
-    <form class="flex flex-col overflow-hidden bg-white rounded shadow-sm" @submit.prevent="submit">
+    <form class="flex flex-col overflow-hidden bg-black rounded shadow-sm dark:bg-white" @submit.prevent="submit">
         <div class="flex-grow w-full p-8">
             <h1 class="mb-8 text-2xl font-semibold text-center">Reset password</h1>
 
@@ -30,7 +30,7 @@
                     autocomplete="new-password"
                     required />
 
-            <button class="w-full py-3 text-sm font-semibold text-white transition duration-200 ease-in-out rounded bg-primary-500 active:bg-transparent focus:ring-2 focus:ring-opacity-50 focus:ring-primary-500 hover:bg-primary-600 focus:outline-none focus:shadow-outline">Reset password</button>
+            <button class="w-full py-3 text-sm font-semibold text-black transition duration-200 ease-in-out rounded dark:text-white bg-primary-500 active:bg-transparent focus:ring-2 focus:ring-opacity-50 focus:ring-primary-500 hover:bg-primary-600 focus:outline-none focus:shadow-outline">Reset password</button>
         </div>
     </form>
 </template>
