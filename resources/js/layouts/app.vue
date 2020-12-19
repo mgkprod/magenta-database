@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col w-full h-screen">
-        <div class="flex flex-row items-center justify-between w-full px-4 py-4 bg-black border-b-4 border-gray-darker md:hidden">
+        <div class="flex flex-row items-center justify-between w-full px-4 py-4 bg-black border-b-4 border-gray-darker lg:hidden">
             <button ref="toggle_sidebar_btn" class="w-8 h-8 mb-0 bg-gradient-magenta focus:outline-none" @click="show_sidebar = !show_sidebar"></button>
         </div>
 
@@ -13,7 +13,7 @@
                 leave-class="slide-left-leave"
                 leave-active-class="slide-left-leave-active"
             >
-                <div class="absolute top-0 bottom-0 left-0 z-30 flex flex-col flex-none w-56 transition-all duration-200 ease-in-out bg-black shadow-lg md:flex md:static" :class="{ '-left-96': !show_sidebar }" v-on-clickaway="away">
+                <div class="absolute top-0 bottom-0 left-0 z-30 flex flex-col flex-none w-56 transition-all duration-200 ease-in-out bg-black shadow-lg lg:static" :class="{ '-left-96': !show_sidebar }" v-on-clickaway="away">
                     <div class="flex flex-col h-full py-4 overflow-y-auto">
                         <div class="py-4 mb-4">
                             <inertia-link
@@ -73,8 +73,8 @@
                         </inertia-link>
                     </div>
 
-                    <div class="fixed inset-0 flex flex-col w-full transition-all duration-200 ease-in-out md:static" :class="{ 'top-full': !show_player }">
-                        <div class="flex-auto md:hidden bg-gray-darker " v-if="!player.howl"></div>
+                    <div class="fixed inset-0 flex flex-col w-full transition-all duration-200 ease-in-out lg:static" :class="{ 'top-full': !show_player }">
+                        <div class="flex-auto lg:hidden bg-gray-darker " v-if="!player.howl"></div>
                         <transition
                             name="custom-classes-transition"
                             enter-class="slide-top-enter"
@@ -82,123 +82,124 @@
                             leave-class="slide-bottom-leave"
                             leave-active-class="slide-bottom-leave-active"
                         >
-                            <div class="relative flex-auto px-4 py-4 bg-gray-darker " v-if="player.howl">
-                                <div class="relative z-10 flex flex-col items-center justify-center h-full">
-                                    <inertia-link class="block mb-4 w-72 md:mb-auto md:w-full hover:underline" :href="route('songs.show', player.song)" @click="show_player = false">
+                            <div class="relative flex-auto px-4 py-4 bg-gray-darker" v-if="player.howl">
+                                <div class="relative z-10 flex flex-col items-center justify-center h-full lg:flex-col sm:flex-row">
+                                    <inertia-link class="block mb-4 sm:mb-0 w-72 sm:w-48 lg:mb-auto lg:w-full hover:underline" :href="route('songs.show', player.song)" @click="show_player = false">
                                         <vue-load-image class="mb-4 bg-black bg-opacity-50 rounded shadow-xl aspect-w-1 aspect-h-1">
                                             <img slot="image" :src="player.song.image_url" class="object-cover w-full h-full rounded animate__animated animate__fadeIn animate__fastest" />
                                             <div class="flex items-center justify-center" slot="preloader"><i class="fas fa-spin fa-spinner text-gray-default"></i></div>
                                         </vue-load-image>
                                     </inertia-link>
+                                    <div class="flex flex-col items-center justify-center sm:ml-8 lg:ml-0">
+                                        <div class="mb-4 text-center sm:text-left w-72 lg:w-full">
+                                            <inertia-link class="block mb-2 hover:underline lg:mb-0" :href="route('songs.show', player.song)" @click="show_player = false">{{ player.song.display_title }}</inertia-link>
+                                            <span class="text-gray-default">{{ player.song.artist }}</span>
+                                        </div>
 
-                                    <div class="mb-4 text-center md:text-left w-72 md:w-full">
-                                        <inertia-link class="block mb-2 hover:underline md:mb-0" :href="route('songs.show', player.song)" @click="show_player = false">{{ player.song.display_title }}</inertia-link>
-                                        <span class="text-gray-default">{{ player.song.artist }}</span>
-                                    </div>
+                                        <div class="flex flex-row items-center justify-center mb-4 w-72 lg:w-full text-gray-default">
+                                            <div class="mr-2 text-xs">
+                                                <i
+                                                    v-if="player.queue.length"
+                                                    @click="toggle_random()"
+                                                    class="transition duration-200 ease-in-out fa-random fas fa-fw hover:text-gray-lightest"
+                                                    :class="{
+                                                        'text-gray-dark': !player.random,
+                                                        'text-gray-default': player.random,
+                                                    }"
+                                                />
+                                                <i
+                                                    v-else
+                                                    class="fas fa-fw fa-random text-gray-dark"
+                                                />
+                                            </div>
+                                            <div class="mx-2">
+                                                <i
+                                                    v-if="!(player.queue_index <= 0)"
+                                                    @click="backward()"
+                                                    class="transition duration-200 ease-in-out fa-backward fas fa-fw hover:text-gray-lightest"
+                                                />
+                                                <i
+                                                    v-else
+                                                    class="fas fa-fw fa-backward text-gray-dark"
+                                                />
+                                            </div>
+                                            <div class="mx-2">
+                                                <i
+                                                    v-if="player.is_loading"
+                                                    class="fas fa-fw fa-spinner fa-spin "
+                                                />
+                                                <i
+                                                    v-else-if="player.howl"
+                                                    @click="pause()"
+                                                    class="transition duration-200 ease-in-out fas fa-fw hover:text-gray-lightest"
+                                                    :class="{
+                                                        'fa-play': !player.howl.playing(),
+                                                        'fa-pause': player.howl.playing(),
+                                                    }" />
+                                                <i
+                                                    v-else
+                                                    class="fas fa-fw fa-play text-gray-dark"
+                                                />
+                                            </div>
+                                            <div class="mx-2">
+                                                <i
+                                                    v-if="!((player.queue_index >= (player.queue.length - 1))) || this.player.random || this.player.loop != 'disabled'"
+                                                    @click="forward()"
+                                                    class="transition duration-200 ease-in-out fa-forward fas fa-fw hover:text-gray-lightest"
+                                                />
+                                                <i
+                                                    v-else
+                                                    class="fas fa-fw fa-forward text-gray-dark"
+                                                />
+                                            </div>
+                                            <div class="relative ml-2 text-xs">
+                                                <i
+                                                    @click="toggle_loop()"
+                                                    class="transition duration-200 ease-in-out fa-redo fas fa-fw hover:text-gray-lightest"
+                                                    :class="{
+                                                        'text-gray-dark': player.loop == 'disabled',
+                                                        'text-gray-default': player.loop == 'queue' || player.loop == 'self'
+                                                    }"
+                                                />
+                                                <div :class="{ 'hidden': player.loop != 'self' }" class="absolute bottom-0 right-0 leading-none text-pink-500" style="font-size: 0.1rem"><i class="fas fa-circle"></i></div>
+                                            </div>
+                                        </div>
 
-                                    <div class="flex flex-row items-center justify-center mb-4 w-72 md:w-full text-gray-default">
-                                        <div class="mr-2 text-xs">
-                                            <i
-                                                v-if="player.queue.length"
-                                                @click="toggle_random()"
-                                                class="transition duration-200 ease-in-out fa-random fas fa-fw hover:text-gray-lightest"
-                                                :class="{
-                                                    'text-gray-dark': !player.random,
-                                                    'text-gray-default': player.random,
-                                                }"
-                                            />
-                                            <i
-                                                v-else
-                                                class="fas fa-fw fa-random text-gray-dark"
-                                            />
-                                        </div>
-                                        <div class="mx-2">
-                                            <i
-                                                v-if="!(player.queue_index <= 0)"
-                                                @click="backward()"
-                                                class="transition duration-200 ease-in-out fa-backward fas fa-fw hover:text-gray-lightest"
-                                            />
-                                            <i
-                                                v-else
-                                                class="fas fa-fw fa-backward text-gray-dark"
-                                            />
-                                        </div>
-                                        <div class="mx-2">
-                                            <i
-                                                v-if="player.is_loading"
-                                                class="fas fa-fw fa-spinner fa-spin "
-                                            />
-                                            <i
-                                                v-else-if="player.howl"
-                                                @click="pause()"
-                                                class="transition duration-200 ease-in-out fas fa-fw hover:text-gray-lightest"
-                                                :class="{
-                                                    'fa-play': !player.howl.playing(),
-                                                    'fa-pause': player.howl.playing(),
-                                                }" />
-                                            <i
-                                                v-else
-                                                class="fas fa-fw fa-play text-gray-dark"
-                                            />
-                                        </div>
-                                        <div class="mx-2">
-                                            <i
-                                                v-if="!((player.queue_index >= (player.queue.length - 1))) || this.player.random || this.player.loop != 'disabled'"
-                                                @click="forward()"
-                                                class="transition duration-200 ease-in-out fa-forward fas fa-fw hover:text-gray-lightest"
-                                            />
-                                            <i
-                                                v-else
-                                                class="fas fa-fw fa-forward text-gray-dark"
-                                            />
-                                        </div>
-                                        <div class="relative ml-2 text-xs">
-                                            <i
-                                                @click="toggle_loop()"
-                                                class="transition duration-200 ease-in-out fa-redo fas fa-fw hover:text-gray-lightest"
-                                                :class="{
-                                                    'text-gray-dark': player.loop == 'disabled',
-                                                    'text-gray-default': player.loop == 'queue' || player.loop == 'self'
-                                                }"
-                                            />
-                                            <div :class="{ 'hidden': player.loop != 'self' }" class="absolute bottom-0 right-0 leading-none text-pink-500" style="font-size: 0.1rem"><i class="fas fa-circle"></i></div>
-                                        </div>
-                                    </div>
+                                        <input
+                                            class="mb-4 overflow-hidden rounded-lg appearance-none w-72 lg:w-full bg-gray-default focus:outline-none"
+                                            type="range"
+                                            min="0"
+                                            :max="player.seek_max"
+                                            step="0.01"
+                                            v-model="player.seek"
+                                            style="height: 8px"
+                                            @input="set_seek()"
+                                        />
 
-                                    <input
-                                        class="mb-4 overflow-hidden rounded-lg appearance-none w-72 md:w-full bg-gray-default focus:outline-none"
-                                        type="range"
-                                        min="0"
-                                        :max="player.seek_max"
-                                        step="0.01"
-                                        v-model="player.seek"
-                                        style="height: 8px"
-                                        @input="set_seek()"
-                                    />
-
-                                    <div class="flex flex-row items-center justify-between w-72 md:w-full text-gray-default">
-                                        <div class="text-xs">
-                                            {{ moment.duration(player.seek, 'seconds').format('mm:ss', { trim: false }) }}
-                                        </div>
-                                        <div class="text-xs">
-                                            <span v-if="player.seek_max != 0">
-                                                {{ moment.duration(player.seek_max, 'seconds').format('mm:ss', { trim: false }) }}
-                                            </span>
-                                            <span v-else>
-                                                --:--
-                                            </span>
+                                        <div class="flex flex-row items-center justify-between w-72 lg:w-full text-gray-default">
+                                            <div class="text-xs">
+                                                {{ moment.duration(player.seek, 'seconds').format('mm:ss', { trim: false }) }}
+                                            </div>
+                                            <div class="text-xs">
+                                                <span v-if="player.seek_max != 0">
+                                                    {{ moment.duration(player.seek_max, 'seconds').format('mm:ss', { trim: false }) }}
+                                                </span>
+                                                <span v-else>
+                                                    --:--
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <canvas ref="canvas" class="absolute inset-0 top-auto z-0 w-full h-24 border-b-4 border-gray-dark"></canvas>
-                                <button class="absolute bottom-0 right-0 z-10 h-16 px-4 md:hidden focus:outline-none" @click="show_player = false">
+                                <button class="absolute bottom-0 right-0 z-10 h-16 px-4 lg:hidden focus:outline-none" @click="show_player = false">
                                     <i
                                         class="text-xs transition duration-200 ease-in-out fas hover:text-gray-lightest text-gray-default fa-chevron-down"
                                     />
                                 </button>
                             </div>
                         </transition>
-                        <div class="hidden bg-gray-darker md:block">
+                        <div class="hidden bg-gray-darker lg:block">
                             <div class="flex flex-row items-center justify-center px-4 py-4 text-gray-default">
                                 <div class="mr-4 text-left fa-fw">
                                     <i
@@ -212,7 +213,7 @@
                                             'fa-volume-up ': player.volume == 1,
                                         }"/>
                                 </div>
-                                <input class="hidden w-32 overflow-hidden rounded-lg appearance-none md:block bg-gray-dark focus:outline-none" type="range" min="0" max="1" step="0.01" v-model="player.volume" style="height: 8px" />
+                                <input class="hidden w-32 overflow-hidden rounded-lg appearance-none lg:block bg-gray-dark focus:outline-none" type="range" min="0" max="1" step="0.01" v-model="player.volume" style="height: 8px" />
                             </div>
                         </div>
                     </div>
@@ -242,7 +243,7 @@
             leave-class="slide-bottom-leave"
             leave-active-class="slide-bottom-leave-active"
         >
-            <div class="flex flex-row items-center justify-start w-full bg-black border-t-4 border-gray-darker md:hidden" v-if="player.howl" @click="show_player = true">
+            <div class="flex flex-row items-center justify-start w-full bg-black border-t-4 border-gray-darker lg:hidden" v-if="player.howl" @click="show_player = true">
                 <div class="flex-none w-16 h-16" v-if="player.howl">
                     <vue-load-image class="bg-black bg-opacity-50 shadow-xl aspect-w-1 aspect-h-1">
                         <img slot="image" :src="player.song.image_url" class="object-cover w-full h-full animate__animated animate__fadeIn animate__fastest" />
@@ -257,7 +258,7 @@
                         </div>
                     </div>
                 </div>
-                <button class="h-16 px-4 ml-auto md:hidden focus:outline-none" @click="show_player = true">
+                <button class="h-16 px-4 ml-auto lg:hidden focus:outline-none" @click="show_player = true">
                     <i class="text-xs transition duration-200 ease-in-out fas hover:text-gray-lightest text-gray-default fa-chevron-up" />
                 </button>
             </div>
