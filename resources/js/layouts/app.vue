@@ -13,65 +13,65 @@
                 leave-class="slide-left-leave"
                 leave-active-class="slide-left-leave-active"
             >
-                <div class="absolute top-0 bottom-0 left-0 z-30 flex flex-col w-64 transition-all duration-200 ease-in-out bg-black shadow-lg md:flex md:static" :class="{ '-left-96': !show_sidebar }" v-on-clickaway="away">
-                    <div class="my-8">
+                <div class="absolute top-0 bottom-0 left-0 z-30 flex flex-col flex-none w-56 transition-all duration-200 ease-in-out bg-black shadow-lg md:flex md:static" :class="{ '-left-96': !show_sidebar }" v-on-clickaway="away">
+                    <div class="flex flex-col h-full py-4 overflow-y-auto">
+                        <div class="py-4 mb-4">
+                            <inertia-link
+                                :href="route('index')"
+                                class="tracking-tight transition-all duration-200 ease-in-out"
+                                @click="show_sidebar = false"
+                            >
+                                <img src="/images/logo.svg" alt="Logo" class="w-full px-2 hover-contrast">
+                            </inertia-link>
+                        </div>
+
                         <inertia-link
-                            :href="route('index')"
-                            class="tracking-tight transition-all duration-200 ease-in-out"
+                            class="flex items-center px-4 py-3 text-sm font-semibold transition duration-200 ease-in-out border-l-4 border-transparent active:bg-transparent focus:outline-none hover:text-pink-300 hover:bg-pink-900"
+                            :class="{ 'border-pink-700 text-pink-300 bg-pink-900': route().current('songs*') }"
+                            :href="route('songs.index')"
                             @click="show_sidebar = false"
                         >
-                            <img src="/images/logo.svg" alt="Logo" class="w-full px-2 hover-contrast">
+                            <span class="tracking-tighter uppercase font-eurostile-extended">Tracks</span>
+                        </inertia-link>
+
+                        <inertia-link
+                            class="flex items-center px-4 py-3 text-sm font-semibold transition duration-200 ease-in-out border-l-4 border-transparent active:bg-transparent focus:outline-none hover:text-blue-300 hover:bg-blue-900"
+                            :class="{ 'border-blue-700 text-blue-300 bg-blue-900': route().current('albums*') }"
+                            :href="route('albums.index')"
+                            @click="show_sidebar = false"
+                        >
+                            <span class="tracking-tighter uppercase font-eurostile-extended">Albums/EPs</span>
+                        </inertia-link>
+
+                        <inertia-link
+                            class="flex items-center px-4 py-3 text-sm font-semibold transition duration-200 ease-in-out border-l-4 border-transparent active:bg-transparent focus:outline-none hover:text-yellow-300 hover:bg-yellow-900"
+                            :class="{ 'border-yellow-700 text-yellow-300 bg-yellow-900': route().current('events*') }"
+                            :href="route('events.index')"
+                            @click="show_sidebar = false"
+                        >
+                            <span class="tracking-tighter uppercase font-eurostile-extended">Events</span>
+                        </inertia-link>
+
+                        <inertia-link
+                            class="flex items-center px-4 py-3 text-sm font-semibold transition duration-200 ease-in-out border-l-4 border-transparent active:bg-transparent focus:outline-none hover:text-purple-300 hover:bg-purple-900"
+                            :class="{ 'border-purple-700 text-purple-300 bg-purple-900': route().current('search*') }"
+                            :href="route('search.index')"
+                            @click="show_sidebar = false"
+                        >
+                            <span class="tracking-tighter uppercase font-eurostile-extended">Search</span>
+                        </inertia-link>
+
+                        <div class="mt-auto"></div>
+
+                        <inertia-link
+                            class="flex items-center px-4 py-3 text-sm font-semibold transition duration-200 ease-in-out border-l-4 border-transparent active:bg-transparent focus:outline-none hover:text-gray-300 hover:bg-gray-900"
+                            :class="{ 'border-gray-700 text-gray-300 bg-gray-900': route().current('index') }"
+                            :href="route('index')"
+                            @click="show_sidebar = false"
+                        >
+                            <span class="tracking-tighter uppercase font-eurostile-extended">À propos</span>
                         </inertia-link>
                     </div>
-
-                    <inertia-link
-                        class="flex items-center px-4 py-3 text-sm font-semibold transition duration-200 ease-in-out border-l-4 border-transparent active:bg-transparent focus:outline-none hover:text-pink-300 hover:bg-pink-900"
-                        :class="{ 'border-pink-700 text-pink-300 bg-pink-900': route().current('songs*') }"
-                        :href="route('songs.index')"
-                        @click="show_sidebar = false"
-                    >
-                        <span class="tracking-tighter uppercase font-eurostile-extended">Tracks</span>
-                    </inertia-link>
-
-                    <inertia-link
-                        class="flex items-center px-4 py-3 text-sm font-semibold transition duration-200 ease-in-out border-l-4 border-transparent active:bg-transparent focus:outline-none hover:text-blue-300 hover:bg-blue-900"
-                        :class="{ 'border-blue-700 text-blue-300 bg-blue-900': route().current('albums*') }"
-                        :href="route('albums.index')"
-                        @click="show_sidebar = false"
-                    >
-                        <span class="tracking-tighter uppercase font-eurostile-extended">Albums/EPs</span>
-                    </inertia-link>
-
-                    <inertia-link
-                        class="flex items-center px-4 py-3 text-sm font-semibold transition duration-200 ease-in-out border-l-4 border-transparent active:bg-transparent focus:outline-none hover:text-yellow-300 hover:bg-yellow-900"
-                        :class="{ 'border-yellow-700 text-yellow-300 bg-yellow-900': route().current('events*') }"
-                        :href="route('events.index')"
-                        @click="show_sidebar = false"
-                    >
-                        <span class="tracking-tighter uppercase font-eurostile-extended">Events</span>
-                    </inertia-link>
-
-                    <inertia-link
-                        class="flex items-center px-4 py-3 text-sm font-semibold transition duration-200 ease-in-out border-l-4 border-transparent active:bg-transparent focus:outline-none hover:text-purple-300 hover:bg-purple-900"
-                        :class="{ 'border-purple-700 text-purple-300 bg-purple-900': route().current('search*') }"
-                        :href="route('search.index')"
-                        @click="show_sidebar = false"
-                    >
-                        <span class="tracking-tighter uppercase font-eurostile-extended">Search</span>
-                    </inertia-link>
-
-                    <div class="mt-auto"></div>
-
-                    <inertia-link
-                        class="flex items-center px-4 py-3 text-sm font-semibold transition duration-200 ease-in-out border-l-4 border-transparent active:bg-transparent focus:outline-none hover:text-gray-300 hover:bg-gray-900"
-                        :class="{ 'border-gray-700 text-gray-300 bg-gray-900': route().current('index') }"
-                        :href="route('index')"
-                        @click="show_sidebar = false"
-                    >
-                        <span class="tracking-tighter uppercase font-eurostile-extended">À propos</span>
-                    </inertia-link>
-
-                    <div class="mb-8"></div>
 
                     <div class="fixed inset-0 flex flex-col w-full transition-all duration-200 ease-in-out md:static" :class="{ 'top-full': !show_player }">
                         <div class="flex-auto md:hidden bg-gray-darker " v-if="!player.howl"></div>
