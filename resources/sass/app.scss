@@ -37,8 +37,11 @@
 
 @tailwind utilities;
 
-#nprogress .bar, .bg-gradient-magenta {
+#nprogress .bar {
     height: 4px;
+}
+
+#nprogress .bar, .bg-gradient-magenta {
     background: linear-gradient(90deg, #F701F2 0%, #CA2DF4 16.54%, #01F0FE 90.1%) !important;
 }
 
