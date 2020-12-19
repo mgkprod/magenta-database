@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col w-full h-screen">
+    <div class="flex flex-col w-full vh">
         <div class="flex flex-row items-center justify-between w-full px-4 py-4 bg-black border-b-4 border-gray-darker lg:hidden">
             <button ref="toggle_sidebar_btn" class="w-8 h-8 mb-0 bg-gradient-magenta focus:outline-none" @click="show_sidebar = !show_sidebar"></button>
         </div>
