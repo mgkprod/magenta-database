@@ -90,7 +90,7 @@
                                             <div class="flex items-center justify-center" slot="preloader"><i class="fas fa-spin fa-spinner text-gray-default"></i></div>
                                         </vue-load-image>
                                     </inertia-link>
-                                    <div class="flex flex-col items-center justify-center sm:ml-8 lg:ml-0">
+                                    <div class="flex flex-col items-center justify-center w-full sm:w-auto lg:w-full sm:ml-8 lg:ml-0">
                                         <div class="mb-4 text-center sm:text-left w-72 lg:w-full">
                                             <inertia-link class="block mb-2 hover:underline lg:mb-0" :href="route('songs.show', player.song)" @click="show_player = false">{{ player.song.display_title }}</inertia-link>
                                             <span class="text-gray-default">{{ player.song.artist }}</span>
