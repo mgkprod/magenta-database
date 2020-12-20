@@ -19,7 +19,7 @@
         </script>
     </head>
 
-    <body class="h-full min-h-screen font-sans antialiased bg-white text-gray-dark dark:text-gray-lightest dark:bg-gray-darkest">
+    <body class="h-full min-h-screen font-sans antialiased transition-all duration-200 bg-white text-gray-dark dark:text-gray-lightest dark:bg-gray-darkest">
         <div class="preloader">
             <div class="base">{!! File::get(base_path('resources/public/images/loader.svg')) !!}</div>
             <div class="logo">{!! File::get(base_path('resources/public/images/logo_alt.svg')) !!}</div>
