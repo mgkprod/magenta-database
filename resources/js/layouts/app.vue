@@ -378,8 +378,8 @@
                 axios.get('/api/songs/' + payload.song.id + '/medias?best=true')
                     .then((response) => {
                         if (payload.empty_queue) {
-                            this.player.queue = [];
-                            this.player.queue_index = -1;
+                            this.player.queue = [ payload.song ];
+                            this.player.queue_index = 0;
                         }
                         if (payload.context) {
                             this.player.queue = payload.context;
