@@ -7,6 +7,36 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 
+## [0.8.0] - 2020-12-20
+
+### 📱 Responsive !
+
+Le site est désormais entièrement compatible avec les résolutions mobiles ! La sidebar et le player ont été retravaillés pour s'adapter à presque toutes les tailles d'écran, les affichages tableaux/grilles également.
+
+Vu que j'ai implémenté le `MediaSessionAPI` au sein de la dernière version, ça nous offre cette belle notification intégrée au système lors de la lecture :
+
+![Notification MediaSessionAPI Mobile](./.github/mediasession-api-mobile.jpg)
+
+Pour les téléphones qui le supportent, vous pouvez donc minimiser le navigateur et changer directement de track via la notification. Ça fonctionne aussi si vous avez un casque ou des écouteurs avec une télécommande !
+
+Je suis assez fier de cette version mobile, c'est un peu ce qui manquait pour terminer cette v1 !
+
+### 💡 Thème clair
+
+Pour les afficionados des fonds blacs, un thème clair à été ajouté en plus du thème sombre déja présent.
+
+Il ne s'agit pas que d'une simple inversion des couleurs ! Pour rester lisible, cohérent et agréable, l'affichage sur fond blanc doit être nettement plus contrasté; Chaque placement de couleur placée doit donc être réfléchie.
+
+Pour changer de thème c'est sur la page d'accueil, juste en dessous des liens sociaux. Par défaut, le thème séléctionné sera celui du système.
+
+![Thème clair/sombre demo](./.github/light-dark.gif)
+
+### Autres
+
+* Correction d'un bug de sur la fonction loop lorsqu'on jouait qu'une seule track sans contexte (ex: depuis le tableau des fichiers)
+* Uniformisation des marges de séparation de contenu
+* Trucs techniques qui n'intéressent personne
+
 ## [0.7.0] - 2020-12-18
 
 ### Amélioration du lecteur
@@ -29,11 +59,15 @@ Avant disponible uniquement lors de la lecture d'albums ou d'events, la lecture 
 
 #### MediaSessionAPI
 
-Pour une meilleure intégration avec le navigateur et en vue d'une future déclinaison mobile, j'ai adapté le code pour prendre en charge le `MediaSessionAPI`. C'est celui qui génère des notifications comme ça :
+Pour une meilleure intégration avec le navigateur et en vue d'une future déclinaison mobile, j'ai adapté le code pour prendre en charge le `MediaSessionAPI`. C'est celui qui génère des notifications comme ça dans le navigateur :
 
 ![Notification MediaSessionAPI](./.github/mediasession-api.png)
 
 Actuellement, les `play`, `pause`, `previoustrack` et `nexttrack` sont implémentés.
+
+Ça permet aussi une intégration native au système, comme ça :
+
+![Notification MediaSessionAPI Windows](./.github/mediasession-api-windows.png)
 
 ### Autres
 
@@ -74,7 +108,9 @@ J'ai aussi modifié un peu l'affichage des pochettes et le comportement du charg
 
 ## 0.1.0 - 2020-12-14
 
-[unreleased]: https://github.com/mgkprod/magenta-database/compare/0.7.0...HEAD
+[unreleased]: https://github.com/mgkprod/magenta-database/compare/0.8.0...HEAD
+
+[0.8.0]: https://github.com/mgkprod/magenta-database/compare/0.7.0...0.8.0
 
 [0.7.0]: https://github.com/mgkprod/magenta-database/compare/0.6.0...0.7.0
 

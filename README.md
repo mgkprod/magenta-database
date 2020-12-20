@@ -6,15 +6,22 @@
 ![StyleCI](https://github.styleci.io/repos/319115417/shield)
 ![Rocket deployment status](https://img.shields.io/endpoint?style=flat-square&url=https://rocket.mgk.dev/api/projects/01esh9qz070hes9vg3tnxsmbj1/shield)
 
-.
+Spotify-like for MAGENTA songs.
+
+Built with Vue.js, Inertia.js, Tailwind CSS and Laravel 8.
 
 ## Demo
 
-[Interface tour (0.6.0)](./.github/demo-0.6.0.mp4)
+* [Interface tour (0.6.0)](./.github/demo-0.6.0.mp4)
+* [Interface tour (mobile, 0.8.0)](./.github/demo-mobile-0.8.0.mp4)
+
+## Changelog
+
+All notable changes to the project are documented [on GitHub](./CHANGELOG.md).
 
 ## Credits
 
-- [Simon Rubuano](https://github.com/mgkprod)
+* [Simon Rubuano](https://github.com/mgkprod)
 
 ## License
 
