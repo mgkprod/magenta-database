@@ -145,7 +145,7 @@
                         {{ moment.duration(media.custom_properties.duration, 'seconds').format('mm:ss', { trim: false }) }}
                     </div>
                     <div class="flex-none hidden w-20 mx-2 text-left sm:block text-gray-dark dark:text-gray-default">
-                        {{ getReadableFileSizeString(media.size) }}
+                        {{ get_readable_file_size_string(media.size) }}
                     </div>
                     <div class="flex-none hidden w-32 mx-2 text-left lg:block text-gray-dark dark:text-gray-default">
                         {{ moment(media.created_at).format('L') }}
@@ -220,15 +220,15 @@
                     media: media,
                 });
             },
-            getReadableFileSizeString(fileSizeInBytes) {
+            get_readable_file_size_string(file_size_in_bytes) {
                 var i = -1;
-                var byteUnits = [' kB', ' MB', ' GB', ' TB', 'PB', 'EB', 'ZB', 'YB'];
+                var byte_units = [' kB', ' MB', ' GB', ' TB', 'PB', 'EB', 'ZB', 'YB'];
                 do {
-                    fileSizeInBytes = fileSizeInBytes / 1024;
+                    file_size_in_bytes = file_size_in_bytes / 1024;
                     i++;
-                } while (fileSizeInBytes > 1024);
+                } while (file_size_in_bytes > 1024);
 
-                return Math.max(fileSizeInBytes, 0.1).toFixed(1) + byteUnits[i];
+                return Math.max(file_size_in_bytes, 0.1).toFixed(1) + byte_units[i];
             }
         }
     }

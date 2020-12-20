@@ -17,7 +17,7 @@
                 <span v-else>{{ file.name }}</span>
             </div>
             <div class="flex-none w-20 mx-2 text-left text-gray-dark dark:text-gray-default">
-                {{ getReadableFileSizeString(file.size) }}
+                {{ get_readable_file_size_string(file.size) }}
             </div>
             <div class="flex-none hidden w-32 mx-2 text-left md:block text-gray-dark dark:text-gray-default">
                 {{ moment(file.created_at).format('L') }}
@@ -44,15 +44,15 @@
                     this.route('files.destroy', { file })
                 );
             },
-            getReadableFileSizeString(fileSizeInBytes) {
+            get_readable_file_size_string(file_size_in_bytes) {
                 var i = -1;
-                var byteUnits = [' kB', ' MB', ' GB', ' TB', 'PB', 'EB', 'ZB', 'YB'];
+                var byte_units = [' kB', ' MB', ' GB', ' TB', 'PB', 'EB', 'ZB', 'YB'];
                 do {
-                    fileSizeInBytes = fileSizeInBytes / 1024;
+                    file_size_in_bytes = file_size_in_bytes / 1024;
                     i++;
-                } while (fileSizeInBytes > 1024);
+                } while (file_size_in_bytes > 1024);
 
-                return Math.max(fileSizeInBytes, 0.1).toFixed(1) + byteUnits[i];
+                return Math.max(file_size_in_bytes, 0.1).toFixed(1) + byte_units[i];
             }
         }
     }

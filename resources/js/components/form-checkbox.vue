@@ -1,6 +1,6 @@
 <template>
     <div>
-        <label class="inline-flex items-center">
+        <label class="inline-flex items-center mb-6">
             <input
                 type="checkbox"
                 class="w-5 h-5 transition duration-200 ease-in-out rounded appearance-none bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default form-checkbox focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500"
@@ -9,7 +9,7 @@
                 @change="$emit('input', $event.target.checked)"
             />
 
-            <span v-if="label" class="block ml-2 text-sm font-bold text-gray-700" v-text="label"></span>
+            <span v-if="label" class="block ml-2 text-sm font-semibold text-gray-dark dark:text-gray-default" v-text="label"></span>
         </label>
 
         <p v-if="errors.length" class="pl-1 text-xs text-red-500" v-text="errors[0]"></p>

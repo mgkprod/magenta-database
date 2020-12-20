@@ -1,17 +1,21 @@
 <template>
-    <label class="block">
-        <span v-if="label" class="block mb-2 text-sm font-bold text-gray-100" v-text="label"></span>
+    <label class="block mb-6">
+        <span v-if="label" class="block mb-2 text-sm font-semibold text-gray-dark dark:text-gray-default" v-text="label"></span>
 
-        <div class="p-0" :class="{ error: errors.length }">
+        <div :class="{ error: errors.length }">
             <input ref="file" type="file" :accept="accept" class="hidden" @change="change">
-            <div v-if="!value" class="p-2">
-                <button type="button" class="px-4 py-1 text-xs font-medium text-black bg-gray-500 rounded-sm dark:text-white hover:bg-gray-700" @click="browse">
-                Browse
+            <div v-if="!value">
+                <button type="button" class="inline-flex items-center px-4 py-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default hover:bg-gray-light dark:hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500" @click="browse">
+                    <i class="mr-2 opacity-50 fas fa-file"></i> Browse
                 </button>
             </div>
-            <div v-else class="flex items-center justify-between p-2">
-                <div class="flex-1 pr-1">{{ value.name }} <span class="text-xs text-gray-500">({{ filesize(value.size) }})</span></div>
-                <button type="button" class="px-4 py-1 text-xs font-medium text-black bg-gray-500 rounded-sm dark:text-white hover:bg-gray-700" @click="remove">
+            <div v-else class="flex items-center justify-between">
+                <div class="flex-none truncate">
+                    <div class="truncate">
+                        {{ value.name }} ({{ get_readable_file_size_string(value.size) }})
+                    </div>
+                </div>
+                <button type="button" class="inline-flex items-center px-4 py-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default hover:bg-gray-light dark:hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500" @click.stop="remove">
                     Remove
                 </button>
             </div>
@@ -44,9 +48,15 @@
         },
 
         methods: {
-            filesize(size) {
-                var i = Math.floor(Math.log(size) / Math.log(1024))
-                return (size / Math.pow(1024, i) ).toFixed(2) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][i]
+            get_readable_file_size_string(file_size_in_bytes) {
+                var i = -1;
+                var byte_units = [' kB', ' MB', ' GB', ' TB', 'PB', 'EB', 'ZB', 'YB'];
+                do {
+                    file_size_in_bytes = file_size_in_bytes / 1024;
+                    i++;
+                } while (file_size_in_bytes > 1024);
+
+                return Math.max(file_size_in_bytes, 0.1).toFixed(1) + byte_units[i];
             },
             browse() {
                 this.$refs.file.click()
