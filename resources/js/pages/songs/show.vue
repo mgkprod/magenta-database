@@ -166,7 +166,7 @@
                 <files-table class="mb-8" :files="files"></files-table>
             </template>
 
-            <template v-if="variants">
+            <template v-if="variants.length">
                 <h2 class="mb-4 text-xl font-semibold">Variantes</h2>
                 <songs-table class="mb-8" :songs="variants"></songs-table>
             </template>
