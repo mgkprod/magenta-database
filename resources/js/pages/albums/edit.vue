@@ -86,7 +86,7 @@
         mounted() {
             this.form.name = this.album.name
             this.form.artist = this.album.artist
-            this.form.released_at = this.album.released_at
+            this.form.released_at = this.moment(this.album.released_at).format('YYYY-MM-DD');
             this.form.availability = this.album.availability
             this.form.type = this.album.type
             this.form.details = this.album.details

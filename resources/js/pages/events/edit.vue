@@ -59,7 +59,7 @@
 
         mounted() {
             this.form.name = this.event.name
-            this.form.happened_at = this.event.happened_at
+            this.form.happened_at = this.moment(this.event.happened_at).format('YYYY-MM-DD');
             this.form.details = this.event.details
         },
 

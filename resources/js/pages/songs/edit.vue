@@ -107,6 +107,9 @@
 
         mounted() {
             this.form = { ...this.song };
+
+            this.form.released_at = this.moment(this.song.released_at).format('YYYY-MM-DD');
+            this.form.first_time_played_at = this.moment(this.song.first_time_played_at).format('YYYY-MM-DD');
         },
 
         methods: {
