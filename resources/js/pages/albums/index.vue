@@ -10,7 +10,7 @@
         </div>
 
         <div class="p-4 md:p-8">
-            <div v-for="(albums, artist) in grouped_albums" v-bind:key="artist">
+            <div v-for="(albums, artist) in grouped_albums" v-bind:key="artist" class="mb-8">
                 <h2 class="mb-4 text-xl font-semibold">{{ artist }}</h2>
                 <albums-grid class="mb-8" :albums="albums"></albums-grid>
             </div>

@@ -10,7 +10,9 @@
         </div>
 
         <div class="p-4 md:p-8">
-            <events-grid :events="events"></events-grid>
+            <div class="mb-8">
+                <events-grid :events="events" class="mb-8"></events-grid>
+            </div>
         </div>
     </div>
 </template>
