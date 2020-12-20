@@ -306,7 +306,7 @@
         },
 
         mounted(){
-            EventBus.$on('play:media', payload => { this.player.queue = []; this.play(payload) });
+            EventBus.$on('play:media', payload => { this.player.queue = [ payload.song ]; this.player.queue_index = 0; this.play(payload) });
             EventBus.$on('play:event', payload => this.fetch_event(payload));
             EventBus.$on('play:album', payload => this.fetch_album(payload));
             EventBus.$on('play:song', payload => this.fetch_song(payload));
