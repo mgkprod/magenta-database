@@ -21,11 +21,11 @@
                 <div class="mb-8 text-sm text-gray-light dark:text-gray-dark" v-else>Aucun track trouvé</div>
 
                 <h2 class="mb-4 text-xl font-semibold">Albums</h2>
-                <albums-grid v-if="results.albums && results.albums.length" class="mb-8" :albums="results.albums"></albums-grid>
+                <div class="mb-8" v-if="results.albums && results.albums.length"><albums-grid :albums="results.albums"></albums-grid></div>
                 <div class="mb-8 text-sm text-gray-light dark:text-gray-dark" v-else>Aucun album trouvé</div>
 
                 <h2 class="mb-4 text-xl font-semibold">Events</h2>
-                <events-grid v-if="results.events && results.events.length" class="mb-8" :events="results.events"></events-grid>
+                <div class="mb-8" v-if="results.events && results.events.length"><events-grid :events="results.events"></events-grid></div>
                 <div class="mb-8 text-sm text-gray-light dark:text-gray-dark" v-else>Aucun event trouvé</div>
             </template>
         </div>
