@@ -21,7 +21,7 @@
                                 class="tracking-tight transition-all duration-200 ease-in-out"
                                 @click="show_sidebar = false"
                             >
-                                <img src="/images/logo.svg" alt="Logo" class="w-full px-2 hover-contrast">
+                                <img src="/images/logo.svg" alt="Logo" class="w-full hover-contrast">
                             </inertia-link>
                         </div>
 
