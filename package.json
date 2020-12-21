@@ -21,7 +21,7 @@
         "axios": "^0.19",
         "cross-env": "^7.0",
         "howler": "^2.2.1",
-        "laravel-mix": "^5.0.1",
+        "laravel-mix": "^6.0.0",
         "lodash": "^4.17.19",
         "moment": "^2.29.1",
         "moment-duration-format": "^2.3.2",
