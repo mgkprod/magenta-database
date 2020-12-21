@@ -18,7 +18,7 @@
         "animate.css": "^4.1.1",
         "animateplus": "^2.1.1",
         "autoprefixer": "^10.1.0",
-        "axios": "^0.19",
+        "axios": "^0.21",
         "cross-env": "^7.0",
         "howler": "^2.2.1",
         "laravel-mix": "^5.0.1",
