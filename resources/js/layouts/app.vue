@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col w-full vh">
-        <div class="flex flex-row items-center justify-between w-full px-4 py-4 bg-black border-b-4 border-gray-darker lg:hidden">
+        <div class="z-10 flex flex-row items-center justify-between w-full px-4 py-4 bg-black border-b-4 border-gray-darker lg:hidden">
             <button ref="toggle_sidebar_btn" class="w-8 h-8 mb-0 bg-gradient-magenta focus:outline-none" @click="show_sidebar = !show_sidebar"></button>
         </div>
 
@@ -229,7 +229,7 @@
                     leave-class="slide-left-leave"
                     leave-active-class="slide-left-leave-active"
                 >
-                    <div class="w-full min-h-0" v-if="show_page">
+                    <div class="w-full h-full min-h-0" v-if="show_page">
                         <slot></slot>
                     </div>
                 </transition>
@@ -243,7 +243,7 @@
             leave-class="slide-bottom-leave"
             leave-active-class="slide-bottom-leave-active"
         >
-            <div class="flex flex-row items-center justify-start w-full bg-black border-t-4 text-gray-lightest border-gray-darker lg:hidden" v-if="player.howl" @click="show_player = true">
+            <div class="z-10 flex flex-row items-center justify-start w-full bg-black border-t-4 text-gray-lightest border-gray-darker lg:hidden" v-if="player.howl" @click="show_player = true">
                 <div class="flex-none w-16 h-16" v-if="player.howl">
                     <vue-load-image class="bg-black bg-opacity-50 shadow-xl aspect-w-1 aspect-h-1">
                         <img slot="image" :src="player.song.image_url" class="object-cover w-full h-full animate__animated animate__fadeIn animate__fastest" />
