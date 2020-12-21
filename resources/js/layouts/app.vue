@@ -285,7 +285,6 @@
                 show_sidebar: false,
                 show_player: false,
                 player: {
-                    ghost_howl: undefined,
                     howl: undefined,
                     song: undefined,
                     media: undefined,
@@ -316,29 +315,6 @@
             this.show_page = true
             this.$inertia.on('before', (event) => { this.show_page = false })
             this.$inertia.on('success', (event) => { this.show_page = true })
-
-            this.player.ghost_howl = new Howl({
-                src: ['/audios/5-seconds-of-silence.mp3'],
-                preload: true,
-                html5: true,
-                loop: true,
-                onplay: () => {
-                    if ('mediaSession' in navigator) {
-                        navigator.mediaSession.metadata = new MediaMetadata({
-                            title: this.player.song.display_title,
-                            artist: this.player.song.artist,
-                            artwork: [
-                                { src: this.player.song.image_url, sizes: '256x256', type: 'image/png' },
-                            ]
-                        });
-
-                        navigator.mediaSession.setActionHandler('play', this.pause);
-                        navigator.mediaSession.setActionHandler('pause', this.pause);
-                        navigator.mediaSession.setActionHandler('previoustrack', this.backward);
-                        navigator.mediaSession.setActionHandler('nexttrack', this.forward);
-                    }
-                },
-            });
         },
 
         watch: {
@@ -440,26 +416,23 @@
                 this.player.howl = new Howl({
                     src: [this.player.media.url],
                     autoplay: true,
+                    html5: true,
                     volume: this.player.volume,
-                    onplay: () => { this.player.ghost_howl.play() },
-                    onpause: () => { this.player.ghost_howl.pause() },
+                    onplay: () => { },
+                    onpause: () => { },
                     onend: () => { this.forward() },
-                    onstop: () => { this.player.ghost_howl.stop() },
-                    onload: () => { this.player.is_loading = false; this.player.seek = 0; this.player.seek_max = this.player.howl.duration() },
+                    onstop: () => { },
+                    onload: () => { this.update_media_session(); this.player.is_loading = false; this.player.seek = 0; this.player.seek_max = this.player.howl.duration() },
                 });
 
-                if (first_time) {
-                    this.visualizer_init();
-                }
+                this.update_media_session()
+
+                if (first_time) this.visualizer_init()
             },
             pause(){
-                if (this.player.howl.playing()) {
-                    this.player.howl.pause()
-                    this.player.ghost_howl.pause()
-                } else {
-                    this.player.howl.play()
-                    this.player.ghost_howl.play()
-                }
+                this.player.howl.playing()
+                    ? this.player.howl.pause()
+                    : this.player.howl.play()
             },
             mute(){
                 this.player.volume == 0
@@ -480,13 +453,33 @@
             set_seek(){
                 this.player.howl ? this.player.howl.seek(this.player.seek) : ''
             },
+            update_media_session() {
+                if ('mediaSession' in navigator) {
+                    navigator.mediaSession.metadata = new MediaMetadata({
+                        title: this.player.song.display_title,
+                        artist: this.player.song.artist,
+                        artwork: [
+                            { src: this.player.song.image_url, sizes: '256x256', type: 'image/png' },
+                        ]
+                    });
+
+                    navigator.mediaSession.setActionHandler('play', this.pause);
+                    navigator.mediaSession.setActionHandler('pause', this.pause);
+                    navigator.mediaSession.setActionHandler('previoustrack', this.backward);
+                    navigator.mediaSession.setActionHandler('nexttrack', this.forward);
+                }
+            },
             visualizer_init(){
-                this.visualizer.analyser = Howler.ctx.createAnalyser();
-                Howler.masterGain.connect(this.visualizer.analyser);
+                let ctx = new AudioContext();
+                this.visualizer.analyser = ctx.createAnalyser();
+
+                let audio = this.player.howl._sounds[0]._node
+                let source = ctx.createMediaElementSource(audio);
+                source.connect(this.visualizer.analyser);
+                this.visualizer.analyser.connect(ctx.destination);
 
                 this.visualizer.analyser.fftSize = 128;
                 this.visualizer.buffer_length = this.visualizer.analyser.frequencyBinCount;
-
                 this.visualizer.freq_data = new Uint8Array(this.visualizer.buffer_length);
 
                 requestAnimationFrame(this.visualizer_frame);
