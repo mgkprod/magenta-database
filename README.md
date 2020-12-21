@@ -3,7 +3,7 @@
 # MAGENTA DATABASE
 
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/mgkprod/magenta-database?label=version&style=flat-square)
-![StyleCI](https://github.styleci.io/repos/319115417/shield)
+![StyleCI](https://github.styleci.io/repos/321414649/shield)
 ![Rocket deployment status](https://img.shields.io/endpoint?style=flat-square&url=https://rocket.mgk.dev/api/projects/01esh9qz070hes9vg3tnxsmbj1/shield)
 
 Spotify-like for MAGENTA songs.
