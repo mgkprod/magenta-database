@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a120205b2780460d5b6abfa6bdebe4d7",
+    "content-hash": "315de79fe5b647be94a3454f4a3fc3c2",
     "packages": [
         {
             "name": "alchemy/binary-driver",
@@ -6726,16 +6726,16 @@
         },
         {
             "name": "laravel/sail",
-            "version": "v0.0.5",
+            "version": "v0.0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/sail.git",
-                "reference": "d9b0575ece889a35b9741789452c1c7abca5bc2f"
+                "reference": "90bca29b485e3cda56ce911a598f8f8bffa6443f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/sail/zipball/d9b0575ece889a35b9741789452c1c7abca5bc2f",
-                "reference": "d9b0575ece889a35b9741789452c1c7abca5bc2f",
+                "url": "https://api.github.com/repos/laravel/sail/zipball/90bca29b485e3cda56ce911a598f8f8bffa6443f",
+                "reference": "90bca29b485e3cda56ce911a598f8f8bffa6443f",
                 "shasum": ""
             },
             "require": {
@@ -6781,7 +6781,7 @@
                 "issues": "https://github.com/laravel/sail/issues",
                 "source": "https://github.com/laravel/sail"
             },
-            "time": "2020-12-07T20:58:56+00:00"
+            "time": "2020-12-16T14:31:36+00:00"
         },
         {
             "name": "mockery/mockery",
