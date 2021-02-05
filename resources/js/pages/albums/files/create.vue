@@ -40,7 +40,7 @@
                 upload: {
                     reader: undefined,
                     file: undefined,
-                    slice_size: 5000 * 1024,
+                    slice_size: 50000 * 1024,
                     progress: 0,
                 }
             }
