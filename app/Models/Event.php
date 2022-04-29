@@ -2,15 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use League\ColorExtractor\Color;
-use League\ColorExtractor\ColorExtractor;
-use League\ColorExtractor\Palette;
 use Rorecek\Ulid\HasUlid;
+use ColorThief\ColorThief;
 use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
+use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Event extends Model implements HasMedia, Searchable
 {
@@ -50,10 +48,7 @@ class Event extends Model implements HasMedia, Searchable
             return $image->getCustomProperty('dominant_color');
         }
 
-        $palette = Palette::fromFilename($image->getPath());
-        $extractor = new ColorExtractor($palette);
-        $dominant = Color::fromIntToHex($extractor->extract()[0]);
-
+        $dominant = ColorThief::getColor($image->getPath(), 10, null, 'hex');
         $image->setCustomProperty('dominant_color', $dominant);
         $image->save();
 

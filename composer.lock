@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a055ae7c4391527b95e5fdb3021adf41",
+    "content-hash": "997a6e8764afb1cfa5747643925ad31b",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1269,6 +1269,66 @@
             "time": "2021-12-16T16:49:26+00:00"
         },
         {
+            "name": "ksubileau/color-thief-php",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ksubileau/color-thief-php.git",
+                "reference": "f905264d26c468f41989bb269546de6076aa7961"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ksubileau/color-thief-php/zipball/f905264d26c468f41989bb269546de6076aa7961",
+                "reference": "f905264d26c468f41989bb269546de6076aa7961",
+                "shasum": ""
+            },
+            "require": {
+                "ext-fileinfo": "*",
+                "php": "^7.2|^8.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.4",
+                "phpstan/phpstan": "^1.2.0",
+                "phpstan/phpstan-phpunit": "^1.0.0",
+                "phpunit/phpunit": "^8.5"
+            },
+            "suggest": {
+                "ext-gd": "to use the GD image adapter.",
+                "ext-gmagick": "to use the Gmagick image adapter.",
+                "ext-imagick": "to use the Imagick image adapter."
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ColorThief\\": "src/ColorThief"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kevin Subileau",
+                    "homepage": "http://www.kevinsubileau.fr"
+                }
+            ],
+            "description": "Grabs the dominant color or a representative color palette from an image.",
+            "homepage": "http://www.kevinsubileau.fr/projets/color-thief-php",
+            "keywords": [
+                "color",
+                "dominant",
+                "palette",
+                "php",
+                "thief"
+            ],
+            "support": {
+                "issues": "https://github.com/ksubileau/color-thief-php/issues",
+                "source": "https://github.com/ksubileau/color-thief-php/tree/v2.0.0"
+            },
+            "time": "2022-03-12T20:27:56+00:00"
+        },
+        {
             "name": "laravel/framework",
             "version": "v8.83.10",
             "source": {
@@ -1628,64 +1688,6 @@
                 "source": "https://github.com/laravel/ui/tree/v3.4.5"
             },
             "time": "2022-02-21T14:59:16+00:00"
-        },
-        {
-            "name": "league/color-extractor",
-            "version": "0.3.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/thephpleague/color-extractor.git",
-                "reference": "837086ec60f50c84c611c613963e4ad2e2aec806"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/color-extractor/zipball/837086ec60f50c84c611c613963e4ad2e2aec806",
-                "reference": "837086ec60f50c84c611c613963e4ad2e2aec806",
-                "shasum": ""
-            },
-            "require": {
-                "ext-gd": "*",
-                "php": ">=5.4.0"
-            },
-            "replace": {
-                "matthecat/colorextractor": "*"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "~2",
-                "phpunit/phpunit": "~5"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Mathieu Lechat",
-                    "email": "math.lechat@gmail.com",
-                    "homepage": "http://matthecat.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Extract colors from an image as a human would do.",
-            "homepage": "https://github.com/thephpleague/color-extractor",
-            "keywords": [
-                "color",
-                "extract",
-                "human",
-                "image",
-                "palette"
-            ],
-            "support": {
-                "issues": "https://github.com/thephpleague/color-extractor/issues",
-                "source": "https://github.com/thephpleague/color-extractor/tree/master"
-            },
-            "time": "2016-12-15T09:30:02+00:00"
         },
         {
             "name": "league/commonmark",

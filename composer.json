@@ -17,7 +17,7 @@
         "laravel/framework": "^8.12",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^1.0|^2.0|^3.0",
-        "league/color-extractor": "^0.3.2",
+        "ksubileau/color-thief-php": "^2.0",
         "molayli/laravel-cloudflare-real-ip": "^0.1.0",
         "php-ffmpeg/php-ffmpeg": "^1.0.1",
         "rorecek/laravel-ulid": "^2.0",
