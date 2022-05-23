@@ -87,7 +87,7 @@
             class="fixed inset-0 flex flex-col w-full transition-all duration-200 ease-in-out lg:static"
             :class="{ 'top-full': !show_player }"
           >
-            <div class="flex-auto lg:hidden bg-gray-darker " v-if="!player.howl"></div>
+            <div class="flex-auto lg:hidden bg-gray-darker" v-if="!player.howl"></div>
             <transition
               name="custom-classes-transition"
               enter-class="slide-top-enter"
@@ -102,7 +102,7 @@
                     :href="route('songs.show', player.song)"
                     @click="show_player = false"
                   >
-                    <vue-load-image class="mb-4 bg-black bg-opacity-50 rounded shadow-xl aspect-w-1 aspect-h-1">
+                    <!-- <vue-load-image class="mb-4 bg-black bg-opacity-50 rounded shadow-xl aspect-w-1 aspect-h-1">
                       <img
                         slot="image"
                         :src="player.song.image_url"
@@ -111,7 +111,7 @@
                       <div class="flex items-center justify-center" slot="preloader">
                         <i class="fas fa-spin fa-spinner text-gray-default"></i>
                       </div>
-                    </vue-load-image>
+                    </vue-load-image> -->
                   </inertia-link>
                   <div class="flex flex-col items-center justify-center w-full sm:w-auto lg:w-full sm:ml-8 lg:ml-0">
                     <div class="mb-4 text-center sm:text-left w-72 lg:w-full">
@@ -146,7 +146,7 @@
                         <i v-else class="fas fa-fw fa-backward text-gray-dark" />
                       </div>
                       <div class="mx-2">
-                        <i v-if="player.is_loading" class="fas fa-fw fa-spinner fa-spin " />
+                        <i v-if="player.is_loading" class="fas fa-fw fa-spinner fa-spin" />
                         <i
                           v-else-if="player.howl"
                           @click="pause()"
@@ -162,8 +162,8 @@
                         <i
                           v-if="
                             !(player.queue_index >= player.queue.length - 1) ||
-                              this.player.random ||
-                              this.player.loop != 'disabled'
+                            this.player.random ||
+                            this.player.loop != 'disabled'
                           "
                           @click="forward()"
                           class="transition duration-200 ease-in-out fa-forward fas fa-fw hover:text-gray-lightest"
@@ -208,9 +208,7 @@
                         <span v-if="player.seek_max != 0">
                           {{ moment.duration(player.seek_max, 'seconds').format('mm:ss', { trim: false }) }}
                         </span>
-                        <span v-else>
-                          --:--
-                        </span>
+                        <span v-else> --:-- </span>
                       </div>
                     </div>
                   </div>
@@ -268,7 +266,7 @@
           leave-class="slide-left-leave"
           leave-active-class="slide-left-leave-active"
         >
-          <div class="w-full h-full min-h-0" v-if="show_page">
+          <div class="w-full h-full min-h-0" v-show="show_page">
             <slot></slot>
           </div>
         </transition>
@@ -288,7 +286,7 @@
         @click="show_player = true"
       >
         <div class="flex-none w-16 h-16" v-if="player.howl">
-          <vue-load-image class="bg-black bg-opacity-50 shadow-xl aspect-w-1 aspect-h-1">
+          <!-- <vue-load-image class="bg-black bg-opacity-50 shadow-xl aspect-w-1 aspect-h-1">
             <img
               slot="image"
               :src="player.song.image_url"
@@ -297,7 +295,7 @@
             <div class="flex items-center justify-center" slot="preloader">
               <i class="text-xs fas fa-spin fa-spinner text-gray-default"></i>
             </div>
-          </vue-load-image>
+          </vue-load-image> -->
         </div>
         <div class="flex-auto truncate">
           <div class="flex flex-col items-center h-full px-4" v-if="player.howl">
@@ -320,12 +318,12 @@
 <script>
 import { EventBus } from '../event-bus.js';
 import { Howl, Howler } from 'howler';
-import VueLoadImage from 'vue-load-image';
+// import VueLoadImage from 'vue-load-image';
 import { mixin as clickaway } from 'vue-clickaway';
 
 export default {
   components: {
-    VueLoadImage,
+    // VueLoadImage,
   },
 
   mixins: [clickaway],
@@ -379,7 +377,7 @@ export default {
   },
 
   watch: {
-    'player.volume': function(volume, old_volume) {
+    'player.volume': function (volume, old_volume) {
       if (this.player.howl && old_volume == 0 && volume > 0) {
         this.player.howl.play();
       } else if (this.player.howl && volume == 0 && old_volume > 0) {

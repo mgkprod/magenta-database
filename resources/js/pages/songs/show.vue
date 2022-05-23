@@ -51,7 +51,7 @@
       </div>
 
       <div class="flex-none w-64 mb-8 sm:w-48 lg:w-64 sm:mb-0 sm:mr-8">
-        <vue-load-image class="shadow-xl aspect-w-1 aspect-h-1">
+        <!-- <vue-load-image class="shadow-xl aspect-w-1 aspect-h-1">
           <img
             slot="image"
             :src="song.image_url"
@@ -64,7 +64,7 @@
           >
             <i class="text-black dark:text-white fas fa-spin fa-spinner"></i>
           </div>
-        </vue-load-image>
+        </vue-load-image> -->
       </div>
 
       <div>
@@ -255,13 +255,13 @@
 
 <script>
 import { EventBus } from '../../event-bus.js';
-import VueLoadImage from 'vue-load-image';
+// import VueLoadImage from 'vue-load-image';
 
 export default {
   layout: require('../../layouts/app').default,
 
   components: {
-    VueLoadImage,
+    // VueLoadImage,
   },
 
   props: ['song', 'medias', 'files', 'variants'],

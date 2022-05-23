@@ -11,22 +11,17 @@ const mix = require('laravel-mix');
  |
  */
 
-mix
-    .js('resources/js/preloader.js', 'public/js')
-    .sass('resources/sass/preloader.scss', 'public/css');
+mix.js('resources/js/preloader.js', 'public/js').sass('resources/sass/preloader.scss', 'public/css');
 
 mix
-    .js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css')
-    .options({
-        processCssUrls: false,
-        postCss: [
-            require('tailwindcss')()
-        ],
-    })
+  .js('resources/js/app.js', 'public/js')
+  .vue({ version: 2, options: { optimizeSSR: true } })
+  .sass('resources/sass/app.scss', 'public/css')
+  .options({
+    processCssUrls: false,
+    postCss: [require('tailwindcss')()],
+  });
 
-mix
-    .version()
-    .disableSuccessNotifications();
+mix.version().disableSuccessNotifications();
 
 mix.copyDirectory('resources/public/', 'public/');

@@ -37,7 +37,7 @@
       </div>
 
       <div class="flex-none mb-8 w-72 sm:w-48 lg:w-72 sm:mb-0 sm:mr-8">
-        <vue-load-image class="shadow-xl aspect-w-16 aspect-h-9">
+        <!-- <vue-load-image class="shadow-xl aspect-w-16 aspect-h-9">
           <img
             slot="image"
             :src="event.image_url"
@@ -50,7 +50,7 @@
           >
             <i class="text-black dark:text-white fas fa-spin fa-spinner"></i>
           </div>
-        </vue-load-image>
+        </vue-load-image> -->
       </div>
 
       <div>
@@ -91,14 +91,14 @@
 </template>
 
 <script>
-import VueLoadImage from 'vue-load-image';
+// import VueLoadImage from 'vue-load-image';
 import { EventBus } from '../../event-bus.js';
 
 export default {
   layout: require('../../layouts/app').default,
 
   components: {
-    VueLoadImage,
+    // VueLoadImage,
   },
 
   props: ['event', 'files'],

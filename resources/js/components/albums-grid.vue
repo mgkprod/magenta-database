@@ -9,7 +9,7 @@
       <div
         class="flex flex-col transition duration-200 ease-in-out transform rounded shadow-md cursor-pointer justify-left bg-gray-lightest dark:bg-gray-darker hover:bg-gray-lighter dark:hover:bg-gray-dark hover:shadow-lg hover:scale-105"
       >
-        <vue-load-image class="rounded-t aspect-w-1 aspect-h-1">
+        <!-- <vue-load-image class="rounded-t aspect-w-1 aspect-h-1">
           <img
             slot="image"
             :src="album.image_url"
@@ -22,7 +22,7 @@
           >
             <i class="text-black dark:text-white fas fa-spin fa-spinner"></i>
           </div>
-        </vue-load-image>
+        </vue-load-image> -->
 
         <div class="px-4 py-3">
           <div class="break-all truncate">{{ album.name }}</div>
@@ -38,13 +38,13 @@
 </template>
 
 <script>
-import VueLoadImage from 'vue-load-image';
+// import VueLoadImage from 'vue-load-image';
 
 export default {
   props: ['albums'],
 
   components: {
-    VueLoadImage,
+    // VueLoadImage,
   },
 };
 </script>

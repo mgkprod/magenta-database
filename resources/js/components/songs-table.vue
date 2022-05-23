@@ -38,7 +38,7 @@
         </span>
       </div>
       <div class="flex-none w-10 mx-2">
-        <vue-load-image class="rounded-t aspect-w-1 aspect-h-1">
+        <!-- <vue-load-image class="rounded-t aspect-w-1 aspect-h-1">
           <img
             slot="image"
             :src="song.image_url"
@@ -51,7 +51,7 @@
           >
             <i class="text-xs text-black dark:text-white fas fa-spin fa-spinner"></i>
           </div>
-        </vue-load-image>
+        </vue-load-image> -->
       </div>
       <div class="flex-auto mx-2 truncate">
         <div class="truncate" :class="{ 'text-pink-500': $curr_song_id == song.id }">{{ song.title }}</div>
@@ -84,9 +84,7 @@
         <span v-else-if="song.released_at">
           {{ moment(song.released_at).format('YYYY') }}
         </span>
-        <span v-else>
-          N/A
-        </span>
+        <span v-else> N/A </span>
       </div>
     </div>
   </div>
@@ -94,13 +92,13 @@
 
 <script>
 import { EventBus } from '../event-bus.js';
-import VueLoadImage from 'vue-load-image';
+// import VueLoadImage from 'vue-load-image';
 
 export default {
   props: ['songs'],
 
   components: {
-    VueLoadImage,
+    // VueLoadImage,
   },
 
   methods: {

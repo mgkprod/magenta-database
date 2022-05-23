@@ -1,8 +1,12 @@
-import './bootstrap';
+//import './bootstrap';
 import Vue from 'vue';
-import { createInertiaApp, Head, Link } from '@inertiajs/inertia-vue';
-import { InertiaProgress } from '@inertiajs/progress/src';
+import { createRenderer } from 'vue-server-renderer';
+import { createInertiaApp, Link, Head } from '@inertiajs/inertia-vue';
+import createServer from '@inertiajs/server';
 import VueSimpleMarkdown from 'vue-simple-markdown';
+import route from 'ziggy';
+import { ZiggyVue } from 'ziggy';
+import { Ziggy } from './ziggy';
 
 import moment from 'moment';
 import momentDurationFormatSetup from 'moment-duration-format';
@@ -12,21 +16,13 @@ Vue.config.productionTip = false;
 
 moment.locale('fr');
 
-Vue.prototype._ = window._;
+// Vue.prototype._ = window._;
 Vue.prototype.moment = moment;
 
-Vue.mixin({
-  methods: {
-    route: window.route,
-  },
-});
-
+// Vue.use(ZiggyVue);
 Vue.use(VueSimpleMarkdown);
-
 Vue.component('inertia-head', Head);
 Vue.component('inertia-link', Link);
-
-InertiaProgress.init();
 
 let global_data = new Vue({
   data: {
@@ -79,21 +75,40 @@ files.keys().map((key) => Vue.component(key.split('/').pop().split('.')[0], file
 //     }),
 // }).$mount(el);
 
-createInertiaApp({
-  resolve: (name) => require(`./pages/${name}`),
-  setup({ el, App, props, plugin }) {
-    Vue.use(plugin);
+createServer((page) =>
+  createInertiaApp({
+    page,
+    render: createRenderer().renderToString,
+    resolve: (name) => require(`./pages/${name}`),
+    setup({ app, props, plugin }) {
+      //   const Ziggy = {
+      //     // Pull the Ziggy config off of the props.
+      //     ...props.initialPage.props.ziggy,
+      //     // Build the location, since there is
+      //     // no window.location in Node.
+      //     location: new URL(props.initialPage.props.ziggy.url),
+      //   };
 
-    new Vue({
-      render: (h) => h(App, props),
-    }).$mount(el);
-  },
-});
+      Vue.use(plugin);
 
-var vh = function vh() {
-  var vh = window.innerHeight * 0.01;
-  document.documentElement.style.setProperty('--vh', ''.concat(vh, 'px'));
-};
+      //   Vue.mixin({
+      //     methods: {
+      //       route: (name, params, absolute, config = Ziggy) => route(name, params, absolute, config),
+      //     },
+      //   });
+      Vue.use(ZiggyVue, Ziggy);
 
-window.addEventListener('resize', vh);
-vh();
+      return new Vue({
+        render: (h) => h(app, props),
+      });
+    },
+  }),
+);
+
+// var vh = function vh() {
+//   var vh = window.innerHeight * 0.01;
+//   document.documentElement.style.setProperty('--vh', ''.concat(vh, 'px'));
+// };
+
+// window.addEventListener('resize', vh);
+// vh();

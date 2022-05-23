@@ -40,7 +40,7 @@ export default {
   inheritAttrs: false,
 
   props: {
-    value: File,
+    // value: File,
     label: String,
     accept: String,
     errors: {
