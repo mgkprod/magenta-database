@@ -55,7 +55,7 @@ export default {
           return;
         }
 
-        axios.post(route('files.store.chunk'), { handle: this.handle, file_data: e.target.result }).then((response) => {
+        this.axios.post(route('files.store.chunk'), { handle: this.handle, file_data: e.target.result }).then((response) => {
           let size_done = start + this.upload.slice_size;
           this.upload.progress = Math.floor((size_done / this.upload.file.size) * 100);
 

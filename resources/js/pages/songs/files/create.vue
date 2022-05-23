@@ -56,7 +56,7 @@ export default {
           return;
         }
 
-        axios
+        this.axios
           .post(route('files.store.chunk'), {
             handle: this.handle,
             file_data: e.target.result,

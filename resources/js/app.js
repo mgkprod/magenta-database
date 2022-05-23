@@ -5,8 +5,9 @@ import VueSimpleMarkdown from 'vue-simple-markdown';
 import { ZiggyVue } from 'ziggy';
 import moment from 'moment';
 import momentDurationFormatSetup from 'moment-duration-format';
+import axios from 'axios';
+
 const _ = require('lodash');
-const axios = require('axios');
 
 momentDurationFormatSetup(moment);
 moment.locale('fr');

@@ -264,21 +264,21 @@ export default {
       if (e.target != this.$refs.toggle_sidebar_btn) this.show_sidebar = false;
     },
     fetch_event(payload) {
-      axios.get('/api/events/' + payload.event.id + '/songs').then((response) => {
+      this.axios.get('/api/events/' + payload.event.id + '/songs').then((response) => {
         this.player.queue = response.data.songs;
         this.player.queue_index = -1;
         this.forward();
       });
     },
     fetch_album(payload) {
-      axios.get('/api/albums/' + payload.album.id + '/songs').then((response) => {
+      this.axios.get('/api/albums/' + payload.album.id + '/songs').then((response) => {
         this.player.queue = response.data.songs;
         this.player.queue_index = -1;
         this.forward();
       });
     },
     fetch_song(payload) {
-      axios.get('/api/songs/' + payload.song.id + '/medias?best=true').then((response) => {
+      this.axios.get('/api/songs/' + payload.song.id + '/medias?best=true').then((response) => {
         if (payload.empty_queue) {
           this.player.queue = [payload.song];
           this.player.queue_index = 0;
