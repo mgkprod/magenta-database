@@ -4,32 +4,13 @@
       <div class="flex-none w-8 text-xs text-center uppercase md:mx-2 text-gray-dark dark:text-gray-default"></div>
       <div class="flex-none w-10 mx-2 text-xs text-center uppercase text-gray-dark dark:text-gray-default"></div>
       <div class="flex-auto mx-2 text-xs text-left uppercase text-gray-dark dark:text-gray-default">Titre</div>
-      <div
-        class="flex-none hidden w-32 mx-2 text-xs text-left uppercase lg:block text-gray-dark dark:text-gray-default"
-      >
-        Version
-      </div>
-      <div
-        class="flex-none hidden w-32 mx-2 text-xs text-left uppercase sm:block text-gray-dark dark:text-gray-default"
-      >
-        Disponibilité
-      </div>
-      <div
-        class="flex-none hidden w-32 mx-2 text-xs text-left uppercase md:block text-gray-dark dark:text-gray-default"
-      >
-        Première diff.
-      </div>
+      <div class="flex-none hidden w-32 mx-2 text-xs text-left uppercase lg:block text-gray-dark dark:text-gray-default">Version</div>
+      <div class="flex-none hidden w-32 mx-2 text-xs text-left uppercase sm:block text-gray-dark dark:text-gray-default">Disponibilité</div>
+      <div class="flex-none hidden w-32 mx-2 text-xs text-left uppercase md:block text-gray-dark dark:text-gray-default">Première diff.</div>
     </div>
-    <div
-      v-for="song in songs"
-      v-bind:key="song.id"
-      class="flex flex-row items-center py-3 mb-2 transition-all duration-200 ease-in-out rounded cursor-pointer sm:px-2 hover:bg-gray-lightest dark:hover:bg-gray-darker"
-      @click="$inertia.get(route('songs.show', song))"
-    >
-      <div
-        class="flex-none w-8 text-center transition-all duration-200 ease-in-out md:mx-2 text-gray-light dark:text-gray-dark hover:text-gray-dark dark:hover:text-gray-default"
-        @click.stop="play_song(song)"
-      >
+
+    <div v-for="song in songs" v-bind:key="song.id" class="flex flex-row items-center py-3 mb-2 transition-all duration-200 ease-in-out rounded cursor-pointer sm:px-2 hover:bg-gray-lightest dark:hover:bg-gray-darker" @click="$inertia.get(route('songs.show', song))">
+      <div class="flex-none w-8 text-center transition-all duration-200 ease-in-out md:mx-2 text-gray-light dark:text-gray-dark hover:text-gray-dark dark:hover:text-gray-default" @click.stop="play_song(song)">
         <span v-if="$curr_song_id == song.id">
           <i class="text-gray-dark dark:text-gray-default fas fa-volume-up fa-fw"></i>
         </span>
@@ -39,16 +20,8 @@
       </div>
       <div class="flex-none w-10 mx-2">
         <vue-load-image class="rounded-t aspect-w-1 aspect-h-1">
-          <img
-            slot="image"
-            :src="song.image_url"
-            class="object-cover w-full h-full shadow-xl animate__animated animate__fadeIn animate__fastest"
-          />
-          <div
-            class="flex items-center justify-center opacity-50"
-            :style="{ 'background-color': song.image_dominant_color }"
-            slot="preloader"
-          >
+          <img slot="image" :src="song.image_url" class="object-cover w-full h-full shadow-xl animate__animated animate__fadeIn animate__fastest" />
+          <div class="flex items-center justify-center opacity-50" :style="{ 'background-color': song.image_dominant_color }" slot="preloader">
             <i class="text-xs text-black dark:text-white fas fa-spin fa-spinner"></i>
           </div>
         </vue-load-image>
@@ -57,9 +30,7 @@
         <div class="truncate" :class="{ 'text-pink-500': $curr_song_id == song.id }">{{ song.title }}</div>
         <div class="text-sm truncate text-gray-dark dark:text-gray-default">
           {{ song.artist }}
-          <span v-if="song.version_name"
-            ><span class="text-gray-light dark:text-gray-dark">&bull;</span> {{ song.version_name }}</span
-          >
+          <span v-if="song.version_name"><span class="text-gray-light dark:text-gray-dark">&bull;</span> {{ song.version_name }}</span>
         </div>
       </div>
       <div class="flex-none hidden w-32 mx-2 text-left lg:block text-gray-dark dark:text-gray-default">
@@ -84,9 +55,7 @@
         <span v-else-if="song.released_at">
           {{ moment(song.released_at).format('YYYY') }}
         </span>
-        <span v-else>
-          N/A
-        </span>
+        <span v-else> N/A </span>
       </div>
     </div>
   </div>
@@ -94,14 +63,9 @@
 
 <script>
 import { EventBus } from '../event-bus.js';
-import VueLoadImage from 'vue-load-image';
 
 export default {
   props: ['songs'],
-
-  components: {
-    VueLoadImage,
-  },
 
   methods: {
     play_song(song) {

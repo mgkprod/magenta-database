@@ -1,53 +1,27 @@
 <template>
   <div>
-    <div
-      class="flex flex-row justify-end w-full px-4 py-4 bg-white border-b-4 dark:bg-black border-gray-lighter dark:border-gray-darker"
-      v-if="$page.props.user"
-    >
-      <inertia-link
-        class="inline-flex items-center px-4 py-1 mx-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default hover:bg-gray-light dark:hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500"
-        :href="route('albums.files.create', album)"
-      >
-        <i class="mr-2 opacity-50 fas fa-folder-open"></i> Add file
-      </inertia-link>
+    <inertia-head>
+      <title>{{ $page.props.album.name }}</title>
+      <!-- <meta head-key="description" name="description" content="" /> -->
+      <meta head-key="og:image" property="og:image" :content="$page.props.album.image_url" />
+      <meta head-key="twitter:image" name="twitter:image" :content="$page.props.album.image_url" />
+    </inertia-head>
 
-      <inertia-link
-        class="inline-flex items-center px-4 py-1 mx-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default hover:bg-gray-light dark:hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500"
-        :href="route('albums.edit', album)"
-      >
-        <i class="mr-2 opacity-50 fas fa-edit"></i> Edit
-      </inertia-link>
-
-      <button
-        class="inline-flex items-center px-4 py-1 mx-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default hover:bg-gray-light dark:hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500"
-        @click="destroy()"
-      >
-        <i class="mr-2 opacity-50 fas fa-trash"></i> Delete
-      </button>
+    <div class="flex flex-row justify-end w-full px-4 py-4 bg-white border-b-4 dark:bg-black border-gray-lighter dark:border-gray-darker" v-if="$page.props.user">
+      <inertia-link class="inline-flex items-center px-4 py-1 mx-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default hover:bg-gray-light dark:hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500" :href="route('albums.files.create', album)"> <i class="mr-2 opacity-50 fas fa-folder-open"></i> Add file </inertia-link>
+      <inertia-link class="inline-flex items-center px-4 py-1 mx-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default hover:bg-gray-light dark:hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500" :href="route('albums.edit', album)"> <i class="mr-2 opacity-50 fas fa-edit"></i> Edit </inertia-link>
+      <button class="inline-flex items-center px-4 py-1 mx-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default hover:bg-gray-light dark:hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500" @click="destroy()"><i class="mr-2 opacity-50 fas fa-trash"></i> Delete</button>
     </div>
 
-    <div
-      class="relative flex flex-col items-start justify-start p-8 border-b-4 sm:flex-row border-gray-lighter dark:border-gray-darker"
-    >
+    <div class="relative flex flex-col items-start justify-start p-8 border-b-4 sm:flex-row border-gray-lighter dark:border-gray-darker">
       <div class="bg-cover-container">
-        <div
-          class="bg-cover bg-gradient-to-br from-white to-white dark:from-black dark:to-black"
-          :style="{ '--tw-gradient-from': album.image_dominant_color }"
-        ></div>
+        <div class="bg-cover bg-gradient-to-br from-white to-white dark:from-black dark:to-black" :style="{ '--tw-gradient-from': album.image_dominant_color }"></div>
       </div>
 
       <div class="flex-none w-64 mb-8 sm:w-48 lg:w-64 sm:mb-0 sm:mr-8">
         <vue-load-image class="shadow-xl aspect-w-1 aspect-h-1">
-          <img
-            slot="image"
-            :src="album.image_url"
-            class="object-cover w-full h-full animate__animated animate__fadeIn animate__fastest"
-          />
-          <div
-            class="flex items-center justify-center opacity-50"
-            :style="{ 'background-color': album.image_dominant_color }"
-            slot="preloader"
-          >
+          <img slot="image" :src="album.image_url" class="object-cover w-full h-full animate__animated animate__fadeIn animate__fastest" />
+          <div class="flex items-center justify-center opacity-50" :style="{ 'background-color': album.image_dominant_color }" slot="preloader">
             <i class="text-black dark:text-white fas fa-spin fa-spinner"></i>
           </div>
         </vue-load-image>
@@ -77,10 +51,7 @@
         </div>
 
         <div class="mt-8">
-          <div
-            class="inline-flex items-center px-4 py-2 font-semibold transition duration-200 ease-in-out bg-white bg-opacity-50 rounded cursor-pointer dark:bg-black text-gray-dark dark:text-gray-default active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500 hover:bg-opacity-70"
-            @click="play()"
-          >
+          <div class="inline-flex items-center px-4 py-2 font-semibold transition duration-200 ease-in-out bg-white bg-opacity-50 rounded cursor-pointer dark:bg-black text-gray-dark dark:text-gray-default active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500 hover:bg-opacity-70" @click="play()">
             <i class="mr-2 text-xs opacity-50 fas fa-play"></i>
             <span>Écouter</span>
           </div>
@@ -100,15 +71,10 @@
 </template>
 
 <script>
-import VueLoadImage from 'vue-load-image';
 import { EventBus } from '../../event-bus.js';
 
 export default {
   layout: require('../../layouts/app').default,
-
-  components: {
-    VueLoadImage,
-  },
 
   props: ['album', 'files'],
 

@@ -3,20 +3,10 @@
     <form @submit.prevent="submit">
       <form-input class="mb-6" label="Name" v-model="form.name" :errors="$page.props.errors.name" />
 
-      <form-file-input
-        class="mb-6"
-        label="File"
-        type="file"
-        v-model="form.file"
-        accept="file/*"
-        ref="file"
-        :errors="$page.props.errors.file"
-      />
+      <form-file-input class="mb-6" label="File" type="file" v-model="form.file" accept="file/*" ref="file" :errors="$page.props.errors.file" />
 
       <div class="flex justify-end">
-        <button
-          class="inline-flex items-center px-4 py-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default hover:bg-gray-light dark:hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500"
-        >
+        <button class="inline-flex items-center px-4 py-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default hover:bg-gray-light dark:hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500">
           <i class="mr-2 opacity-50 fas fa-plus"></i> Chunked upload <span class="ml-1">({{ upload.progress }} %)</span>
         </button>
       </div>

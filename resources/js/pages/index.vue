@@ -1,5 +1,9 @@
 <template>
   <div class="relative h-full">
+    <inertia-head>
+      <title>Bienvenue</title>
+    </inertia-head>
+
     <div class="fixed inset-0 overflow-hidden">
       <div class="z-0 transform scale-150">
         <div
@@ -134,14 +138,8 @@
 </template>
 
 <script>
-import VueLoadImage from 'vue-load-image';
-
 export default {
   layout: require('../layouts/app').default,
-
-  components: {
-    VueLoadImage,
-  },
 
   props: ['albums'],
 

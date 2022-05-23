@@ -1,67 +1,29 @@
 <template>
   <div>
-    <div
-      class="flex flex-row justify-end w-full px-4 py-4 bg-white border-b-4 dark:bg-black border-gray-lighter dark:border-gray-darker"
-      v-if="$page.props.user"
-    >
-      <inertia-link
-        class="inline-flex items-center px-4 py-1 mx-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default hover:bg-gray-light dark:hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500"
-        :href="route('songs.edit', song)"
-      >
-        <i class="mr-2 opacity-50 fas fa-edit"></i> Edit
-      </inertia-link>
+    <inertia-head>
+      <title>{{ $page.props.song.title }}</title>
+      <!-- <meta head-key="description" name="description" content="" /> -->
+      <meta head-key="og:image" property="og:image" :content="$page.props.song.image_url" />
+      <meta head-key="twitter:image" name="twitter:image" :content="$page.props.song.image_url" />
+    </inertia-head>
 
-      <inertia-link
-        class="inline-flex items-center px-4 py-1 mx-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default hover:bg-gray-light dark:hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500"
-        :href="route('songs.edit-relations', song)"
-      >
-        <i class="mr-2 opacity-50 fas fa-link"></i> Relations
-      </inertia-link>
-
-      <inertia-link
-        class="inline-flex items-center px-4 py-1 mx-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default hover:bg-gray-light dark:hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500"
-        :href="route('songs.files.create', song)"
-      >
-        <i class="mr-2 opacity-50 fas fa-folder-open"></i> Add file
-      </inertia-link>
-
-      <inertia-link
-        class="inline-flex items-center px-4 py-1 mx-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default hover:bg-gray-light dark:hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500"
-        :href="route('songs.medias.create', song)"
-      >
-        <i class="mr-2 opacity-50 fas fa-compact-disc"></i> Add media
-      </inertia-link>
-
-      <button
-        class="inline-flex items-center px-4 py-1 mx-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default hover:bg-gray-light dark:hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500"
-        @click="destroy()"
-      >
-        <i class="mr-2 opacity-50 fas fa-trash"></i> Delete
-      </button>
+    <div class="flex flex-row justify-end w-full px-4 py-4 bg-white border-b-4 dark:bg-black border-gray-lighter dark:border-gray-darker" v-if="$page.props.user">
+      <inertia-link class="inline-flex items-center px-4 py-1 mx-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default hover:bg-gray-light dark:hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500" :href="route('songs.edit', song)"> <i class="mr-2 opacity-50 fas fa-edit"></i> Edit </inertia-link>
+      <inertia-link class="inline-flex items-center px-4 py-1 mx-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default hover:bg-gray-light dark:hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500" :href="route('songs.edit-relations', song)"> <i class="mr-2 opacity-50 fas fa-link"></i> Relations </inertia-link>
+      <inertia-link class="inline-flex items-center px-4 py-1 mx-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default hover:bg-gray-light dark:hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500" :href="route('songs.files.create', song)"> <i class="mr-2 opacity-50 fas fa-folder-open"></i> Add file </inertia-link>
+      <inertia-link class="inline-flex items-center px-4 py-1 mx-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default hover:bg-gray-light dark:hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500" :href="route('songs.medias.create', song)"> <i class="mr-2 opacity-50 fas fa-compact-disc"></i> Add media </inertia-link>
+      <button class="inline-flex items-center px-4 py-1 mx-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default hover:bg-gray-light dark:hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500" @click="destroy()"><i class="mr-2 opacity-50 fas fa-trash"></i> Delete</button>
     </div>
 
-    <div
-      class="relative flex flex-col items-start justify-start p-8 border-b-4 sm:flex-row border-gray-lighter dark:border-gray-darker"
-    >
+    <div class="relative flex flex-col items-start justify-start p-8 border-b-4 sm:flex-row border-gray-lighter dark:border-gray-darker">
       <div class="bg-cover-container">
-        <div
-          class="bg-cover bg-gradient-to-br from-white to-white dark:from-black dark:to-black"
-          :style="{ '--tw-gradient-from': song.image_dominant_color }"
-        ></div>
+        <div class="bg-cover bg-gradient-to-br from-white to-white dark:from-black dark:to-black" :style="{ '--tw-gradient-from': song.image_dominant_color }"></div>
       </div>
 
       <div class="flex-none w-64 mb-8 sm:w-48 lg:w-64 sm:mb-0 sm:mr-8">
         <vue-load-image class="shadow-xl aspect-w-1 aspect-h-1">
-          <img
-            slot="image"
-            :src="song.image_url"
-            class="object-cover w-full h-full animate__animated animate__fadeIn animate__fastest"
-          />
-          <div
-            class="flex items-center justify-center opacity-50"
-            :style="{ 'background-color': song.image_dominant_color }"
-            slot="preloader"
-          >
+          <img slot="image" :src="song.image_url" class="object-cover w-full h-full animate__animated animate__fadeIn animate__fastest" />
+          <div class="flex items-center justify-center opacity-50" :style="{ 'background-color': song.image_dominant_color }" slot="preloader">
             <i class="text-black dark:text-white fas fa-spin fa-spinner"></i>
           </div>
         </vue-load-image>
@@ -73,9 +35,7 @@
           {{ song.title }}
           <div class="text-xl">{{ song.artist }}</div>
         </h1>
-        <div v-if="song.alt_title" class="text-gray-dark dark:text-gray-default">
-          Titre alternatif : {{ song.alt_title }}
-        </div>
+        <div v-if="song.alt_title" class="text-gray-dark dark:text-gray-default">Titre alternatif : {{ song.alt_title }}</div>
         <div class="text-gray-dark dark:text-gray-default">
           Version :
           <span v-if="song.type == 'original'">Originale</span>
@@ -93,9 +53,7 @@
           <span v-if="song.availability == 'deleted'">Supprimé</span>
           <span v-if="song.availability == 'published'">Publié</span>
         </div>
-        <div v-if="song.first_time_played_at" class="text-gray-dark dark:text-gray-default">
-          Première diffusion le : {{ moment(song.first_time_played_at).format('L') }}
-        </div>
+        <div v-if="song.first_time_played_at" class="text-gray-dark dark:text-gray-default">Première diffusion le : {{ moment(song.first_time_played_at).format('L') }}</div>
         <div v-if="song.released_at" class="text-gray-dark dark:text-gray-default">
           Année de sortie :
           <span v-if="song.released_at">{{ moment(song.released_at).format('YYYY') }}</span>
@@ -108,10 +66,7 @@
         </div>
 
         <div class="mt-8">
-          <div
-            class="inline-flex items-center px-4 py-2 font-semibold transition duration-200 ease-in-out bg-white bg-opacity-50 rounded cursor-pointer dark:bg-black text-gray-dark dark:text-gray-default active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500 hover:bg-opacity-70"
-            @click="play()"
-          >
+          <div class="inline-flex items-center px-4 py-2 font-semibold transition duration-200 ease-in-out bg-white bg-opacity-50 rounded cursor-pointer dark:bg-black text-gray-dark dark:text-gray-default active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500 hover:bg-opacity-70" @click="play()">
             <i class="mr-2 text-xs opacity-50 fas fa-play"></i>
             <span>Écouter</span>
           </div>
@@ -123,37 +78,16 @@
       <div class="flex flex-col mb-8">
         <div class="flex flex-row px-2 py-2 mb-2 border-b border-gray-lighter dark:border-gray-darker">
           <div class="flex-none w-8 text-xs text-center uppercase md:mx-2 text-gray-dark dark:text-gray-default"></div>
-          <div class="flex-auto mx-2 text-xs text-left uppercase truncate text-gray-dark dark:text-gray-default">
-            Info
-          </div>
-          <div
-            class="flex-none hidden w-24 mx-2 text-xs text-left uppercase sm:block lg:w-36 text-gray-dark dark:text-gray-default"
-          >
-            Source
-          </div>
+          <div class="flex-auto mx-2 text-xs text-left uppercase truncate text-gray-dark dark:text-gray-default">Info</div>
+          <div class="flex-none hidden w-24 mx-2 text-xs text-left uppercase sm:block lg:w-36 text-gray-dark dark:text-gray-default">Source</div>
           <div class="flex-none w-16 mx-2 text-xs text-left uppercase text-gray-dark dark:text-gray-default">Durée</div>
-          <div
-            class="flex-none hidden w-20 mx-2 text-xs text-left uppercase sm:block text-gray-dark dark:text-gray-default"
-          >
-            Taille
-          </div>
-          <div
-            class="flex-none hidden w-32 mx-2 text-xs text-left uppercase lg:block text-gray-dark dark:text-gray-default"
-          >
-            Ajouté
-          </div>
+          <div class="flex-none hidden w-20 mx-2 text-xs text-left uppercase sm:block text-gray-dark dark:text-gray-default">Taille</div>
+          <div class="flex-none hidden w-32 mx-2 text-xs text-left uppercase lg:block text-gray-dark dark:text-gray-default">Ajouté</div>
           <div class="flex-none w-10 text-xs text-center uppercase md:mx-2 text-gray-dark dark:text-gray-default"></div>
         </div>
 
-        <div
-          v-for="media in medias"
-          v-bind:key="media.id"
-          class="flex flex-row items-center px-2 py-3 mb-2 transition-all duration-200 ease-in-out rounded hover:bg-gray-lightest dark:hover:bg-gray-darker"
-        >
-          <div
-            class="flex-none w-8 text-center transition-all duration-200 ease-in-out md:mx-2 text-gray-light dark:text-gray-dark hover:text-gray-dark dark:hover:text-gray-default"
-            @click="play_media(media)"
-          >
+        <div v-for="media in medias" v-bind:key="media.id" class="flex flex-row items-center px-2 py-3 mb-2 transition-all duration-200 ease-in-out rounded hover:bg-gray-lightest dark:hover:bg-gray-darker">
+          <div class="flex-none w-8 text-center transition-all duration-200 ease-in-out md:mx-2 text-gray-light dark:text-gray-dark hover:text-gray-dark dark:hover:text-gray-default" @click="play_media(media)">
             <span v-if="$curr_media_id == media.id">
               <i class="text-gray-dark dark:text-gray-default fas fa-volume-up fa-fw"></i>
             </span>
@@ -164,15 +98,9 @@
           <div class="flex-auto mx-2 text-left truncate">
             {{ media.custom_properties.codec_name }}
             <div class="text-xs">
-              <span v-if="media.custom_properties.bit_rate"
-                >{{ Math.round(media.custom_properties.bit_rate / 1000) }} kbps</span
-              >
-              <span v-else-if="media.custom_properties.bits_per_raw_sample"
-                >{{ media.custom_properties.bits_per_raw_sample }} bits</span
-              >
-              <span v-else-if="media.custom_properties.bits_per_sample"
-                >{{ media.custom_properties.bits_per_sample }} bits</span
-              >
+              <span v-if="media.custom_properties.bit_rate">{{ Math.round(media.custom_properties.bit_rate / 1000) }} kbps</span>
+              <span v-else-if="media.custom_properties.bits_per_raw_sample">{{ media.custom_properties.bits_per_raw_sample }} bits</span>
+              <span v-else-if="media.custom_properties.bits_per_sample">{{ media.custom_properties.bits_per_sample }} bits</span>
               <span class="text-gray-light dark:text-gray-dark">&bull;</span>
               {{ media.custom_properties.sample_rate / 1000 }} kHz
               <template v-if="$page.props.user">
@@ -181,24 +109,12 @@
               </template>
             </div>
           </div>
-          <div
-            class="flex-none hidden w-24 mx-2 text-left truncate sm:block lg:w-36 text-gray-dark dark:text-gray-default"
-          >
-            <span v-if="media.custom_properties.source == 'youtube'"
-              ><i class="mr-1 opacity-50 fa-fw fab fa-youtube"></i> YouTube</span
-            >
-            <span v-else-if="media.custom_properties.source == 'soundcloud'"
-              ><i class="mr-1 opacity-50 fa-fw fab fa-soundcloud"></i> SoundCloud</span
-            >
-            <span v-else-if="media.custom_properties.source == 'deezer'"
-              ><i class="mr-1 opacity-50 fa-fw fab fa-deezer"></i> Deezer</span
-            >
-            <span v-else-if="media.custom_properties.source == 'qobuz'"
-              ><i class="mr-1 opacity-50 fa-fw fas fa-compact-disc"></i> Qobuz</span
-            >
-            <span v-else-if="media.custom_properties.source" class="capitalize">{{
-              media.custom_properties.source
-            }}</span>
+          <div class="flex-none hidden w-24 mx-2 text-left truncate sm:block lg:w-36 text-gray-dark dark:text-gray-default">
+            <span v-if="media.custom_properties.source == 'youtube'"><i class="mr-1 opacity-50 fa-fw fab fa-youtube"></i> YouTube</span>
+            <span v-else-if="media.custom_properties.source == 'soundcloud'"><i class="mr-1 opacity-50 fa-fw fab fa-soundcloud"></i> SoundCloud</span>
+            <span v-else-if="media.custom_properties.source == 'deezer'"><i class="mr-1 opacity-50 fa-fw fab fa-deezer"></i> Deezer</span>
+            <span v-else-if="media.custom_properties.source == 'qobuz'"><i class="mr-1 opacity-50 fa-fw fas fa-compact-disc"></i> Qobuz</span>
+            <span v-else-if="media.custom_properties.source" class="capitalize">{{ media.custom_properties.source }}</span>
             <span v-else>N/A</span>
           </div>
           <div class="flex-none w-16 mx-2 text-left text-gray-dark dark:text-gray-default">
@@ -211,19 +127,10 @@
             {{ moment(media.created_at).format('L') }}
           </div>
           <div class="flex-none w-10 text-center md:mx-2 text-gray-light dark:text-gray-dark">
-            <a
-              v-if="song.is_downloadable"
-              class="transition-all duration-200 ease-in-out hover:text-gray-dark dark:hover:text-gray-default"
-              :href="media.url"
-              target="_blank"
-            >
+            <a v-if="song.is_downloadable" class="transition-all duration-200 ease-in-out hover:text-gray-dark dark:hover:text-gray-default" :href="media.url" target="_blank">
               <i class="text-xs fas fa-arrow-down"></i>
             </a>
-            <button
-              v-if="$page.props.user"
-              class="ml-2 transition-all duration-200 ease-in-out hover:text-gray-dark dark:hover:text-gray-default"
-              @click="destroy_media(media)"
-            >
+            <button v-if="$page.props.user" class="ml-2 transition-all duration-200 ease-in-out hover:text-gray-dark dark:hover:text-gray-default" @click="destroy_media(media)">
               <i class="text-xs fas fa-trash"></i>
             </button>
           </div>
@@ -255,14 +162,9 @@
 
 <script>
 import { EventBus } from '../../event-bus.js';
-import VueLoadImage from 'vue-load-image';
 
 export default {
   layout: require('../../layouts/app').default,
-
-  components: {
-    VueLoadImage,
-  },
 
   props: ['song', 'medias', 'files', 'variants'],
 

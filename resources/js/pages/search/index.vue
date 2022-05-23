@@ -1,20 +1,16 @@
 <template>
   <div>
+    <inertia-head>
+      <title>Search</title>
+      <!-- <meta head-key="description" name="description" content="" /> -->
+    </inertia-head>
+
     <div class="p-4 md:p-8">
       <form @submit.prevent="submit" class="mb-8">
         <div class="flex flex-row items-center">
-          <form-input
-            class="flex-auto"
-            v-model="form.q"
-            :errors="$page.props.errors.q"
-            autofocus
-            placeholder="On écoute quoi ?"
-          />
+          <form-input class="flex-auto" v-model="form.q" :errors="$page.props.errors.q" autofocus placeholder="On écoute quoi ?" />
 
-          <i
-            class="ml-4 text-xs transition-all duration-200 ease-in-out fas fa-search text-gray-light dark:text-gray-dark hover:text-gray-dark dark:hover:text-gray-default"
-            @click="submit"
-          ></i>
+          <i class="ml-4 text-xs transition-all duration-200 ease-in-out fas fa-search text-gray-light dark:text-gray-dark hover:text-gray-dark dark:hover:text-gray-default" @click="submit"></i>
         </div>
       </form>
 

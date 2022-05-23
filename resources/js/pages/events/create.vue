@@ -3,36 +3,14 @@
     <form @submit.prevent="submit">
       <form-input class="mb-6" label="Name" v-model="form.name" :errors="$page.props.errors.name" required />
 
-      <form-input
-        class="mb-6"
-        label="Happened at"
-        v-model="form.happened_at"
-        :errors="$page.props.errors.happened_at"
-      />
+      <form-input class="mb-6" label="Happened at" v-model="form.happened_at" :errors="$page.props.errors.happened_at" />
 
-      <form-textarea
-        class="mb-6"
-        label="Details"
-        v-model="form.details"
-        :errors="$page.props.errors.details"
-        rows="10"
-      />
+      <form-textarea class="mb-6" label="Details" v-model="form.details" :errors="$page.props.errors.details" rows="10" />
 
-      <form-file-input
-        class="mb-6"
-        label="Image"
-        type="file"
-        v-model="form.image"
-        accept="image/*"
-        :errors="$page.props.errors.image"
-      />
+      <form-file-input class="mb-6" label="Image" type="file" v-model="form.image" accept="image/*" :errors="$page.props.errors.image" />
 
       <div class="flex justify-end">
-        <button
-          class="inline-flex items-center px-4 py-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default hover:bg-gray-light dark:hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500"
-        >
-          <i class="mr-2 opacity-50 fas fa-plus"></i> Add
-        </button>
+        <button class="inline-flex items-center px-4 py-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default hover:bg-gray-light dark:hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500"><i class="mr-2 opacity-50 fas fa-plus"></i> Add</button>
       </div>
     </form>
   </div>
