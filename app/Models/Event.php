@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use Rorecek\Ulid\HasUlid;
 use ColorThief\ColorThief;
+use Illuminate\Database\Eloquent\Model;
+use Rorecek\Ulid\HasUlid;
 use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
-use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Event extends Model implements HasMedia, Searchable
 {
@@ -61,6 +61,6 @@ class Event extends Model implements HasMedia, Searchable
             $this,
             $this->name,
             route('events.show', $this)
-         );
+        );
     }
 }

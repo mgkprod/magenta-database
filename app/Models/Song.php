@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use Rorecek\Ulid\HasUlid;
 use ColorThief\ColorThief;
+use Illuminate\Database\Eloquent\Model;
+use Rorecek\Ulid\HasUlid;
 use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
-use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Song extends Model implements HasMedia, Searchable
 {
@@ -151,6 +151,6 @@ class Song extends Model implements HasMedia, Searchable
             $this,
             $this->display_title,
             route('songs.show', $this)
-         );
+        );
     }
 }
