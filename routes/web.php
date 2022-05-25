@@ -42,6 +42,9 @@ Route::post('events/{event}/files', [EventController::class, 'storeFile'])->name
 Route::post('files/chunk', [FileController::class, 'storeChunk'])->name('files.store.chunk');
 Route::delete('files/{file}', [FileController::class, 'destroy'])->name('files.destroy');
 
+Route::get('files/{file}/convert', [FileController::class, 'showConvertForm'])->name('files.showConvertForm');
+Route::post('files/{file}/convert', [FileController::class, 'convert'])->name('files.convert');
+
 Route::get('search', SearchController::class)->name('search.index');
 
 Route::group(['middleware' => 'auth'], function () {

@@ -242,7 +242,7 @@ export default {
     this.$inertia.on('before', (event) => {
       this.show_page = false;
     });
-    this.$inertia.on('success', (event) => {
+    this.$inertia.on('finish', (event) => {
       this.show_page = true;
     });
   },
