@@ -111,9 +111,11 @@
           </div>
           <div class="flex-none hidden w-24 mx-2 text-left truncate sm:block lg:w-36 text-gray-dark dark:text-gray-default">
             <span v-if="media.custom_properties.source == 'youtube'"><i class="mr-1 opacity-50 fa-fw fab fa-youtube"></i> YouTube</span>
-            <span v-else-if="media.custom_properties.source == 'soundcloud'"><i class="mr-1 opacity-50 fa-fw fab fa-soundcloud"></i> SoundCloud</span>
+            <span v-else-if="media.custom_properties.source == 'cd'"><i class="mr-1 opacity-50 fa-fw fas fa-compact-disc"></i> CD</span>
             <span v-else-if="media.custom_properties.source == 'deezer'"><i class="mr-1 opacity-50 fa-fw fab fa-deezer"></i> Deezer</span>
             <span v-else-if="media.custom_properties.source == 'qobuz'"><i class="mr-1 opacity-50 fa-fw fas fa-compact-disc"></i> Qobuz</span>
+            <span v-else-if="media.custom_properties.source == 'soundcloud'"><i class="mr-1 opacity-50 fa-fw fab fa-soundcloud"></i> SoundCloud</span>
+            <span v-else-if="media.custom_properties.source == 'spotify'"><i class="mr-1 opacity-50 fa-fw fab fa-spotify"></i> Spotify</span>
             <span v-else-if="media.custom_properties.source" class="capitalize">{{ media.custom_properties.source }}</span>
             <span v-else>N/A</span>
           </div>
