@@ -24,7 +24,7 @@ export default {
   inheritAttrs: false,
 
   props: {
-    value: File | Object,
+    value: {},
     label: String,
     accept: String,
     errors: {
