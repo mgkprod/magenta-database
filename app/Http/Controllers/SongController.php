@@ -222,39 +222,41 @@ class SongController extends Controller
 
     public function createMedia(Song $song)
     {
-        return inertia('songs/medias/create', compact('song'));
+        $handle = uniqid();
+
+        return inertia('songs/medias/create', compact('song', 'handle'));
     }
 
     public function storeMedia(Request $request, Song $song)
     {
-        if ($request->file('audio')) {
-            $media = $song
-                ->addMediaFromRequest('audio')
-                ->withCustomProperties(['source' => $request->source])
-                ->toMediaCollection('medias');
+        Storage::move('temp/' . $request->handle, 'temp/' . $request->file_name);
 
-            $probe = FFProbe::create([
-                'ffmpeg.binaries' => config('services.ffmpeg.ffmpeg_path'),
-                'ffprobe.binaries' => config('services.ffmpeg.ffprobe_path'),
-            ])
-                ->streams($media->getPath())
-                ->audios()
-                ->first();
+        $media = $song
+            ->addMediaFromDisk('temp/' . $request->file_name)
+            ->withCustomProperties(['source' => $request->source])
+            ->toMediaCollection('medias');
 
-            foreach ([
-                'codec_name',
-                'sample_rate',
-                'channels',
-                'duration',
-                'bit_rate',
-                'bits_per_raw_sample',
-                'bits_per_sample',
-            ] as $property) {
-                $media->setCustomProperty($property, $probe->get($property));
-            }
+        $probe = FFProbe::create([
+            'ffmpeg.binaries' => config('services.ffmpeg.ffmpeg_path'),
+            'ffprobe.binaries' => config('services.ffmpeg.ffprobe_path'),
+        ])
+            ->streams($media->getPath())
+            ->audios()
+            ->first();
 
-            $media->save();
+        foreach ([
+            'codec_name',
+            'sample_rate',
+            'channels',
+            'duration',
+            'bit_rate',
+            'bits_per_raw_sample',
+            'bits_per_sample',
+        ] as $property) {
+            $media->setCustomProperty($property, $probe->get($property));
         }
+
+        $media->save();
 
         return redirect()->route('songs.show', $song);
     }
