@@ -117,7 +117,7 @@
             <span v-else-if="media.custom_properties.source == 'qobuz'"><i class="mr-1 opacity-50 fa-fw fas fa-compact-disc"></i> Qobuz</span>
             <span v-else-if="media.custom_properties.source == 'soundcloud'"><i class="mr-1 opacity-50 fa-fw fab fa-soundcloud"></i> SoundCloud</span>
             <span v-else-if="media.custom_properties.source == 'spotify'"><i class="mr-1 opacity-50 fa-fw fab fa-spotify"></i> Spotify</span>
-            <span v-else-if="media.custom_properties.source == 'converted'"><i class="mr-1 opacity-50 fa-fw fas fa-compress-alt"></i> <abbr class="underline decoration-dotted" title="Fichier compressé à partir d'une source de meilleure qualité"></abbr> Compressé</span>
+            <span v-else-if="media.custom_properties.source == 'converted'"><i class="mr-1 opacity-50 fa-fw fas fa-compress-alt"></i> <abbr class="underline decoration-dotted" title="Fichier compressé à partir d'une source de meilleure qualité">Compressé</abbr></span>
             <span v-else-if="media.custom_properties.source" class="capitalize">{{ media.custom_properties.source }}</span>
             <span v-else>N/A</span>
           </div>
