@@ -9,8 +9,8 @@
       <div class="flex-none hidden w-32 mx-2 text-xs text-left uppercase md:block text-gray-dark dark:text-gray-default">Première diff.</div>
     </div>
 
-    <div v-for="song in songs" v-bind:key="song.id" class="flex flex-row items-center py-3 mb-2 transition-all duration-200 ease-in-out rounded cursor-pointer sm:px-2 hover:bg-gray-lightest dark:hover:bg-gray-darker" @click="$inertia.get(route('songs.show', song))">
-      <div class="flex-none w-8 text-center transition-all duration-200 ease-in-out md:mx-2 text-gray-light dark:text-gray-dark hover:text-gray-dark dark:hover:text-gray-default" @click.stop="play_song(song)">
+    <inertia-link v-for="song in songs" v-bind:key="song.id" class="flex flex-row items-center py-3 mb-2 transition-all duration-200 ease-in-out rounded cursor-pointer sm:px-2 hover:bg-gray-lightest dark:hover:bg-gray-darker" :href="route('songs.show', song)">
+      <div class="flex-none w-8 text-center transition-all duration-200 ease-in-out md:mx-2 text-gray-light dark:text-gray-dark hover:text-gray-dark dark:hover:text-gray-default" @click.prevent="play_song(song)">
         <span v-if="$curr_song_id == song.id">
           <i class="text-gray-dark dark:text-gray-default fas fa-volume-up fa-fw"></i>
         </span>
@@ -77,7 +77,7 @@
         </span>
         <span v-else> N/A </span>
       </div>
-    </div>
+    </inertia-link>
   </div>
 </template>
 
