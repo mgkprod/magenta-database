@@ -38,8 +38,12 @@
 
             <div class="mt-auto"></div>
 
+            <inertia-link class="flex items-center px-4 py-3 text-sm font-semibold transition duration-200 ease-in-out border-l-4 border-transparent active:bg-transparent focus:outline-none hover:text-gray-300 hover:bg-gray-900" :class="{ 'border-gray-700 text-gray-300 bg-gray-900': route().current('settings') }" :href="route('settings')" @click="show_sidebar = false">
+              <span class="tracking-tighter uppercase font-eurostile-extended">Settings</span>
+            </inertia-link>
+
             <inertia-link class="flex items-center px-4 py-3 text-sm font-semibold transition duration-200 ease-in-out border-l-4 border-transparent active:bg-transparent focus:outline-none hover:text-gray-300 hover:bg-gray-900" :class="{ 'border-gray-700 text-gray-300 bg-gray-900': route().current('index') }" :href="route('index')" @click="show_sidebar = false">
-              <span class="tracking-tighter uppercase font-eurostile-extended">À propos</span>
+              <span class="tracking-tighter uppercase font-eurostile-extended">About</span>
             </inertia-link>
           </div>
 

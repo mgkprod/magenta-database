@@ -19,4 +19,9 @@ class HomeController extends Controller
 
         return inertia('index', ['albums' => $grid]);
     }
+
+    public function settings()
+    {
+        return inertia('settings');
+    }
 }
