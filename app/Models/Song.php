@@ -137,6 +137,18 @@ class Song extends Model implements HasMedia, Searchable
                 } // > 100kbps (128)
             }
 
+            if ($media->hasCustomProperty('bits_per_raw_sample')) {
+                if ($media->getCustomProperty('bits_per_raw_sample') > 24) {
+                    $score += 10;
+                } // > 24bits (24)
+                elseif ($media->getCustomProperty('bits_per_raw_sample') == 24) {
+                    $score += 5;
+                } // = 24bits (24)
+                elseif ($media->getCustomProperty('bits_per_raw_sample') == 16) {
+                    $score += 3;
+                } // = 16bits (16)
+            }
+
             $media->score = $score;
         }
 
