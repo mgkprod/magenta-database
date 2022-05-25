@@ -27,7 +27,18 @@
         </vue-load-image>
       </div>
       <div class="flex-auto mx-2 truncate">
-        <div class="truncate" :class="{ 'text-pink-500': $curr_song_id == song.id }">{{ song.title }}</div>
+        <div class="truncate" :class="{ 'text-pink-500': $curr_song_id == song.id }">
+          {{ song.title }}
+          <span
+            v-if="
+              _.filter(song.media, function (media) {
+                return media.collection_name == 'medias' && media.custom_properties.codec_name == 'flac' && (media.custom_properties.bits_per_raw_sample == '16' || media.custom_properties.bits_per_raw_sample == '24');
+              }).length
+            "
+            class="px-2 py-1 ml-1 text-xs text-black bg-yellow-400 rounded dark:text-yellow-400 dark:bg-gray-800"
+            >Hi-Res</span
+          >
+        </div>
         <div class="text-sm truncate text-gray-dark dark:text-gray-default">
           {{ song.artist }}
           <span v-if="song.version_name"><span class="text-gray-light dark:text-gray-dark">&bull;</span> {{ song.version_name }}</span>
