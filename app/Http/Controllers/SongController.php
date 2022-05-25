@@ -8,7 +8,6 @@ use App\Models\Song;
 use FFMpeg\FFProbe;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\Rule;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class SongController extends Controller
@@ -20,45 +19,51 @@ class SongController extends Controller
 
     public function index(Request $request)
     {
+        return redirect()->route('songs.browse', ['filter' => $request->input('filter', 'all')]);
+    }
+
+    public function browse($filter = null)
+    {
         $filters = [
-            'published',
-            'published-lost',
-            'unreleased',
-            'really-unreleased',
-            'deleted',
+            'all' => ['name' => 'Tous', 'description' => 'Tous les tracks référencés'],
+            'published' => ['name' => 'Publiés', 'description' => 'Tous les tracks officiels'],
+            'published-lost' => ['name' => 'Publiés sans album', 'description' => 'Les tracks officiels qui ne sont pas dans à un album ou présent dans un event'],
+            'unreleased' => ['name' => 'Inédits', 'description' => "Les tracks qui n'ont pas eu de release et qu'on a entendu qu'une fois"],
+            'really-unreleased' => ['name' => 'Inédits, sans variantes', 'description' => "Les tracks qui n'ont pas eu de release officielle"],
+            'deleted' => ['name' => 'Supprimés', 'description' => "Les tracks qui ont été publiés un jour et qui sont aujourd'hui retirés des plateformes"],
         ];
 
-        $request->validate([
-            'filter' => ['nullable', Rule::in($filters)],
-        ]);
+        if (! $filter || ! in_array($filter, array_keys($filters))) {
+            return redirect()->route('songs.browse', ['filter' => 'all']);
+        }
 
         $songs = Song::query();
 
-        if ($request->filter == 'published') {
+        if ($filter == 'published') {
             // Published songs
             $songs = $songs->where('availability', 'published');
         }
 
-        if ($request->filter == 'published-lost') {
+        if ($filter == 'published-lost') {
             // Songs that does not belongs to an album nor an event
             $songs = $songs
                 ->whereDoesntHave('albums')
                 ->whereDoesntHave('events');
         }
 
-        if ($request->filter == 'unreleased') {
+        if ($filter == 'unreleased') {
             // Unreleased songs
             $songs = $songs->where('availability', 'unreleased');
         }
 
-        if ($request->filter == 'really-unreleased') {
+        if ($filter == 'really-unreleased') {
             // Unreleased songs, without variants
             $songs = $songs
                 ->where('availability', 'unreleased')
                 ->has('variants', '=', 1);
         }
 
-        if ($request->filter == 'deleted') {
+        if ($filter == 'deleted') {
             // Delted songs
             $songs = $songs->where('availability', 'deleted');
         }
@@ -70,7 +75,11 @@ class SongController extends Controller
             ->paginate(15)
             ->withQueryString();
 
-        return inertia('songs/index', compact('songs'));
+        return inertia('songs/index', [
+            'songs' => $songs,
+            'filters' => $filters,
+            'current_filter' => $filter ?? 'all',
+        ]);
     }
 
     public function create()

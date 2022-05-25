@@ -1,8 +1,8 @@
 <template>
   <div>
     <inertia-head>
-      <title>Tracks</title>
-      <meta head-key="description" name="description" content="Tous les tracks disponibles" />
+      <title>Tracks – {{ $page.props.filters[$page.props.current_filter].name }}</title>
+      <meta head-key="description" name="description" :content="$page.props.filters[$page.props.current_filter].description" />
     </inertia-head>
 
     <div class="flex flex-row justify-end w-full px-4 py-4 bg-white border-b-4 dark:bg-black border-gray-lighter dark:border-gray-darker" v-if="$page.props.user">
@@ -11,90 +11,26 @@
 
     <div class="p-4 md:p-8">
       <div class="fade-overflow-x">
-        <div class="flex flex-row items-start justify-start mb-4 overflow-x-auto font-semibold" scroll-region>
+        <div class="flex flex-row items-start justify-start mb-4 -mx-2 overflow-x-auto font-semibold" scroll-region>
           <inertia-link
-            :href="route('songs.index', { filter: undefined })"
-            class="flex-none block mr-2"
-            preserve-scroll
-            :class="{
-              'border-b-4 border-pink-700 text-gray-dark dark:text-gray-lighter': route().current('songs.index', {
-                filter: undefined,
-              }),
-            }"
-          >
-            Tous
-          </inertia-link>
-          <inertia-link
-            :href="route('songs.index', { filter: 'published' })"
+            v-for="(filter, key) in filters"
+            v-bind:key="key"
+            :href="route('songs.browse', { filter: key })"
             class="flex-none block mx-2"
             preserve-scroll
             :class="{
-              'border-b-4 border-pink-700 text-gray-dark dark:text-gray-lighter': route().current('songs.index', {
-                filter: 'published',
+              'border-b-4 border-pink-700 text-gray-dark dark:text-gray-lighter': route().current('songs.browse', {
+                filter: key,
               }),
             }"
           >
-            Publiés
+            {{ filter.name }}
           </inertia-link>
-          <inertia-link
-            :href="route('songs.index', { filter: 'published-lost' })"
-            class="flex-none block mx-2"
-            preserve-scroll
-            :class="{
-              'border-b-4 border-pink-700 text-gray-dark dark:text-gray-lighter': route().current('songs.index', {
-                filter: 'published-lost',
-              }),
-            }"
-          >
-            Publiés sans album
-          </inertia-link>
-          <inertia-link
-            :href="route('songs.index', { filter: 'unreleased' })"
-            class="flex-none block mx-2"
-            preserve-scroll
-            :class="{
-              'border-b-4 border-pink-700 text-gray-dark dark:text-gray-lighter': route().current('songs.index', {
-                filter: 'unreleased',
-              }),
-            }"
-          >
-            Inédits
-          </inertia-link>
-          <inertia-link
-            :href="route('songs.index', { filter: 'really-unreleased' })"
-            class="flex-none block mx-2"
-            preserve-scroll
-            :class="{
-              'border-b-4 border-pink-700 text-gray-dark dark:text-gray-lighter': route().current('songs.index', {
-                filter: 'really-unreleased',
-              }),
-            }"
-          >
-            Inédits sans variantes
-          </inertia-link>
-          <inertia-link
-            :href="route('songs.index', { filter: 'deleted' })"
-            class="flex-none block ml-2"
-            preserve-scroll
-            :class="{
-              'border-b-4 border-pink-700 text-gray-dark dark:text-gray-lighter': route().current('songs.index', {
-                filter: 'deleted',
-              }),
-            }"
-          >
-            Supprimés
-          </inertia-link>
-
           <div class="flex-none w-16 h-1"></div>
         </div>
       </div>
 
-      <p v-show="route().current('songs.index', { filter: undefined })" class="mb-8 text-sm"><i class="mr-2 opacity-50 fas fa-info-circle"></i> Tous les tracks référencés</p>
-      <p v-show="route().current('songs.index', { filter: 'published' })" class="mb-8 text-sm"><i class="mr-2 opacity-50 fas fa-info-circle"></i> Tous les tracks officiels</p>
-      <p v-show="route().current('songs.index', { filter: 'published-lost' })" class="mb-8 text-sm"><i class="mr-2 opacity-50 fas fa-info-circle"></i> Les tracks officiels qui ne sont pas dans à un album ou présent dans un event</p>
-      <p v-show="route().current('songs.index', { filter: 'really-unreleased' })" class="mb-8 text-sm"><i class="mr-2 opacity-50 fas fa-info-circle"></i> Les tracks qui n'ont pas eu de release et qu'on a entendu qu'une fois</p>
-      <p v-show="route().current('songs.index', { filter: 'unreleased' })" class="mb-8 text-sm"><i class="mr-2 opacity-50 fas fa-info-circle"></i> Les tracks qui n'ont pas eu de release officielle</p>
-      <p v-show="route().current('songs.index', { filter: 'deleted' })" class="mb-8 text-sm"><i class="mr-2 opacity-50 fas fa-info-circle"></i> Les tracks qui ont été publiés un jour et qui sont aujourd'hui retirés des plateformes</p>
+      <p class="mb-8 text-sm"><i class="mr-2 opacity-50 fas fa-info-circle"></i> {{ $page.props.filters[$page.props.current_filter].description }}</p>
 
       <songs-table class="mb-4" :songs="songs.data"></songs-table>
 
@@ -119,6 +55,6 @@
 export default {
   layout: require('../../layouts/app').default,
 
-  props: ['songs'],
+  props: ['songs', 'filters', 'current_filter'],
 };
 </script>

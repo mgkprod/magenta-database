@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/settings', [HomeController::class, 'settings'])->name('settings');
 
-Route::resource('songs', SongController::class);
+Route::resource('songs', SongController::class, ['except' => 'show']);
 Route::get('songs/{song}/edit/relations', [SongController::class, 'editRelations'])->name('songs.edit-relations');
 Route::put('songs/{song}/relations', [SongController::class, 'updateRelations'])->name('songs.update-relations');
 Route::get('songs/{song}/medias/create', [SongController::class, 'createMedia'])->name('songs.medias.create');
@@ -31,6 +31,9 @@ Route::post('songs/{song}/medias', [SongController::class, 'storeMedia'])->name(
 Route::delete('songs/{song}/medias/{media}', [SongController::class, 'destroyMedia'])->name('songs.medias.destroy');
 Route::get('songs/{song}/files/create', [SongController::class, 'createFile'])->name('songs.files.create');
 Route::post('songs/{song}/files', [SongController::class, 'storeFile'])->name('songs.files.store');
+
+Route::get('songs/{song}', [SongController::class, 'show'])->where('song', '.{26}')->name('songs.show');
+Route::get('songs/browse/{filter?}', [SongController::class, 'browse'])->name('songs.browse');
 
 Route::resource('albums', AlbumController::class);
 Route::get('albums/{album}/files/create', [AlbumController::class, 'createFile'])->name('albums.files.create');
