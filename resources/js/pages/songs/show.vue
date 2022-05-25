@@ -83,7 +83,7 @@
           <div class="flex-none w-16 mx-2 text-xs text-left uppercase text-gray-dark dark:text-gray-default">Durée</div>
           <div class="flex-none hidden w-20 mx-2 text-xs text-left uppercase sm:block text-gray-dark dark:text-gray-default">Taille</div>
           <div class="flex-none hidden w-32 mx-2 text-xs text-left uppercase lg:block text-gray-dark dark:text-gray-default">Ajouté</div>
-          <div class="flex-none w-10 text-xs text-center uppercase md:mx-2 text-gray-dark dark:text-gray-default"></div>
+          <div class="flex-none w-32 text-xs text-right uppercase md:mx-2 text-gray-dark dark:text-gray-default"></div>
         </div>
 
         <div v-for="media in medias" v-bind:key="media.id" class="flex flex-row items-center px-2 py-3 mb-2 transition-all duration-200 ease-in-out rounded hover:bg-gray-lightest dark:hover:bg-gray-darker">
@@ -128,7 +128,7 @@
           <div class="flex-none hidden w-32 mx-2 text-left lg:block text-gray-dark dark:text-gray-default">
             {{ moment(media.created_at).format('L') }}
           </div>
-          <div class="flex-none w-10 text-center md:mx-2 text-gray-light dark:text-gray-dark">
+          <div class="flex-none w-32 text-right md:mx-2 text-gray-light dark:text-gray-dark">
             <a v-if="song.is_downloadable" class="transition-all duration-200 ease-in-out hover:text-gray-dark dark:hover:text-gray-default" :href="media.url" target="_blank">
               <i class="text-xs fas fa-arrow-down"></i>
             </a>

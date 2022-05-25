@@ -4,7 +4,7 @@
       <div class="flex-auto mx-2 text-xs text-left uppercase truncate text-gray-dark dark:text-gray-default">Nom</div>
       <div class="w-20 mx-2 text-xs text-left uppercase fles-none text-gray-dark dark:text-gray-default">Taille</div>
       <div class="hidden w-32 mx-2 text-xs text-left uppercase md:block fles-none text-gray-dark dark:text-gray-default">Ajouté</div>
-      <div class="w-32 text-xs text-center uppercase md:mx-2 fles-none text-gray-dark dark:text-gray-default"></div>
+      <div class="w-32 text-xs text-right uppercase md:mx-2 fles-none text-gray-dark dark:text-gray-default"></div>
     </div>
 
     <div v-for="file in files" v-bind:key="file.id" class="flex flex-row items-center px-2 py-3 mb-2 transition-all duration-200 ease-in-out rounded hover:bg-gray-lightest dark:hover:bg-gray-darker">
@@ -18,7 +18,7 @@
       <div class="flex-none hidden w-32 mx-2 text-left md:block text-gray-dark dark:text-gray-default">
         {{ moment(file.created_at).format('L') }}
       </div>
-      <div class="flex-none w-32 text-center md:mx-2 text-gray-light dark:text-gray-dark">
+      <div class="flex-none w-32 text-right md:mx-2 text-gray-light dark:text-gray-dark">
         <a class="transition-all duration-200 ease-in-out hover:text-gray-dark dark:hover:text-gray-default" :href="file.url" target="_blank">
           <i class="text-xs fas fa-arrow-down"></i>
         </a>
