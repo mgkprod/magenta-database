@@ -14,7 +14,7 @@ class SongController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->except(['index', 'show']);
+        $this->middleware('auth')->except(['index', 'browse', 'show']);
     }
 
     public function index(Request $request)
