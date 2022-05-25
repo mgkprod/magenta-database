@@ -38,6 +38,15 @@
             class="px-2 py-1 ml-1 text-xs text-black bg-yellow-400 rounded dark:text-yellow-400 dark:bg-gray-800"
             >Hi-Res</span
           >
+          <span
+            v-if="
+              _.filter(song.media, function (media) {
+                return media.collection_name == 'files' && (media.mime_type == 'video/x-matroska' || media.mime_type == 'video/webm');
+              }).length
+            "
+            class="px-2 py-1 ml-1 text-xs text-black bg-red-400 rounded dark:text-red-400 dark:bg-gray-800"
+            ><i class="fas fa-video"></i
+          ></span>
         </div>
         <div class="text-sm truncate text-gray-dark dark:text-gray-default">
           {{ song.artist }}
