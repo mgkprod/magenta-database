@@ -111,6 +111,7 @@
           </div>
           <div class="flex-none hidden w-24 mx-2 text-left truncate sm:block lg:w-36 text-gray-dark dark:text-gray-default">
             <span v-if="media.custom_properties.source == 'youtube'"><i class="mr-1 opacity-50 fa-fw fab fa-youtube"></i> YouTube</span>
+            <span v-else-if="media.custom_properties.source == 'apple music'"><i class="mr-1 opacity-50 fa-fw fab fa-apple"></i> Apple Music</span>
             <span v-else-if="media.custom_properties.source == 'cd'"><i class="mr-1 opacity-50 fa-fw fas fa-compact-disc"></i> CD</span>
             <span v-else-if="media.custom_properties.source == 'deezer'"><i class="mr-1 opacity-50 fa-fw fab fa-deezer"></i> Deezer</span>
             <span v-else-if="media.custom_properties.source == 'qobuz'"><i class="mr-1 opacity-50 fa-fw fas fa-compact-disc"></i> Qobuz</span>
