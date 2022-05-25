@@ -132,6 +132,9 @@
             <a v-if="song.is_downloadable" class="transition-all duration-200 ease-in-out hover:text-gray-dark dark:hover:text-gray-default" :href="media.url" target="_blank">
               <i class="text-xs fas fa-arrow-down"></i>
             </a>
+            <inertia-link v-if="$page.props.user && media.custom_properties.codec_name == 'flac'" class="ml-2 transition-all duration-200 ease-in-out hover:text-gray-dark dark:hover:text-gray-default" :href="route('files.showConvertForm', { file: media })">
+              <i class="text-xs fas fa-sync"></i>
+            </inertia-link>
             <button v-if="$page.props.user" class="ml-2 transition-all duration-200 ease-in-out hover:text-gray-dark dark:hover:text-gray-default" @click="destroy_media(media)">
               <i class="text-xs fas fa-trash"></i>
             </button>
