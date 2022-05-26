@@ -65,7 +65,7 @@
           <vue-simple-markdown :source="song.details"></vue-simple-markdown>
         </div>
 
-        <div class="mt-8">
+        <div class="mt-8" v-if="medias.length">
           <div class="inline-flex items-center px-4 py-2 font-semibold transition duration-200 ease-in-out bg-white bg-opacity-50 rounded cursor-pointer dark:bg-black text-gray-dark dark:text-gray-default active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500 hover:bg-opacity-70" @click="play()">
             <i class="mr-2 text-xs opacity-50 fas fa-play"></i>
             <span>Écouter</span>
@@ -75,7 +75,7 @@
     </div>
 
     <div class="w-full p-4 pb-0 md:p-8">
-      <div class="flex flex-col mb-8">
+      <div class="flex flex-col mb-8" v-if="medias.length">
         <div class="flex flex-row px-2 py-2 mb-2 border-b border-gray-lighter dark:border-gray-darker">
           <div class="flex-none w-8 text-xs text-center uppercase md:mx-2 text-gray-dark dark:text-gray-default"></div>
           <div class="flex-auto mx-2 text-xs text-left uppercase truncate text-gray-dark dark:text-gray-default">Info</div>
