@@ -83,19 +83,19 @@ export default {
     },
 
     has_medias(song) {
-      return _.filter(song.media, function (media) {
+      return this._.filter(song.media, function (media) {
         return media.collection_name == 'medias';
       }).length;
     },
 
     has_videos(song) {
-      return _.filter(song.media, function (media) {
+      return this._.filter(song.media, function (media) {
         return media.collection_name == 'files' && (media.mime_type == 'video/x-matroska' || media.mime_type == 'video/webm');
       }).length;
     },
 
     is_hi_res(song) {
-      return _.filter(song.media, function (media) {
+      return this._.filter(song.media, function (media) {
         return media.collection_name == 'medias' && media.custom_properties.codec_name == 'flac' && media.custom_properties.bits_per_raw_sample == '24';
       }).length;
     },
