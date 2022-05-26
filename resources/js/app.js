@@ -61,7 +61,7 @@ files.keys().map((key) => Vue.component(key.split('/').pop().split('.')[0], file
 
 createInertiaApp({
   resolve: (name) => require(`./pages/${name}`),
-  title: (title) => `MAGENTA-DATABASE – ${title}`,
+  title: (title) => `MAGENTA-DATABASE » ${title}`,
   setup({ el, App, props, plugin }) {
     Vue.use(plugin);
 

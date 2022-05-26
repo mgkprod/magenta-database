@@ -63,7 +63,7 @@ createServer((page) =>
     page,
     render: createRenderer().renderToString,
     resolve: (name) => require(`./pages/${name}`),
-    title: (title) => `MAGENTA-DATABASE – ${title}`,
+    title: (title) => `MAGENTA-DATABASE » ${title}`,
     setup({ app, props, plugin }) {
       Vue.use(plugin);
 

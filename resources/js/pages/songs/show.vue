@@ -1,7 +1,7 @@
 <template>
   <div>
     <inertia-head>
-      <title>{{ $page.props.song.title }}</title>
+      <title>{{ $page.props.song.artist }} » {{ $page.props.song.display_title }}</title>
       <!-- <meta head-key="description" name="description" content="" /> -->
       <meta head-key="og:image" property="og:image" :content="$page.props.song.image_url" />
       <meta head-key="twitter:image" name="twitter:image" :content="$page.props.song.image_url" />

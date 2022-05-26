@@ -1,7 +1,7 @@
 <template>
   <div>
     <inertia-head>
-      <title>Tracks – {{ $page.props.filters[$page.props.current_filter].name }}</title>
+      <title>Tracks » {{ $page.props.filters[$page.props.current_filter].name }}</title>
       <meta head-key="description" name="description" :content="$page.props.filters[$page.props.current_filter].description" />
     </inertia-head>
 

@@ -1,7 +1,7 @@
 <template>
   <div>
     <inertia-head>
-      <title>{{ $page.props.album.name }}</title>
+      <title>{{ $page.props.album.artist }} » {{ $page.props.album.name }} ({{ $page.props.album.type }})</title>
       <!-- <meta head-key="description" name="description" content="" /> -->
       <meta head-key="og:image" property="og:image" :content="$page.props.album.image_url" />
       <meta head-key="twitter:image" name="twitter:image" :content="$page.props.album.image_url" />
