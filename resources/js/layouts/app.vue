@@ -220,7 +220,7 @@
 <script>
 import { EventBus } from '../event-bus.js';
 import { Howl, Howler } from 'howler';
-import Castjs from '../vendor/cast.js';
+// import Castjs from '../vendor/cast.js';
 
 import { mixin as clickaway } from 'vue-clickaway';
 
@@ -279,7 +279,7 @@ export default {
       this.show_page = true;
     });
 
-    if (document) {
+    if (window) {
       if (!this.player.cjs) this.init_cjs();
     }
   },
