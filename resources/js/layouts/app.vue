@@ -84,14 +84,14 @@
                         <i v-else class="fas fa-fw fa-backward text-gray-dark" />
                       </div>
                       <div class="mx-2">
-                        <i v-if="player.is_loading" class="fas fa-fw fa-spinner fa-spin" />
+                        <i v-if="is_buffering" class="fas fa-fw fa-spinner fa-spin" />
                         <i
                           v-else-if="player.howl"
                           @click="pause()"
                           class="transition duration-200 ease-in-out fas fa-fw hover:text-gray-lightest"
                           :class="{
-                            'fa-play': !player.howl.playing(),
-                            'fa-pause': player.howl.playing(),
+                            'fa-play': !is_playing,
+                            'fa-pause': is_playing,
                           }"
                         />
                         <i v-else class="fas fa-fw fa-play text-gray-dark" />
@@ -136,8 +136,31 @@
                 </button>
               </div>
             </transition>
+
             <div class="hidden bg-gray-darker lg:block">
+              <transition name="custom-classes-transition" enter-class="slide-top-enter" enter-active-class="slide-top-enter-active" leave-class="slide-bottom-leave" leave-active-class="slide-bottom-leave-active">
+                <div v-if="is_casting" class="flex flex-row items-center justify-center px-4 py-4 bg-pink-400 text-gray-darkest">
+                  <div class="mr-4 text-left fa-fw">
+                    <i
+                      @click="cast_disconnect"
+                      class="transition duration-200 ease-in-out fab fa-chromecast hover:text-gray-lightest"
+                      :class="{
+                        '': is_casting,
+                      }"
+                    />
+                  </div>
+                  <div class="w-full text-xs truncate">
+                    <span v-if="player.cjs && player.cjs.device">Connecté à {{ player.cjs.device }}</span>
+                  </div>
+                </div>
+              </transition>
+
               <div class="flex flex-row items-center justify-center px-4 py-4 text-gray-default">
+                <transition name="custom-classes-transition" enter-class="slide-left-enter" enter-active-class="slide-left-enter-active" leave-class="slide-left-leave" leave-active-class="slide-left-leave-active">
+                  <div v-if="!is_casting && player.cjs && player.cjs.available" class="mr-4 text-left fa-fw">
+                    <i @click="cast_connect" class="transition duration-200 ease-in-out fab fa-chromecast hover:text-gray-lightest" />
+                  </div>
+                </transition>
                 <div class="mr-4 text-left fa-fw">
                   <i
                     @click="mute()"
@@ -151,7 +174,7 @@
                     }"
                   />
                 </div>
-                <input class="hidden w-32 overflow-hidden rounded-lg appearance-none lg:block bg-gray-dark focus:outline-none" type="range" min="0" max="1" step="0.01" v-model="player.volume" style="height: 8px" />
+                <input class="hidden w-full overflow-hidden rounded-lg appearance-none lg:block bg-gray-dark focus:outline-none" type="range" min="0" max="1" step="0.01" v-model="player.volume" style="height: 8px" @input="set_volume()" />
               </div>
             </div>
           </div>
@@ -197,6 +220,7 @@
 <script>
 import { EventBus } from '../event-bus.js';
 import { Howl, Howler } from 'howler';
+import Castjs from '../vendor/cast.js';
 
 import { mixin as clickaway } from 'vue-clickaway';
 
@@ -209,6 +233,7 @@ export default {
       show_sidebar: false,
       show_player: false,
       player: {
+        cjs: undefined,
         howl: undefined,
         song: undefined,
         media: undefined,
@@ -225,6 +250,12 @@ export default {
         freq_data: undefined,
         buffer_length: undefined,
       },
+
+      // Temp variables to handle cast connection/disconnection
+      was_volume: 0.5,
+      is_disconnecting: false,
+      was_playing: false,
+      was_seek: 0,
     };
   },
 
@@ -238,9 +269,7 @@ export default {
     EventBus.$on('play:album', (payload) => this.fetch_album(payload));
     EventBus.$on('play:song', (payload) => this.fetch_song(payload));
 
-    setInterval(() => {
-      this.update_seek();
-    }, 500);
+    setInterval(() => !this.is_casting && this.update_seek(), 500);
 
     this.show_page = true;
     this.$inertia.on('before', (event) => {
@@ -249,21 +278,104 @@ export default {
     this.$inertia.on('finish', (event) => {
       this.show_page = true;
     });
+
+    if (document) {
+      if (!this.player.cjs) this.init_cjs();
+    }
   },
 
-  watch: {
-    'player.volume': function (volume, old_volume) {
-      if (this.player.howl && old_volume == 0 && volume > 0) {
-        this.player.howl.play();
-      } else if (this.player.howl && volume == 0 && old_volume > 0) {
-        this.player.howl.pause();
-      }
-
-      this.player.howl ? this.player.howl.volume(volume) : '';
+  computed: {
+    is_casting() {
+      return this.player.cjs && this.player.cjs.connected;
+    },
+    is_playing() {
+      if (this.is_casting) return !this.player.cjs.paused;
+      else return this.player.howl && this.player.howl.playing();
+    },
+    is_buffering() {
+      if (this.is_casting) return this.player.cjs.state == 'buffering';
+      else return this.player.howl && this.player.howl.state() == 'loading';
     },
   },
 
+  watch: {
+    // 'player.volume': function (volume, old_volume) {
+    //   // if (this.player.howl && old_volume == 0 && volume > 0) {
+    //   //   this.player.howl.play();
+    //   // } else if (this.player.howl && volume == 0 && old_volume > 0) {
+    //   //   this.player.howl.pause();
+    //   // }
+    //   // this.set_volume(volume);
+    // },
+  },
+
   methods: {
+    init_cjs() {
+      this.player.cjs = new Castjs();
+
+      this.player.cjs.on('disconnect', () => (this.is_disconnecting = true));
+      this.player.cjs.on('timeupdate', () => this.update_seek());
+      this.player.cjs.on('volumechange', () => (this.player.volume = this.player.cjs.volumeLevel));
+      this.player.cjs.on('mute', () => (this.player.volume = 0));
+      this.player.cjs.on('unmute', () => (this.player.volume = this.player.cjs.volumeLevel));
+      this.player.cjs.on('playing', () => {
+        this.player.seek_max = this.player.cjs.duration;
+        this.player.volume = this.player.cjs.volumeLevel;
+      });
+      this.player.cjs.on('end', () => {
+        if (this.player.seek_max !== 0 && !this.is_disconnecting) {
+          // If seek_max is not empty, then we assume that we was playing a song, so we need to play the next one.
+          this.forward();
+        }
+      });
+    },
+    init_howl() {
+      this.player.howl = new Howl({
+        autoplay: true,
+        src: [this.player.media.url],
+        html5: true,
+        volume: this.player.volume,
+        onplay: () => {},
+        onpause: () => {},
+        onend: () => {
+          this.forward();
+        },
+        onstop: () => {},
+        onload: () => {
+          this.update_media_session();
+          this.player.seek_max = this.player.howl.duration();
+        },
+      });
+    },
+    cast_connect() {
+      if (!this.player.cjs) this.init_cjs();
+      this.was_playing = this.is_playing;
+      this.is_disconnecting = false;
+
+      this.player.cjs.requestSession(() => {
+        if (this.was_playing) {
+          this.player.howl.pause();
+          this.play({ song: this.player.song, media: this.player.media }, true);
+          this.was_playing = false;
+        }
+      });
+    },
+    cast_disconnect() {
+      this.was_playing = this.is_playing;
+      this.was_seek = this.player.seek;
+      this.player.cjs.disconnect();
+
+      let rearm_howl = () => {
+        if (this.is_casting) return setTimeout(rearm_howl, 500);
+
+        this.play({ song: this.player.song, media: this.player.media }, true);
+        this.was_playing = false;
+      };
+
+      if (this.was_playing) {
+        setTimeout(rearm_howl, 500);
+      }
+    },
     away(e) {
       if (e.target != this.$refs.toggle_sidebar_btn) this.show_sidebar = false;
     },
@@ -327,50 +439,47 @@ export default {
       let song = this.player.queue[this.player.queue_index];
       this.fetch_song({ song });
     },
-    play(payload) {
-      let first_time = true;
-
-      if (this.player.howl) {
-        this.player.howl.unload();
-        first_time = false;
-      }
-
+    play(payload, resumeSeek = false) {
       this.player.song = payload.song;
       this.player.media = payload.media;
+      if (!resumeSeek) this.player.seek = 0;
       this.player.seek_max = 0;
-      this.player.is_loading = true;
 
       this.$curr_song_id = payload.song.id;
       this.$curr_media_id = payload.media.id;
 
-      this.player.howl = new Howl({
-        src: [this.player.media.url],
-        autoplay: true,
-        html5: true,
-        volume: this.player.volume,
-        onplay: () => {},
-        onpause: () => {},
-        onend: () => {
-          this.forward();
-        },
-        onstop: () => {},
-        onload: () => {
-          this.update_media_session();
-          this.player.is_loading = false;
-          this.player.seek = 0;
-          this.player.seek_max = this.player.howl.duration();
-        },
-      });
+      if (!this.player.cjs) this.init_cjs();
+
+      if (this.is_casting) {
+        this.player.cjs.cast(
+          this.player.media.url,
+          {
+            title: this.player.song.artist + ' - ' + this.player.song.display_title,
+            poster: this.player.song.image_url,
+            startTime: resumeSeek ? this.player.seek : 0,
+          },
+          false,
+        );
+
+        this.player.cjs.play();
+      } else {
+        if (this.player.howl) this.player.howl.unload();
+        this.init_howl();
+        this.player.howl.seek(resumeSeek ? this.was_seek : 0);
+      }
 
       this.update_media_session();
 
-      if (first_time) this.visualizer_init();
+      if (!this.visualizer.analyser) this.visualizer_init();
     },
     pause() {
-      this.player.howl.playing() ? this.player.howl.pause() : this.player.howl.play();
+      if (this.is_casting) !this.player.cjs.paused ? this.player.cjs.pause() : this.player.cjs.play();
+      else this.player.howl ? (this.player.howl.playing() ? this.player.howl.pause() : this.player.howl.play()) : 0;
     },
     mute() {
-      this.player.volume == 0 ? (this.player.volume = 0.5) : (this.player.volume = 0);
+      if (this.player.volume !== 0) this.was_volume = this.player.volume;
+      this.player.volume == 0 ? (this.player.volume = this.was_volume) : (this.player.volume = 0);
+      this.set_volume();
     },
     toggle_random() {
       this.player.random = !this.player.random;
@@ -381,10 +490,16 @@ export default {
       else if (this.player.loop == 'self') this.player.loop = 'disabled';
     },
     update_seek() {
-      this.player.seek = this.player.howl ? this.player.howl.seek() : 0;
+      if (this.is_casting) this.player.seek = this.player.cjs.time;
+      else this.player.seek = this.player.howl ? this.player.howl.seek() : 0;
     },
     set_seek() {
-      this.player.howl ? this.player.howl.seek(this.player.seek) : '';
+      if (this.is_casting) this.player.cjs.seek(this.player.seek);
+      else this.player.howl ? this.player.howl.seek(this.player.seek) : '';
+    },
+    set_volume() {
+      if (this.is_casting) this.player.cjs.volume(Math.round(this.player.volume * 10) / 10);
+      else this.player.howl ? this.player.howl.volume(this.player.volume) : '';
     },
     update_media_session() {
       if ('mediaSession' in navigator) {
