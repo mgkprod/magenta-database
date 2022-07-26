@@ -84,7 +84,7 @@
                         <i v-else class="fas fa-fw fa-backward text-gray-dark" />
                       </div>
                       <div class="mx-2">
-                        <i v-if="player.is_loading" class="fas fa-fw fa-spinner fa-spin" />
+                        <i v-if="is_buffering" class="fas fa-fw fa-spinner fa-spin" />
                         <i
                           v-else-if="player.howl"
                           @click="pause()"
@@ -139,27 +139,28 @@
 
             <div class="hidden bg-gray-darker lg:block">
               <transition name="custom-classes-transition" enter-class="slide-top-enter" enter-active-class="slide-top-enter-active" leave-class="slide-bottom-leave" leave-active-class="slide-bottom-leave-active">
-                <div v-if="is_casting" class="flex flex-row items-center justify-center px-4 py-4 bg-gray-darkest text-gray-default">
+                <div v-if="is_casting" class="flex flex-row items-center justify-center px-4 py-4 bg-pink-400 text-gray-darkest">
                   <div class="mr-4 text-left fa-fw">
                     <i
                       @click="cast_disconnect"
                       class="transition duration-200 ease-in-out fab fa-chromecast hover:text-gray-lightest"
                       :class="{
-                        'text-pink-400': is_casting,
+                        '': is_casting,
                       }"
                     />
                   </div>
                   <div class="w-full text-xs truncate">
-                    <!-- <span v-if="player.cjs && player.cjs.device">Connecté à {{ player.cjs.device }}</span> -->
-                    <span v-if="player.cjs">{{ player.cjs.state }}</span>
+                    <span v-if="player.cjs && player.cjs.device">Connecté à {{ player.cjs.device }}</span>
                   </div>
                 </div>
               </transition>
 
               <div class="flex flex-row items-center justify-center px-4 py-4 text-gray-default">
-                <div v-if="!is_casting" class="mr-4 text-left fa-fw">
-                  <i @click="cast_connect" class="transition duration-200 ease-in-out fab fa-chromecast hover:text-gray-lightest" />
-                </div>
+                <transition name="custom-classes-transition" enter-class="slide-left-enter" enter-active-class="slide-left-enter-active" leave-class="slide-left-leave" leave-active-class="slide-left-leave-active">
+                  <div v-if="!is_casting && player.cjs && player.cjs.available" class="mr-4 text-left fa-fw">
+                    <i @click="cast_connect" class="transition duration-200 ease-in-out fab fa-chromecast hover:text-gray-lightest" />
+                  </div>
+                </transition>
                 <div class="mr-4 text-left fa-fw">
                   <i
                     @click="mute()"
@@ -249,6 +250,12 @@ export default {
         freq_data: undefined,
         buffer_length: undefined,
       },
+
+      // Temp variables to handle cast connection/disconnection
+      was_volume: 0.5,
+      is_disconnecting: false,
+      was_playing: false,
+      was_seek: 0,
     };
   },
 
@@ -262,7 +269,7 @@ export default {
     EventBus.$on('play:album', (payload) => this.fetch_album(payload));
     EventBus.$on('play:song', (payload) => this.fetch_song(payload));
 
-    setInterval(() => this.update_seek(), 500);
+    setInterval(() => !this.is_casting && this.update_seek(), 500);
 
     this.show_page = true;
     this.$inertia.on('before', (event) => {
@@ -271,6 +278,10 @@ export default {
     this.$inertia.on('finish', (event) => {
       this.show_page = true;
     });
+
+    if (document) {
+      if (!this.player.cjs) this.init_cjs();
+    }
   },
 
   computed: {
@@ -280,6 +291,10 @@ export default {
     is_playing() {
       if (this.is_casting) return !this.player.cjs.paused;
       else return this.player.howl && this.player.howl.playing();
+    },
+    is_buffering() {
+      if (this.is_casting) return this.player.cjs.state == 'buffering';
+      else return this.player.howl && this.player.howl.state() == 'loading';
     },
   },
 
@@ -298,37 +313,20 @@ export default {
     init_cjs() {
       this.player.cjs = new Castjs();
 
-      this.player.cjs.on('connect', () => {
-        console.log('connect');
-      });
-      this.player.cjs.on('disconnect', () => {
-        console.log('disconnect');
-      });
-      // this.player.cjs.on('timeupdate', () => this.update_seek());
-      this.player.cjs.on('volumechange', () => {
-        console.log('volumechange', this.player.cjs.volumeLevel);
-
-        this.player.volume = this.player.cjs.volumeLevel;
-      });
-      this.player.cjs.on('mute', () => {
-        console.log('mute', this.player.muted);
-      });
-      this.player.cjs.on('unmute', () => {
-        console.log('unmute', this.player.muted);
-      });
+      this.player.cjs.on('disconnect', () => (this.is_disconnecting = true));
+      this.player.cjs.on('timeupdate', () => this.update_seek());
+      this.player.cjs.on('volumechange', () => (this.player.volume = this.player.cjs.volumeLevel));
+      this.player.cjs.on('mute', () => (this.player.volume = 0));
+      this.player.cjs.on('unmute', () => (this.player.volume = this.player.cjs.volumeLevel));
       this.player.cjs.on('playing', () => {
-        this.player.is_loading = false;
         this.player.seek_max = this.player.cjs.duration;
         this.player.volume = this.player.cjs.volumeLevel;
-
-        console.log('playing');
-      });
-      this.player.cjs.on('pause', () => {
-        console.log('pause');
       });
       this.player.cjs.on('end', () => {
-        this.forward();
-        console.log('end');
+        if (this.player.seek_max !== 0 && !this.is_disconnecting) {
+          // If seek_max is not empty, then we assume that we was playing a song, so we need to play the next one.
+          this.forward();
+        }
       });
     },
     init_howl() {
@@ -345,36 +343,37 @@ export default {
         onstop: () => {},
         onload: () => {
           this.update_media_session();
-          this.player.is_loading = false;
-          this.player.seek = 0;
           this.player.seek_max = this.player.howl.duration();
         },
       });
     },
     cast_connect() {
       if (!this.player.cjs) this.init_cjs();
-      let was_playing = this.is_playing;
+      this.was_playing = this.is_playing;
+      this.is_disconnecting = false;
 
-      if (this.player.cjs.available) {
-        this.player.cjs.cast(this.player.media.url, {
-          title: this.player.song.artist + ' - ' + this.player.song.display_title,
-          poster: this.player.song.image_url,
-        });
-
-        if (was_playing) {
+      this.player.cjs.requestSession(() => {
+        if (this.was_playing) {
           this.player.howl.pause();
+          this.play({ song: this.player.song, media: this.player.media }, true);
+          this.was_playing = false;
         }
-      } else {
-        alert('Casting is not available!');
-      }
+      });
     },
     cast_disconnect() {
-      let was_playing = this.is_playing;
+      this.was_playing = this.is_playing;
+      this.was_seek = this.player.seek;
       this.player.cjs.disconnect();
 
-      if (was_playing) {
-        this.play(this.player.song, this.player.media);
-        this.set_seek();
+      let rearm_howl = () => {
+        if (this.is_casting) return setTimeout(rearm_howl, 500);
+
+        this.play({ song: this.player.song, media: this.player.media }, true);
+        this.was_playing = false;
+      };
+
+      if (this.was_playing) {
+        setTimeout(rearm_howl, 500);
       }
     },
     away(e) {
@@ -440,37 +439,33 @@ export default {
       let song = this.player.queue[this.player.queue_index];
       this.fetch_song({ song });
     },
-    play(payload) {
+    play(payload, resumeSeek = false) {
       this.player.song = payload.song;
       this.player.media = payload.media;
-      this.player.seek = 0;
+      if (!resumeSeek) this.player.seek = 0;
       this.player.seek_max = 0;
-      this.player.is_loading = true;
 
       this.$curr_song_id = payload.song.id;
       this.$curr_media_id = payload.media.id;
 
       if (!this.player.cjs) this.init_cjs();
-      if (!this.player.howl) this.init_howl();
 
       if (this.is_casting) {
-        this.player.cjs.pause();
-        this.set_seek();
-
         this.player.cjs.cast(
           this.player.media.url,
           {
             title: this.player.song.artist + ' - ' + this.player.song.display_title,
             poster: this.player.song.image_url,
+            startTime: resumeSeek ? this.player.seek : 0,
           },
           false,
         );
 
         this.player.cjs.play();
       } else {
-        this.player.howl.unload();
-        this.player.howl._src = [this.player.media.url];
-        this.player.howl.play();
+        if (this.player.howl) this.player.howl.unload();
+        this.init_howl();
+        this.player.howl.seek(resumeSeek ? this.was_seek : 0);
       }
 
       this.update_media_session();
@@ -479,10 +474,11 @@ export default {
     },
     pause() {
       if (this.is_casting) !this.player.cjs.paused ? this.player.cjs.pause() : this.player.cjs.play();
-      else this.player.seek = this.player.howl ? (this.player.howl.playing() ? this.player.howl.pause() : this.player.howl.play()) : 0;
+      else this.player.howl ? (this.player.howl.playing() ? this.player.howl.pause() : this.player.howl.play()) : 0;
     },
     mute() {
-      this.player.volume == 0 ? (this.player.volume = 0.5) : (this.player.volume = 0);
+      if (this.player.volume !== 0) this.was_volume = this.player.volume;
+      this.player.volume == 0 ? (this.player.volume = this.was_volume) : (this.player.volume = 0);
       this.set_volume();
     },
     toggle_random() {

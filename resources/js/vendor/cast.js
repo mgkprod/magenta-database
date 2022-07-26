@@ -265,18 +265,21 @@ class Castjs {
                 this[key] = metadata[key];
             }
         }
-        
+
         if (!requestSession) return this.loadMedia(src, metadata);
 
         // Time to request a session!
-        cast.framework.CastContext.getInstance().requestSession().then(() => {
-            this.loadMedia(src, metadata);
-        }, (err) => {
-            if (err !== 'cancel') {
-                this.trigger('error', err);
-            }
-            return this;
+        this.requestSession(
+            () => { this.loadMedia(src, metadata) },
+            (err) => {
+                if (err !== 'cancel') {
+                    this.trigger('error', err);
+                }
+                return this;
         });
+    }
+    requestSession(then = () => {}, err = () => {}) {
+        cast.framework.CastContext.getInstance().requestSession().then(then, err);
     }
     loadMedia(src, metadata = {}) {
         if (!cast.framework.CastContext.getInstance().getCurrentSession()) {
@@ -321,10 +324,12 @@ class Castjs {
         // Prepare the actual request
         var request = new chrome.cast.media.LoadRequest(mediaInfo);
         // Didn't really test this currenttime thingy, dont forget
-        request.currentTime = this.time;
-        request.autoplay = !this.paused;
+
+        request.currentTime = metadata.startTime || 0;
+        request.autoplay = true;
+
         // If multiple subtitles, use the active: true one
-        if (this.subtitles.length) {
+        if (this.subtitles && this.subtitles.length) {
             for (var i in this.subtitles) {
                 if (this.subtitles[i].active) {
                     request.activeTrackIds = [parseInt(i)];
