@@ -279,9 +279,7 @@ export default {
       this.show_page = true;
     });
 
-    if (document) {
-      if (!this.player.cjs) this.init_cjs();
-    }
+    if (typeof window !== 'undefined' && !this.player.cjs) this.init_cjs();
   },
 
   computed: {
