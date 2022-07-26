@@ -131,8 +131,16 @@
                   </div>
                 </div>
                 <canvas ref="canvas" class="absolute inset-0 top-auto z-0 w-full h-24 border-b-4 border-gray-dark"></canvas>
-                <button class="absolute bottom-0 right-0 z-10 h-16 px-4 lg:hidden focus:outline-none" @click="show_player = false">
-                  <i class="text-xs transition duration-200 ease-in-out fas hover:text-gray-lightest text-gray-default fa-chevron-down" />
+
+                <button class="absolute bottom-0 left-0 z-10 h-16 px-4 text-xs lg:hidden focus:outline-none" v-if="!is_casting && player.cjs && player.cjs.available" @click="cast_connect">
+                  <i class="transition duration-200 ease-in-out fab hover:text-gray-lightest text-gray-default fa-chromecast" />
+                </button>
+                <button class="absolute bottom-0 left-0 z-10 h-16 px-4 text-xs lg:hidden focus:outline-none" v-if="is_casting" @click="cast_disconnect">
+                  <i class="transition duration-200 ease-in-out fab hover:text-gray-lightest text-gray-default fa-chromecast" />
+                  <span class="ml-2" v-if="player.cjs && player.cjs.device">Connecté à {{ player.cjs.device }}</span>
+                </button>
+                <button class="absolute bottom-0 right-0 z-10 h-16 px-4 text-xs lg:hidden focus:outline-none" @click="show_player = false">
+                  <i class="transition duration-200 ease-in-out fas hover:text-gray-lightest text-gray-default fa-chevron-down" />
                 </button>
               </div>
             </transition>
