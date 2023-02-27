@@ -1,12 +1,13 @@
 <template>
   <div class="flex flex-col w-full vh">
     <inertia-head>
-      <title>MAGENTA-DATABASE</title>
-      <meta head-key="description" name="description" content="Base de données communautaire référençant les tracks connues du groupe MAGENTA et de leurs projets liés." />
+      <title>{{ $page.props.app_name }}</title>
+      <meta head-key="description" name="description" :content="$page.props.app_description" />
     </inertia-head>
 
     <div class="z-10 flex flex-row items-center justify-between w-full px-4 py-4 bg-black border-b-4 border-gray-darker lg:hidden">
-      <button ref="toggle_sidebar_btn" class="w-8 h-8 mb-0 bg-gradient-magenta focus:outline-none" @click="show_sidebar = !show_sidebar"></button>
+      <button ref="toggle_sidebar_btn" class="w-8 h-8 mb-0 bg-gradient-distractions focus:outline-none" @click="show_sidebar = !show_sidebar" v-if="$page.props.app_name == 'DISTRACTIONS-DATABASE'"></button>
+      <button ref="toggle_sidebar_btn" class="w-8 h-8 mb-0 bg-gradient-magenta focus:outline-none" @click="show_sidebar = !show_sidebar" v-else></button>
     </div>
 
     <div class="flex flex-row flex-auto min-h-0">
@@ -16,7 +17,8 @@
           <div class="flex flex-col h-full py-4 overflow-y-auto">
             <div class="py-4 mb-4">
               <inertia-link :href="route('index')" class="tracking-tight transition-all duration-200 ease-in-out" @click="show_sidebar = false">
-                <img src="/images/logo.svg" alt="Logo" class="w-full hover-contrast" />
+                <img src="/images/logo_distractions.png" alt="Logo" class="w-full hover-contrast" v-if="$page.props.app_name == 'DISTRACTIONS-DATABASE'" />
+                <img src="/images/logo.svg" alt="Logo" class="w-full hover-contrast" v-else />
               </inertia-link>
             </div>
 

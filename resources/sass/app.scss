@@ -45,6 +45,11 @@
   background: linear-gradient(90deg, #f701f2 0%, #ca2df4 16.54%, #01f0fe 90.1%) !important;
 }
 
+.bg-gradient-distractions {
+  background: linear-gradient(90deg, rgba(226,30,27,1) 0%, rgba(129,16,15,1) 39%, rgba(125,15,14,1) 50%, rgba(129,16,15,1) 60%, rgba(226,30,27,1) 100%) !important;
+  box-shadow:inset 0px 0px 0px 3px #0f0c26;
+}
+
 .bg-cover-container {
   position: absolute;
   top: 0;

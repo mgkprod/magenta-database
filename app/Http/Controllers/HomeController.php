@@ -3,9 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Album;
+use App\Models\StaticPage;
 
 class HomeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index', 'settings']);
+    }
+
     public function index()
     {
         $albums = Album::select('id')->get();
@@ -17,7 +23,10 @@ class HomeController extends Controller
 
         $grid = $grid->shuffle()->values();
 
-        return inertia('index', ['albums' => $grid]);
+        return inertia('index', [
+            'content' => StaticPage::firstWhere('slug', 'home')->content,
+            'albums' => $grid,
+        ]);
     }
 
     public function settings()
