@@ -58,18 +58,20 @@ Vue.component('inertia-link', Link);
 const files = require.context('./', true, /\.vue$/i);
 files.keys().map((key) => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
-createServer((page) =>
-  createInertiaApp({
-    page,
-    render: createRenderer().renderToString,
-    resolve: (name) => require(`./pages/${name}`),
-    title: (title) => process.env.MIX_APP_NAME + ` » ${title}`,
-    setup({ app, props, plugin }) {
-      Vue.use(plugin);
+createServer(
+  (page) =>
+    createInertiaApp({
+      page,
+      render: createRenderer().renderToString,
+      resolve: (name) => require(`./pages/${name}`),
+      title: (title) => process.env.MIX_APP_NAME + ` » ${title}`,
+      setup({ app, props, plugin }) {
+        Vue.use(plugin);
 
-      return new Vue({
-        render: (h) => h(app, props),
-      });
-    },
-  }),
+        return new Vue({
+          render: (h) => h(app, props),
+        });
+      },
+    }),
+  process.env.MIX_SSR_PORT,
 );
