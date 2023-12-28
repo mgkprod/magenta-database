@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateStaticPagesTable extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -78,4 +77,4 @@ class CreateStaticPagesTable extends Migration
     {
         Schema::dropIfExists('static_pages');
     }
-}
+};

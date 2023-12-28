@@ -8,7 +8,7 @@
 
 Spotify-like for MAGENTA songs.
 
-Built with Vue.js, Inertia.js, Tailwind CSS and Laravel 8.
+Built with Vue.js, Inertia.js, Tailwind CSS and Laravel.
 
 ## Demo
 
@@ -25,6 +25,6 @@ All notable changes to the project are documented [on GitHub](./CHANGELOG.md).
 
 ## License
 
-Copyright (c) 2020 Simon Rubuano (@mgkprod) and contributors
+Copyright (c) 2023 Simon Rubuano (@mgkprod) and contributors
 
 Licensed under the MIT license, see [LICENSE.md](LICENSE.md) for details.
