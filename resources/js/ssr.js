@@ -64,7 +64,7 @@ createServer(
       page,
       render: createRenderer().renderToString,
       resolve: (name) => require(`./pages/${name}`),
-      title: (title) => process.env.MIX_APP_NAME + ` » ${title}`,
+      title: (title) => import.meta.env.VITE_APP_NAME + ` » ${title}`,
       setup({ app, props, plugin }) {
         Vue.use(plugin);
 
@@ -73,5 +73,5 @@ createServer(
         });
       },
     }),
-  process.env.MIX_SSR_PORT,
+  import.meta.env.VITE_SSR_PORT,
 );

@@ -61,7 +61,7 @@ files.keys().map((key) => Vue.component(key.split('/').pop().split('.')[0], file
 
 createInertiaApp({
   resolve: (name) => require(`./pages/${name}`),
-  title: (title) => process.env.MIX_APP_NAME + ` » ${title}`,
+  title: (title) => import.meta.env.VITE_APP_NAME + ` » ${title}`,
   setup({ el, App, props, plugin }) {
     Vue.use(plugin);
 
