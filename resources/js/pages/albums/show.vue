@@ -46,9 +46,7 @@
         </div>
         <div class="text-gray-dark dark:text-gray-default">Ajouté le : {{ moment(album.created_at).format('L') }}</div>
 
-        <div class="w-full mt-4 whitespace-pre-wrap" v-if="album.details">
-          <vue-simple-markdown :source="album.details"></vue-simple-markdown>
-        </div>
+        <div class="w-full mt-4 whitespace-pre-wrap" v-if="album.details" v-html="markdownit.render(album.details)"></div>
 
         <div class="mt-8">
           <div class="inline-flex items-center px-4 py-2 font-semibold transition duration-200 ease-in-out bg-white bg-opacity-50 rounded cursor-pointer dark:bg-black text-gray-dark dark:text-gray-default active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500 hover:bg-opacity-70" @click="play()">
@@ -71,10 +69,11 @@
 </template>
 
 <script>
+import Layout from '@/layouts/app.vue';
 import { EventBus } from '../../event-bus.js';
 
 export default {
-  layout: require('../../layouts/app').default,
+  layout: Layout,
 
   props: ['album', 'files'],
 

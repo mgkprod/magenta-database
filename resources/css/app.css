@@ -1,20 +1,5 @@
-@font-face {
-  font-family: 'Inter var';
-  font-weight: 100 900;
-  font-style: normal;
-  font-named-instance: 'Regular';
-  font-display: swap;
-  src: url('https://rsms.me/inter/font-files/Inter.var.woff2?3.13') format('woff2');
-}
-
-@font-face {
-  font-family: 'Inter var';
-  font-weight: 100 900;
-  font-style: italic;
-  font-named-instance: 'Italic';
-  font-display: swap;
-  src: url('https://rsms.me/inter/font-files/Inter-italic.var.woff2?3.13') format('woff2');
-}
+@import 'animate.css/animate.css';
+@import url(https://fonts.bunny.net/css?family=inter:400,600);
 
 @font-face {
   font-family: 'Eurostile Extended Bold';
@@ -24,16 +9,12 @@
     url('/fonts/EurostileExt-Bla.otf') format('truetype');
 }
 
-@import '~animate.css/animate.css';
-
 .animate__fastest {
   animation-duration: 200ms;
 }
 
 @tailwind base;
-
 @tailwind components;
-
 @tailwind utilities;
 
 #nprogress .bar {

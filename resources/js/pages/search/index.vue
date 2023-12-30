@@ -36,8 +36,10 @@
 </template>
 
 <script>
+import Layout from '@/layouts/app.vue';
+
 export default {
-  layout: require('../../layouts/app').default,
+  layout: Layout,
 
   props: ['results', 'q'],
 

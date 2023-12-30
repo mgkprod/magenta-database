@@ -21,10 +21,12 @@
 </template>
 
 <script>
+import Layout from '@/layouts/app.vue';
 import formSelect from '../../components/form-select.vue';
+
 export default {
   components: { formSelect },
-  layout: require('../../layouts/app').default,
+  layout: Layout,
 
   props: ['file'],
 

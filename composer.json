@@ -15,15 +15,15 @@
         "inertiajs/inertia-laravel": "^0.6.0",
         "ksubileau/color-thief-php": "^2.0",
         "laravel/framework": "^9.19",
-        "laravel/tinker": "^2.7",
         "laravel/sanctum": "^3.0",
+        "laravel/tinker": "^2.7",
         "laravel/ui": "^1.0|^2.0|^3.0",
         "molayli/laravel-cloudflare-real-ip": "^0.1.0",
         "php-ffmpeg/php-ffmpeg": "^1.0.1",
         "rorecek/laravel-ulid": "^2.0",
         "spatie/laravel-medialibrary": "^9.0.0",
         "spatie/laravel-searchable": "^1.9",
-        "tightenco/ziggy": "^1.4"
+        "tightenco/ziggy": "^1.8"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

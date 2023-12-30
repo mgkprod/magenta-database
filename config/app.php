@@ -17,7 +17,6 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
     'description' => env('APP_DESCRIPTION', 'Laravel'),
-    'ssr_port' => env('SSR_PORT', 13714),
 
     /*
     |--------------------------------------------------------------------------

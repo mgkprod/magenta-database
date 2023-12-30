@@ -442,3 +442,5 @@ class Castjs {
 if (typeof module !== 'undefined'){
     module.exports = Castjs;
 }
+
+export default Castjs;

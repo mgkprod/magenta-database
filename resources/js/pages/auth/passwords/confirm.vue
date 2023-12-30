@@ -17,8 +17,10 @@
 </template>
 
 <script>
+import Layout from '@/layouts/app.vue';
+
 export default {
-  layout: require('../../../layouts/gate').default,
+  layout: Layout,
 
   props: {
     email: String,
