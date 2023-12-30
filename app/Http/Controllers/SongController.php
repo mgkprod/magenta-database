@@ -238,10 +238,10 @@ class SongController extends Controller
 
     public function storeMedia(Request $request, Song $song)
     {
-        Storage::move('temp/' . $request->handle, 'temp/' . $request->file_name);
+        Storage::move('temp/'.$request->handle, 'temp/'.$request->file_name);
 
         $media = $song
-            ->addMediaFromDisk('temp/' . $request->file_name)
+            ->addMediaFromDisk('temp/'.$request->file_name)
             ->withCustomProperties(['source' => $request->source])
             ->toMediaCollection('medias');
 
@@ -286,10 +286,10 @@ class SongController extends Controller
 
     public function storeFile(Request $request, Song $song)
     {
-        Storage::move('temp/' . $request->handle, 'temp/' . $request->file_name);
+        Storage::move('temp/'.$request->handle, 'temp/'.$request->file_name);
 
         $file = $song
-            ->addMediaFromDisk('temp/' . $request->file_name)
+            ->addMediaFromDisk('temp/'.$request->file_name)
             ->withCustomProperties(['name' => $request->name])
             ->toMediaCollection('files');
 

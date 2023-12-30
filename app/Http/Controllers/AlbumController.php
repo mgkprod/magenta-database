@@ -132,10 +132,10 @@ class AlbumController extends Controller
 
     public function storeFile(Request $request, Album $album)
     {
-        Storage::move('temp/' . $request->handle, 'temp/' . $request->file_name);
+        Storage::move('temp/'.$request->handle, 'temp/'.$request->file_name);
 
         $file = $album
-            ->addMediaFromDisk('temp/' . $request->file_name)
+            ->addMediaFromDisk('temp/'.$request->file_name)
             ->withCustomProperties(['name' => $request->name])
             ->toMediaCollection('files');
 

@@ -12,8 +12,8 @@ use Spatie\Searchable\SearchResult;
 
 class Event extends Model implements HasMedia, Searchable
 {
-    use InteractsWithMedia;
     use HasUlid;
+    use InteractsWithMedia;
 
     protected $guarded = [];
 

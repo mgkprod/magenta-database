@@ -32,5 +32,5 @@ Artisan::command('users:create', function () {
     $user->remember_token = Str::random(10);
     $user->save();
 
-    $this->line('User created with id: ' . $user->id);
+    $this->line('User created with id: '.$user->id);
 });

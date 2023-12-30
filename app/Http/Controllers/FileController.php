@@ -18,7 +18,7 @@ class FileController extends Controller
 
     public function storeChunk(Request $request)
     {
-        $append_to_file = storage_path('app/temp/' . $request->handle);
+        $append_to_file = storage_path('app/temp/'.$request->handle);
         [, $data] = explode(';base64,', $request->file_data);
         $data = base64_decode($data);
         file_put_contents($append_to_file, $data, FILE_APPEND);
@@ -59,7 +59,7 @@ class FileController extends Controller
                     ->withErrors(['preset' => ['Invalid preset']]);
         }
 
-        $outputFilePath = storage_path('app/temp/' . $file->file_name . '.' . $ext);
+        $outputFilePath = storage_path('app/temp/'.$file->file_name.'.'.$ext);
 
         $ffmpeg = FFmpeg::create([
             'ffmpeg.binaries' => config('services.ffmpeg.ffmpeg_path'),
@@ -75,13 +75,13 @@ class FileController extends Controller
         } catch (\Throwable $th) {
             return back()
                 ->withInput()
-                ->withErrors(['preset' => ['FFmpeg error: ' . $th->getMessage()]]);
+                ->withErrors(['preset' => ['FFmpeg error: '.$th->getMessage()]]);
         }
 
         $song = $file->model;
 
         $media = $song
-            ->addMediaFromDisk('temp/' . $file->file_name . '.' . $ext)
+            ->addMediaFromDisk('temp/'.$file->file_name.'.'.$ext)
             ->withCustomProperties(['source' => 'converted', 'og_file_id' => $file->id])
             ->toMediaCollection('medias');
 

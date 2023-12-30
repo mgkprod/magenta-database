@@ -99,10 +99,10 @@ class EventController extends Controller
 
     public function storeFile(Request $request, Event $event)
     {
-        Storage::move('temp/' . $request->handle, 'temp/' . $request->file_name);
+        Storage::move('temp/'.$request->handle, 'temp/'.$request->file_name);
 
         $file = $event
-            ->addMediaFromDisk('temp/' . $request->file_name)
+            ->addMediaFromDisk('temp/'.$request->file_name)
             ->withCustomProperties(['name' => $request->name])
             ->toMediaCollection('files');
 
