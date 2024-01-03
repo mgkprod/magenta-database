@@ -60,7 +60,7 @@
       </div>
       <div class="flex-none hidden w-32 mx-2 text-left md:block text-gray-dark dark:text-gray-default">
         <span v-if="song.first_time_played_at">
-          {{ moment(song.first_time_played_at).format('L') }}
+          {{ moment(song.first_time_played_at).format('DD/MM/YYYY') }}
         </span>
         <span v-else-if="song.released_at">
           {{ moment(song.released_at).format('YYYY') }}

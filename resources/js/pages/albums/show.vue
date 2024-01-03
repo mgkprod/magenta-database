@@ -48,7 +48,7 @@
           <span v-if="album.released_at">{{ moment(album.released_at).format('YYYY') }}</span>
           <span v-else>N/A</span>
         </div>
-        <div class="text-gray-dark dark:text-gray-default">Ajouté le : {{ moment(album.created_at).format('L') }}</div>
+        <div class="text-gray-dark dark:text-gray-default">Ajouté le : {{ moment(album.created_at).format('DD/MM/YYYY') }}</div>
 
         <div class="w-full mt-4 whitespace-pre-wrap" v-if="album.details" v-html="markdownit.render(album.details)"></div>
 

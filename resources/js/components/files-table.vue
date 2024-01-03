@@ -16,7 +16,7 @@
         {{ get_readable_file_size_string(file.size) }}
       </div>
       <div class="flex-none hidden w-32 mx-2 text-left md:block text-gray-dark dark:text-gray-default">
-        {{ moment(file.created_at).format('L') }}
+        {{ moment(file.created_at).format('DD/MM/YYYY') }}
       </div>
       <div class="flex-none w-32 text-right md:mx-2 text-gray-light dark:text-gray-dark">
         <a class="transition-all duration-200 ease-in-out hover:text-gray-dark dark:hover:text-gray-default" :href="file.url" target="_blank">

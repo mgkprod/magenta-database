@@ -57,13 +57,13 @@
           <span v-if="song.availability == 'deleted'">Supprimé</span>
           <span v-if="song.availability == 'published'">Publié</span>
         </div>
-        <div v-if="song.first_time_played_at" class="text-gray-dark dark:text-gray-default">Première diffusion le : {{ moment(song.first_time_played_at).format('L') }}</div>
+        <div v-if="song.first_time_played_at" class="text-gray-dark dark:text-gray-default">Première diffusion le : {{ moment(song.first_time_played_at).format('DD/MM/YYYY') }}</div>
         <div v-if="song.released_at" class="text-gray-dark dark:text-gray-default">
           Année de sortie :
           <span v-if="song.released_at">{{ moment(song.released_at).format('YYYY') }}</span>
           <span v-else>N/A</span>
         </div>
-        <div class="text-gray-dark dark:text-gray-default">Ajouté le : {{ moment(song.created_at).format('L') }}</div>
+        <div class="text-gray-dark dark:text-gray-default">Ajouté le : {{ moment(song.created_at).format('DD/MM/YYYY') }}</div>
 
         <div class="w-full mt-4 whitespace-pre-wrap" v-if="song.details" v-html="markdownit.render(song.details)"></div>
 
@@ -131,7 +131,7 @@
             {{ get_readable_file_size_string(media.size) }}
           </div>
           <div class="flex-none hidden w-32 mx-2 text-left lg:block text-gray-dark dark:text-gray-default">
-            {{ moment(media.created_at).format('L') }}
+            {{ moment(media.created_at).format('DD/MM/YYYY') }}
           </div>
           <div class="flex-none w-32 text-right md:mx-2 text-gray-light dark:text-gray-dark">
             <a v-if="song.is_downloadable" class="transition-all duration-200 ease-in-out hover:text-gray-dark dark:hover:text-gray-default" :href="media.url" target="_blank">

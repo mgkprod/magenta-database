@@ -36,10 +36,10 @@
         <h1 class="mb-4 text-4xl font-semibold">{{ event.name }}</h1>
         <div class="text-gray-dark dark:text-gray-default">
           Date :
-          <span v-if="event.happened_at">{{ moment(event.happened_at).format('L') }}</span>
+          <span v-if="event.happened_at">{{ moment(event.happened_at).format('DD/MM/YYYY') }}</span>
           <span v-else>N/A</span>
         </div>
-        <div class="text-gray-dark dark:text-gray-default">Ajouté le : {{ moment(event.created_at).format('L') }}</div>
+        <div class="text-gray-dark dark:text-gray-default">Ajouté le : {{ moment(event.created_at).format('DD/MM/YYYY') }}</div>
 
         <div class="w-full mt-4 whitespace-pre-wrap" v-if="event.details" v-html="markdownit.render(event.details)"></div>
 
