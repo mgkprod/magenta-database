@@ -14,7 +14,7 @@
       <!-- Sidebar -->
       <transition name="custom-classes-transition" enter-class="slide-left-enter" enter-active-class="slide-left-enter-active" leave-class="slide-left-leave" leave-active-class="slide-left-leave-active">
         <div class="absolute top-0 bottom-0 z-30 flex flex-col flex-none w-56 transition-all duration-200 ease-in-out bg-black shadow-lg text-gray-lightest lg:static" :class="{ 'left-0': show_sidebar, '-left-96': !show_sidebar }" v-click-away="away">
-          <div class="flex flex-col h-full py-4 overflow-y-auto">
+          <div class="flex flex-col h-full py-4 overflow-y-auto" v-if="show_sidebar_links">
             <div class="py-4 mb-4">
               <inertia-link :href="route('index')" class="tracking-tight transition-all duration-200 ease-in-out" @click="show_sidebar = false">
                 <img src="/images/logo_distractions.png" alt="Logo" class="w-full hover-contrast" v-if="$page.props.app_name == 'DISTRACTIONS-DATABASE'" />
@@ -247,6 +247,7 @@ export default {
     return {
       show_page: true,
       show_sidebar: false,
+      show_sidebar_links: true,
       show_player: false,
       player: {
         cjs: undefined,
@@ -293,6 +294,9 @@ export default {
     });
     this.$inertia.on('finish', (event) => {
       this.show_page = true;
+
+      this.show_sidebar_links = false;
+      this.$nextTick(() => (this.show_sidebar_links = true));
     });
 
     if (typeof window !== 'undefined' && !this.player.cjs) this.init_cjs();
