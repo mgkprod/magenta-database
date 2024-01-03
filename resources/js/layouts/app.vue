@@ -13,7 +13,7 @@
     <div class="flex flex-row flex-auto min-h-0">
       <!-- Sidebar -->
       <transition name="custom-classes-transition" enter-class="slide-left-enter" enter-active-class="slide-left-enter-active" leave-class="slide-left-leave" leave-active-class="slide-left-leave-active">
-        <div class="absolute top-0 bottom-0 left-0 z-30 flex flex-col flex-none w-56 transition-all duration-200 ease-in-out bg-black shadow-lg text-gray-lightest lg:static" :class="{ '-left-96': !show_sidebar }" > <!-- v-on-clickaway="away" -->
+        <div class="absolute top-0 bottom-0 z-30 flex flex-col flex-none w-56 transition-all duration-200 ease-in-out bg-black shadow-lg text-gray-lightest lg:static" :class="{ 'left-0': show_sidebar, '-left-96': !show_sidebar }" v-click-away="away">
           <div class="flex flex-col h-full py-4 overflow-y-auto">
             <div class="py-4 mb-4">
               <inertia-link :href="route('index')" class="tracking-tight transition-all duration-200 ease-in-out" @click="show_sidebar = false">
@@ -242,11 +242,7 @@ import Castjs from '../vendor/cast.js';
 import _ from 'lodash';
 import {global_data} from '../store.js';
 
-// import { mixin as clickaway } from 'vue-clickaway';
-
 export default {
-  // mixins: [clickaway],
-
   data() {
     return {
       show_page: true,

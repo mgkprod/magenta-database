@@ -9,6 +9,7 @@ import markdownit from 'markdown-it'
 import VueLoadImage from 'vue-load-image';
 import PrimeVue from 'primevue/config';
 import Theme from './theme';
+import VueClickAway from "vue3-click-away";
 
 momentDurationFormatSetup(moment);
 moment.locale('fr');
@@ -34,7 +35,8 @@ createInertiaApp({
       .use(PrimeVue, {
           unstyled: true,
           pt: Theme,
-      });
+      })
+      .use(VueClickAway)
 
       const components = {
         ...import.meta.glob('./components/**/*.vue', {eager: true }),
