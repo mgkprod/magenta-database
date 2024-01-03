@@ -4,12 +4,12 @@
 
     <div :class="{ error: errors.length }">
       <input ref="file" type="file" :accept="accept" class="hidden" @change="change" />
-      <div v-if="!value">
+      <div v-if="!modelValue">
         <button type="button" class="inline-flex items-center px-4 py-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default hover:bg-gray-light dark:hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500" @click="browse"><i class="mr-2 opacity-50 fas fa-file"></i> Browse</button>
       </div>
       <div v-else class="flex items-center justify-between">
         <div class="flex-none truncate">
-          <div class="truncate">{{ value.name }} ({{ get_readable_file_size_string(value.size) }})</div>
+          <div class="truncate">{{ modelValue.name }} ({{ get_readable_file_size_string(modelValue.size) }})</div>
         </div>
         <button type="button" class="inline-flex items-center px-4 py-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default hover:bg-gray-light dark:hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500" @click.stop="remove">Remove</button>
       </div>
@@ -24,7 +24,7 @@ export default {
   inheritAttrs: false,
 
   props: {
-    value: {},
+    modelValue: {},
     label: String,
     accept: String,
     errors: {
@@ -34,9 +34,9 @@ export default {
   },
 
   watch: {
-    value(value) {
-      if (!value) {
-        this.$refs.file.value = '';
+    modelValue(modelValue) {
+      if (!modelValue) {
+        this.$refs.file.modelValue = '';
       }
     },
   },
@@ -56,10 +56,10 @@ export default {
       this.$refs.file.click();
     },
     change(e) {
-      this.$emit('input', e.target.files[0]);
+      this.$emit('update:modelValue', e.target.files[0]);
     },
     remove() {
-      this.$emit('input', null);
+      this.$emit('update:modelValue', null);
     },
   },
 };
