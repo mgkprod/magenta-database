@@ -325,6 +325,7 @@ export default {
     //   // }
     //   // this.set_volume(volume);
     // },
+
   },
 
   methods: {
@@ -353,7 +354,9 @@ export default {
         src: [this.player.media.url],
         html5: true,
         volume: this.player.volume,
-        onplay: () => {},
+        onplay: () => {
+          this.$forceUpdate(); // refresh "is_buffering" computed property
+        },
         onpause: () => {},
         onend: () => {
           this.forward();
@@ -362,6 +365,8 @@ export default {
         onload: () => {
           this.update_media_session();
           this.player.seek_max = this.player.howl.duration();
+
+          this.$forceUpdate(); // refresh "is_buffering" computed property
         },
       });
     },
