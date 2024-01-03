@@ -8,7 +8,7 @@
     <div class="p-4 md:p-8">
       <form @submit.prevent="submit" class="mb-8">
         <div class="flex flex-row items-center">
-          <InputText type="text" v-model="form.q" placeholder="On écoute quoi ?" autofocus />
+          <input type="text" v-model="form.q" placeholder="On écoute quoi ?" autofocus class="font-sans leading-6 m-0 py-1.5 px-3 sm:text-sm text-neutral-900 dark:text-neutral-0 placeholder:text-neutral-400 dark:placeholder:text-neutral-500 bg-neutral-0 dark:bg-neutral-900 shadow-sm ring-1 ring-inset ring-neutral-300 dark:ring-neutral-700 ring-offset-0 rounded-md appearance-none w-full outline-none focus:ring-indigo-500 dark:focus:ring-indigo-400 transition duration-150 ease-in-out" />
 
           <i class="ml-4 text-xs transition-all duration-200 ease-in-out fas fa-search text-gray-light dark:text-gray-dark hover:text-gray-dark dark:hover:text-gray-default" @click="submit"></i>
         </div>
