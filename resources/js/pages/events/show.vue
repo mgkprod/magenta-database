@@ -20,10 +20,14 @@
 
       <div class="flex-none mb-8 w-72 sm:w-48 lg:w-72 sm:mb-0 sm:mr-8">
         <vue-load-image class="shadow-xl aspect-w-16 aspect-h-9">
-          <img slot="image" :src="event.image_url" class="object-cover w-full h-full animate__animated animate__fadeIn animate__fastest" />
-          <div class="flex items-center justify-center opacity-50" :style="{ 'background-color': event.image_dominant_color }" slot="preloader">
-            <i class="text-black dark:text-white fas fa-spin fa-spinner"></i>
-          </div>
+          <template v-slot:image>
+            <img :src="event.image_url" class="object-cover w-full h-full animate__animated animate__fadeIn animate__fastest" />
+          </template>
+          <template v-slot:preloader>
+            <div class="flex items-center justify-center opacity-50" :style="{ 'background-color': event.image_dominant_color }">
+              <i class="text-black dark:text-white fas fa-spin fa-spinner"></i>
+            </div>
+          </template>
         </vue-load-image>
       </div>
 

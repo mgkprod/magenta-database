@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import Layout from '@/layouts/app.vue';
+import Layout from '@/layouts/gate.vue';
 
 export default {
   layout: Layout,

@@ -1,28 +1,29 @@
-const { fontFamily } = require('tailwindcss/defaultTheme');
+import defaultTheme from 'tailwindcss/defaultTheme';
+import forms from '@tailwindcss/forms';
+import aspectRatio from '@tailwindcss/aspect-ratio';
+
 const colors = require('tailwindcss/colors')
 
-module.exports = {
-    purge: {
-        enabled: true,
-        content: [
-            "resources/**/*.js",
-            "resources/**/*.php",
-            "resources/**/*.vue"
-        ],
-        options: {
-            safelist: ["dark"],
-        },
-    },
+/** @type {import('tailwindcss').Config} */
+export default {
     darkMode: 'class',
+
+    content: [
+        './storage/framework/views/*.php',
+        './resources/views/**/*.blade.php',
+        './resources/js/**/*.vue',
+    ],
+
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Inter', ...fontFamily.sans],
+                sans: ['Inter', ...defaultTheme.fontFamily.sans],
             },
+
             colors: {
-                'primary': { ...colors.indigo },
+                primary: colors.indigo,
                 'gray': {
-                    ...colors.trueGray,
+                    ...colors.neutral,
                     'darkest': '#181818',
                     'darker': '#282828',
                     'dark': '#424242',
@@ -33,16 +34,17 @@ module.exports = {
                  },
                 'white': '#ffffff',
                 'black': '#121212',
+            },
+
+            container: {
+                center: true,
+                padding: '1rem',
             }
         },
-        container: {
-            center: true,
-            padding: "1rem",
-        },
     },
-    variants: {},
+
     plugins: [
-        require('@tailwindcss/aspect-ratio'),
-        require('@tailwindcss/forms'),
+        forms,
+        aspectRatio
     ],
 };

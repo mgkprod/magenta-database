@@ -12,7 +12,7 @@
           <slot></slot>
 
           <div class="mt-8 text-sm text-center text-gray-500">
-            © 2021 -
+            © 2024 -
             <inertia-link :href="route('index')" target="_blank" class="transition duration-200 ease-in-out text-primary-500 hover:text-primary-400">{{ $page.props.app_name }}</inertia-link>
           </div>
         </div>

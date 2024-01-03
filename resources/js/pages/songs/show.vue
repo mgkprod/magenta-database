@@ -22,10 +22,14 @@
 
       <div class="flex-none w-64 mb-8 sm:w-48 lg:w-64 sm:mb-0 sm:mr-8">
         <vue-load-image class="shadow-xl aspect-w-1 aspect-h-1">
-          <img slot="image" :src="song.image_url" class="object-cover w-full h-full animate__animated animate__fadeIn animate__fastest" />
-          <div class="flex items-center justify-center opacity-50" :style="{ 'background-color': song.image_dominant_color }" slot="preloader">
-            <i class="text-black dark:text-white fas fa-spin fa-spinner"></i>
-          </div>
+          <template v-slot:image>
+            <img :src="song.image_url" class="object-cover w-full h-full animate__animated animate__fadeIn animate__fastest" />
+          </template>
+          <template v-slot:preloader>
+            <div class="flex items-center justify-center opacity-50" :style="{ 'background-color': song.image_dominant_color }">
+              <i class="text-black dark:text-white fas fa-spin fa-spinner"></i>
+            </div>
+          </template>
         </vue-load-image>
       </div>
 
@@ -86,7 +90,7 @@
 
         <div v-for="media in medias" v-bind:key="media.id" class="flex flex-row items-center px-2 py-3 mb-2 transition-all duration-200 ease-in-out rounded hover:bg-gray-lightest dark:hover:bg-gray-darker">
           <div class="flex-none w-8 text-center transition-all duration-200 ease-in-out md:mx-2 text-gray-light dark:text-gray-dark hover:text-gray-dark dark:hover:text-gray-default" @click="play_media(media)">
-            <span v-if="$curr_media_id == media.id">
+            <span v-if="global_data.$curr_media_id == media.id">
               <i class="text-gray-dark dark:text-gray-default fas fa-volume-up fa-fw"></i>
             </span>
             <span v-else>
@@ -169,11 +173,18 @@
 <script>
 import Layout from '@/layouts/app.vue';
 import { EventBus } from '../../event-bus.js';
+import { global_data } from '../../store.js';
 
 export default {
   layout: Layout,
 
   props: ['song', 'medias', 'files', 'variants'],
+
+  data() {
+    return {
+      global_data: global_data,
+    };
+  },
 
   methods: {
     destroy() {

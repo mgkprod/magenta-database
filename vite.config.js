@@ -1,8 +1,6 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
-// import vue from '@vitejs/plugin-vue2';
-import { createVuePlugin } from 'vite-plugin-vue2';
-
+import vue from '@vitejs/plugin-vue';
 
 export default defineConfig({
     plugins: [
@@ -10,12 +8,13 @@ export default defineConfig({
             input: 'resources/js/app.js',
             refresh: true,
         }),
-        createVuePlugin(),
+        vue({
+            template: {
+                transformAssetUrls: {
+                    base: null,
+                    includeAbsolute: false,
+                },
+            },
+        }),
     ],
-    server: {
-        hmr: {
-            host: "localhost",
-            protocol: "ws",
-        },
-    },
 });

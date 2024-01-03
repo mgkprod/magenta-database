@@ -13,7 +13,7 @@
     <div class="flex flex-row flex-auto min-h-0">
       <!-- Sidebar -->
       <transition name="custom-classes-transition" enter-class="slide-left-enter" enter-active-class="slide-left-enter-active" leave-class="slide-left-leave" leave-active-class="slide-left-leave-active">
-        <div class="absolute top-0 bottom-0 left-0 z-30 flex flex-col flex-none w-56 transition-all duration-200 ease-in-out bg-black shadow-lg text-gray-lightest lg:static" :class="{ '-left-96': !show_sidebar }" v-on-clickaway="away">
+        <div class="absolute top-0 bottom-0 left-0 z-30 flex flex-col flex-none w-56 transition-all duration-200 ease-in-out bg-black shadow-lg text-gray-lightest lg:static" :class="{ '-left-96': !show_sidebar }" > <!-- v-on-clickaway="away" -->
           <div class="flex flex-col h-full py-4 overflow-y-auto">
             <div class="py-4 mb-4">
               <inertia-link :href="route('index')" class="tracking-tight transition-all duration-200 ease-in-out" @click="show_sidebar = false">
@@ -56,10 +56,14 @@
                 <div class="relative z-10 flex flex-col items-center justify-center h-full lg:flex-col sm:flex-row">
                   <inertia-link class="block mb-4 sm:mb-0 w-72 sm:w-48 lg:mb-auto lg:w-full hover:underline" :href="route('songs.show', player.song)" @click="show_player = false">
                     <vue-load-image class="mb-4 bg-black bg-opacity-50 rounded shadow-xl aspect-w-1 aspect-h-1">
-                      <img slot="image" :src="player.song.image_url" class="object-cover w-full h-full rounded animate__animated animate__fadeIn animate__fastest" />
-                      <div class="flex items-center justify-center" slot="preloader">
-                        <i class="fas fa-spin fa-spinner text-gray-default"></i>
-                      </div>
+                      <template v-slot:image>
+                        <img :src="player.song.image_url" class="object-cover w-full h-full rounded animate__animated animate__fadeIn animate__fastest" />
+                      </template>
+                      <template v-slot:preloader>
+                        <div class="flex items-center justify-center">
+                          <i class="fas fa-spin fa-spinner text-gray-default"></i>
+                        </div>
+                      </template>
                     </vue-load-image>
                   </inertia-link>
                   <div class="flex flex-col items-center justify-center w-full sm:w-auto lg:w-full sm:ml-8 lg:ml-0">
@@ -205,10 +209,14 @@
       <div class="z-10 flex flex-row items-center justify-start w-full bg-black border-t-4 text-gray-lightest border-gray-darker lg:hidden" v-if="player.howl" @click="show_player = true">
         <div class="flex-none w-16 h-16" v-if="player.howl">
           <vue-load-image class="bg-black bg-opacity-50 shadow-xl aspect-w-1 aspect-h-1">
-            <img slot="image" :src="player.song.image_url" class="object-cover w-full h-full animate__animated animate__fadeIn animate__fastest" />
-            <div class="flex items-center justify-center" slot="preloader">
-              <i class="text-xs fas fa-spin fa-spinner text-gray-default"></i>
-            </div>
+            <template v-slot:image>
+              <img :src="player.song.image_url" class="object-cover w-full h-full animate__animated animate__fadeIn animate__fastest" />
+            </template>
+            <template v-slot:preloader>
+              <div class="flex items-center justify-center">
+                <i class="text-xs fas fa-spin fa-spinner text-gray-default"></i>
+              </div>
+            </template>
           </vue-load-image>
         </div>
         <div class="flex-auto truncate">
@@ -231,11 +239,13 @@
 import { EventBus } from '../event-bus.js';
 import { Howl, Howler } from 'howler';
 import Castjs from '../vendor/cast.js';
+import _ from 'lodash';
+import {global_data} from '../store.js';
 
-import { mixin as clickaway } from 'vue-clickaway';
+// import { mixin as clickaway } from 'vue-clickaway';
 
 export default {
-  mixins: [clickaway],
+  // mixins: [clickaway],
 
   data() {
     return {
@@ -409,7 +419,7 @@ export default {
         }
         if (payload.context) {
           this.player.queue = payload.context;
-          this.player.queue_index = this._.findIndex(payload.context, payload.song);
+          this.player.queue_index = _.findIndex(payload.context, payload.song);
         }
         this.play({
           song: payload.song,
@@ -453,8 +463,8 @@ export default {
       if (!resumeSeek) this.player.seek = 0;
       this.player.seek_max = 0;
 
-      this.$curr_song_id = payload.song.id;
-      this.$curr_media_id = payload.media.id;
+      global_data.$curr_song_id = payload.song.id;
+      global_data.$curr_media_id = payload.media.id;
 
       if (!this.player.cjs) this.init_cjs();
 

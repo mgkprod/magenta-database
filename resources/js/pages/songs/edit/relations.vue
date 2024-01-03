@@ -59,6 +59,7 @@
 <script>
 import Layout from '@/layouts/app.vue';
 import formSelect from '../../../components/form-select.vue';
+import _ from 'lodash';
 
 export default {
   components: { formSelect },
