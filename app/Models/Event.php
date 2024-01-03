@@ -18,7 +18,7 @@ class Event extends Model implements HasMedia, Searchable
     protected $guarded = [];
 
     protected $casts = [
-        'happened_at' => 'date',
+        'happened_at' => 'datetime',
     ];
 
     protected $appends = [

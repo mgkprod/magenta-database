@@ -1,37 +1,55 @@
 <template>
-  <label class="block">
-    <span v-if="label" class="block mb-2 text-sm font-semibold text-gray-dark dark:text-gray-default" v-text="label"></span>
+  <label class="block" :class="$attrs.class" :for="id">
+    <span v-if="label" v-text="label" class="block mb-2 text-sm font-semibold text-gray-dark dark:text-gray-default" />
 
-    <select class="w-full px-3 py-2 text-sm transition duration-200 ease-in-out rounded bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500" :class="{ 'bg-red-100 mb-1': errors.length }" v-bind="$attrs" v-on="{ ...$listeners, input: (event) => $emit('input', event.target.value) }">
-      <option v-for="(option, value) in options" v-bind:key="value" :value="value">{{ option }}</option>
-    </select>
+    <Dropdown
+      v-bind="{ ...$attrs, class: undefined }"
+      :id="id"
+      :class="{ 'bg-red-900 mb-1 border-red-500': errors }"
+      :modelValue="modelValue"
+      @update:modelValue="$emit('update:modelValue', $event)"
+    />
 
-    <p v-if="errors.length" class="pl-1 text-xs italic font-semibold text-red-500" v-text="errors[0]"></p>
+    <p v-if="errors" class="pl-1 text-xs font-semibold text-red-500" v-text="typeof errors === 'string' ? errors : errors[0]"></p>
   </label>
 </template>
 
 <script>
+import Dropdown from 'primevue/dropdown';
+
 export default {
-  /**
-   * Determine if the attributes are passed to the root component.
-   *
-   * @type {Boolean}
-   */
   inheritAttrs: false,
 
-  /**
-   * Component properties.
-   *
-   * @type {Object}
-   */
+  components: {
+    Dropdown,
+  },
+
   props: {
-    id: String,
-    label: String,
-    options: Object,
-    errors: {
-      type: Array,
-      default: () => [],
+    label: {
+      type: String,
+      default: undefined,
     },
+
+    errors: {
+      type: [String, Array],
+      default: undefined,
+    },
+
+    modelValue: {
+      default: undefined,
+    },
+  },
+
+  emits: ['update:modelValue'],
+
+  data() {
+    return {
+      id: undefined,
+    }
+  },
+
+  created() {
+    this.id = this.$attrs.id || Math.random().toString()
   },
 };
 </script>

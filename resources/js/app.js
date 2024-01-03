@@ -7,6 +7,8 @@ import momentDurationFormatSetup from 'moment-duration-format';
 import axios from 'axios';
 import markdownit from 'markdown-it'
 import VueLoadImage from 'vue-load-image';
+import PrimeVue from 'primevue/config';
+import Theme from './theme';
 
 momentDurationFormatSetup(moment);
 moment.locale('fr');
@@ -28,7 +30,11 @@ createInertiaApp({
   resolve: (name) => resolvePageComponent(name, import.meta.glob('./pages/**/*.vue')),
   setup({ el, App, props, plugin }) {
     const Vue = createApp({ render: () => h(App, props) })
-      .use(plugin);
+      .use(plugin)
+      .use(PrimeVue, {
+          unstyled: true,
+          pt: Theme,
+      });
 
       const components = {
         ...import.meta.glob('./components/**/*.vue', {eager: true }),

@@ -3,7 +3,7 @@
     <form @submit.prevent="submit">
       <form-input class="mb-6" label="Name" v-model="form.name" :errors="$page.props.errors.name" required />
 
-      <form-input class="mb-6" label="Happened at" v-model="form.happened_at" :errors="$page.props.errors.happened_at" />
+      <form-calendar class="mb-6" label="Happened at" v-model="form.happened_at" :errors="$page.props.errors.happened_at" />
 
       <form-textarea class="mb-6" label="Details" v-model="form.details" :errors="$page.props.errors.details" rows="10" />
 
@@ -38,9 +38,9 @@ export default {
   },
 
   mounted() {
-    this.form.name = this.event.name;
-    this.form.happened_at = this.moment(this.event.happened_at).format('YYYY-MM-DD');
-    this.form.details = this.event.details;
+    this.form = { ...this.event };
+
+    this.form.happened_at = new Date(this.event.happened_at);
   },
 
   methods: {
@@ -50,7 +50,7 @@ export default {
       var data = new FormData();
       data.append('_method', 'put');
       data.append('name', this.form.name || '');
-      data.append('happened_at', this.form.happened_at || '');
+      data.append('happened_at', this.form.happened_at.toJSON() || '');
       data.append('details', this.form.details || '');
       data.append('image', this.form.image || '');
 

@@ -18,8 +18,8 @@ class Song extends Model implements HasMedia, Searchable
     protected $guarded = [];
 
     protected $casts = [
-        'released_at' => 'date',
-        'first_time_played_at' => 'date',
+        'released_at' => 'datetime',
+        'first_time_played_at' => 'datetime',
         'is_downloadable' => 'boolean',
     ];
 

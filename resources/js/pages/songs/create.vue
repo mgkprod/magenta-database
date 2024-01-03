@@ -6,8 +6,8 @@
       <form-input class="mb-6" label="Artist" v-model="form.artist" :errors="$page.props.errors.artist" />
       <form-select class="mb-6" label="Type" v-model="form.type" :errors="$page.props.errors.type" :options="types" />
       <form-select class="mb-6" label="Availability" v-model="form.availability" :errors="$page.props.errors.availability" :options="availabilities" />
-      <form-input class="mb-6" label="Released at" v-model="form.released_at" :errors="$page.props.errors.released_at" />
-      <form-input class="mb-6" label="First time played at" v-model="form.first_time_played_at" :errors="$page.props.errors.first_time_played_at" />
+      <form-calendar class="mb-6" label="Released at" v-model="form.released_at" :errors="$page.props.errors.released_at" />
+      <form-calendar class="mb-6" label="First time played at" v-model="form.first_time_played_at" :errors="$page.props.errors.first_time_played_at" />
       <form-input class="mb-6" label="Variant aggregate" v-model="form.variant_agg" :errors="$page.props.errors.variant_agg" />
       <form-textarea class="mb-6" label="Details" v-model="form.details" :errors="$page.props.errors.details" rows="10" />
       <form-file-input class="mb-6" label="Image" type="file" v-model="form.image" accept="image/*" :errors="$page.props.errors.image" />
@@ -59,8 +59,8 @@ export default {
       data.append('artist', this.form.artist || '');
       data.append('type', this.form.type || '');
       data.append('availability', this.form.availability || '');
-      data.append('released_at', this.form.released_at || '');
-      data.append('first_time_played_at', this.form.first_time_played_at || '');
+      data.append('released_at', this.form.released_at.toJSON() || '');
+      data.append('first_time_played_at', this.form.first_time_played_at.toJSON() || '');
       data.append('variant_agg', this.form.variant_agg || '');
       data.append('details', this.form.details || '');
       data.append('image', this.form.image || '');

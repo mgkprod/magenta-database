@@ -6,11 +6,13 @@
         label="Conversion preset"
         v-model="form.preset"
         :errors="$page.props.errors.preset"
-        :options="{
-          'mp3-320kbps': 'Extact audio track (mp3, 320kbps)',
-          'mp3-256kbps': 'Extact audio track (mp3, 256kbps)',
-          'mp3-192kbps': 'Extact audio track (mp3, 192kbps)',
-        }"
+        :options="[
+          { id: 'mp3-320kbps', name: 'Extact audio track (mp3, 320kbps)' },
+          { id: 'mp3-256kbps', name: 'Extact audio track (mp3, 256kbps)' },
+          { id: 'mp3-192kbps', name: 'Extact audio track (mp3, 192kbps)' },
+        ]"
+        option-label="name"
+        option-value="id"
       />
 
       <div class="flex justify-end">

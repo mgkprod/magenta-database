@@ -101,7 +101,10 @@ class SongController extends Controller
             'radio-edit' => 'Radio Edit',
         ];
 
-        return inertia('songs/create', compact('types', 'availabilities'));
+        return inertia('songs/create', [
+            'types' => array_keys($types),
+            'availabilities' => array_keys($availabilities),
+        ]);
     }
 
     public function store(Request $request)
@@ -176,7 +179,11 @@ class SongController extends Controller
             'radio-edit' => 'Radio Edit',
         ];
 
-        return inertia('songs/edit', compact('song', 'availabilities', 'types'));
+        return inertia('songs/edit', [
+            'song' => $song,
+            'types' => array_keys($types),
+            'availabilities' => array_keys($availabilities),
+        ]);
     }
 
     public function update(Request $request, Song $song)

@@ -12,6 +12,7 @@ export default {
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
         './resources/js/**/*.vue',
+        './resources/js/**/*.js',
     ],
 
     theme: {
@@ -31,12 +32,19 @@ export default {
                     'light': '#bcbcbc',
                     'lighter': '#d7d8d6',
                     'lightest': '#e9e9e9',
-                 },
+                },
+
                 'white': '#ffffff',
                 'black': '#121212',
+
+                // PrimeVue "neutral"
+                'neutral': {
+                    0: colors.neutral[50],
+                    100: colors.neutral[950],
+                },
             },
 
-            container: {
+           container: {
                 center: true,
                 padding: '1rem',
             }
@@ -44,7 +52,6 @@ export default {
     },
 
     plugins: [
-        forms,
         aspectRatio
     ],
 };

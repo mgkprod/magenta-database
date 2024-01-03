@@ -1,37 +1,56 @@
 <template>
-  <div>
-    <label class="inline-flex items-center mb-6">
-      <input type="checkbox" class="w-5 h-5 transition duration-200 ease-in-out rounded appearance-none bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default form-checkbox focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500" v-bind="$attrs" :checked="value" @change="$emit('input', $event.target.checked)" />
+    <div class="flex items-center" :class="$attrs.class">
+      <Checkbox
+        v-bind="{ ...$attrs, class: undefined }"
+        :inputId="id"
+        :class="{ 'bg-red-900 mb-1 border-red-500': errors }"
+        :binary="true"
+        :modelValue="modelValue"
+        @update:modelValue="$emit('update:modelValue', $event)"
+      />
 
-      <span v-if="label" class="block ml-2 text-sm font-semibold text-gray-dark dark:text-gray-default" v-text="label"></span>
-    </label>
+      <label v-if="label" v-text="label" :for="id" class="block ml-2 text-sm font-semibold text-gray-dark dark:text-gray-default"></label>
+    </div>
 
-    <p v-if="errors.length" class="pl-1 text-xs text-red-500" v-text="errors[0]"></p>
-  </div>
+    <p v-if="errors" class="pl-1 text-xs font-semibold text-red-500" v-text="typeof errors === 'string' ? errors : errors[0]"></p>
 </template>
 
 <script>
+import Checkbox from 'primevue/checkbox';
+
 export default {
-  /**
-   * Determine if the attributes are passed to the root component.
-   *
-   * @type {Boolean}
-   */
   inheritAttrs: false,
 
-  /**
-   * Component properties.
-   *
-   * @type {Object}
-   */
+  components: {
+    Checkbox,
+  },
+
   props: {
-    id: String,
-    label: String,
-    value: Boolean,
+    label: {
+      type: String,
+      default: undefined,
+    },
+
     errors: {
-      type: Array,
-      default: () => [],
+      type: [String, Array],
+      default: undefined,
+    },
+
+    modelValue: {
+      default: undefined,
     },
   },
-};
+
+  emits: ['update:modelValue'],
+
+  data() {
+    return {
+      id: undefined,
+    }
+  },
+
+  created() {
+    this.id = this.$attrs.id || Math.random().toString()
+  },
+}
 </script>

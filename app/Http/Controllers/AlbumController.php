@@ -39,7 +39,10 @@ class AlbumController extends Controller
             'mixtape' => 'Mixtape',
         ];
 
-        return inertia('albums/create', compact('types', 'availabilities'));
+        return inertia('albums/create', [
+            'availabilities' => array_keys($availabilities),
+            'types' => array_keys($types),
+        ]);
     }
 
     public function store(Request $request)
@@ -94,7 +97,11 @@ class AlbumController extends Controller
             'mixtape' => 'Mixtape',
         ];
 
-        return inertia('albums/edit', compact('availabilities', 'types', 'album'));
+        return inertia('albums/edit', [
+            'album' => $album,
+            'availabilities' => array_keys($availabilities),
+            'types' => array_keys($types),
+        ]);
     }
 
     public function update(Request $request, Album $album)

@@ -2,11 +2,11 @@
   <label class="block" :class="$attrs.class" :for="id">
     <span v-if="label" v-text="label" class="block mb-2 text-sm font-semibold text-gray-dark dark:text-gray-default" />
 
-    <Textarea
+    <Calendar
       v-bind="{ ...$attrs, class: undefined }"
       :id="id"
       :class="{ 'bg-red-900 mb-1 border-red-500': errors }"
-      autoResize
+      dateFormat="yy-mm-dd"
       :modelValue="modelValue"
       @update:modelValue="$emit('update:modelValue', $event)"
     />
@@ -16,13 +16,13 @@
 </template>
 
 <script>
-import Textarea from 'primevue/textarea';
+import Calendar from 'primevue/calendar';
 
 export default {
   inheritAttrs: false,
 
   components: {
-    Textarea,
+    Calendar,
   },
 
   props: {

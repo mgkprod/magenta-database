@@ -18,7 +18,7 @@ class Album extends Model implements HasMedia, Searchable
     protected $guarded = [];
 
     protected $casts = [
-        'released_at' => 'date',
+        'released_at' => 'datetime',
     ];
 
     protected $appends = [

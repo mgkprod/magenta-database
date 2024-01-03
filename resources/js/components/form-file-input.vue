@@ -1,5 +1,5 @@
 <template>
-  <label class="block mb-6">
+  <label class="block mb-6 md:w-96">
     <span v-if="label" class="block mb-2 text-sm font-semibold text-gray-dark dark:text-gray-default" v-text="label"></span>
 
     <div :class="{ error: errors.length }">

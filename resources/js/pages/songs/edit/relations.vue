@@ -18,7 +18,7 @@
 
       <form class="w-full mb-8" @submit.prevent="assoc_album">
         <div class="flex flex-col items-end justify-start">
-          <form-select label="Add the following album" v-model="current_album_id" class="w-full mb-2" :options="albums" />
+          <form-select label="Add the following album" v-model="current_album_id" class="w-full mb-2" :options="albums_for_select" option-label="name" option-value="id" />
           <button type="submit" class="inline-flex items-center px-4 py-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default hover:bg-gray-light dark:hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500">
             <i class="fas fa-plus"></i>
           </button>
@@ -42,7 +42,7 @@
 
       <form class="w-full mb-8" @submit.prevent="assoc_event">
         <div class="flex flex-col items-end justify-start">
-          <form-select label="Add the following event" v-model="current_event_id" class="w-full mb-2" :options="events" />
+          <form-select label="Add the following event" v-model="current_event_id" class="w-full mb-2" :options="events_for_select" option-label="name" option-value="id" />
           <button type="submit" class="inline-flex items-center px-4 py-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default hover:bg-gray-light dark:hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500">
             <i class="fas fa-plus"></i>
           </button>
@@ -82,6 +82,9 @@ export default {
         album_ids: '',
         event_ids: '',
       },
+
+      albums_for_select: _.map(this.albums, (value, key) => ({ id: key, name: value })),
+      events_for_select: _.map(this.events, (value, key) => ({ id: key, name: value })),
     };
   },
 

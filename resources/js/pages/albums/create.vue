@@ -5,7 +5,7 @@
 
       <form-input class="mb-6" label="Artist" v-model="form.artist" :errors="$page.props.errors.artist" required />
 
-      <form-input class="mb-6" label="Released at" v-model="form.released_at" :errors="$page.props.errors.released_at" />
+      <form-calendar class="mb-6" label="Released at" v-model="form.released_at" :errors="$page.props.errors.released_at" />
 
       <form-select class="mb-6" label="Availability" v-model="form.availability" :errors="$page.props.errors.availability" :options="availabilities" />
 
@@ -54,7 +54,7 @@ export default {
       var data = new FormData();
       data.append('name', this.form.name || '');
       data.append('artist', this.form.artist || '');
-      data.append('released_at', this.form.released_at || '');
+      data.append('released_at', this.form.released_at.toJSON() || '');
       data.append('availability', this.form.availability || '');
       data.append('type', this.form.type || '');
       data.append('details', this.form.details || '');
