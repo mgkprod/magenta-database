@@ -1,5 +1,4 @@
 import defaultTheme from 'tailwindcss/defaultTheme';
-import forms from '@tailwindcss/forms';
 import aspectRatio from '@tailwindcss/aspect-ratio';
 
 const colors = require('tailwindcss/colors')
