@@ -4,21 +4,21 @@
       <h1 class="mb-8 text-2xl font-semibold text-center">Reset password</h1>
 
       <form-input
+        v-model="form.email"
         class="mb-6"
         label="Email"
         placeholder="Your Email Address"
-        v-model="form.email"
         :errors="$page.props.errors.email"
         required
         autocomplete="email"
       />
 
       <form-input
+        v-model="form.password"
         class="mb-6"
         label="Password"
         placeholder="Your Password"
         type="password"
-        v-model="form.password"
         :errors="$page.props.errors.password"
         autocomplete="new-password"
         autofocus
@@ -26,11 +26,11 @@
       />
 
       <form-input
+        v-model="form.password_confirmation"
         class="mb-8"
         label="Confirm Password"
         placeholder="Confirm Your Password"
         type="password"
-        v-model="form.password_confirmation"
         :errors="$page.props.errors.password_confirmation"
         autocomplete="new-password"
         required
@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import Layout from '@/layouts/gate.vue';
+import Layout from '@/layouts/gate.vue'
 
 export default {
   layout: Layout,
@@ -64,18 +64,18 @@ export default {
         password: '',
         password_confirmation: '',
       },
-    };
+    }
   },
 
   methods: {
     submit() {
-      this.$page.props.errors = {};
+      this.$page.props.errors = {}
 
-      this.$inertia.post(this.route('password.update'), { ...this.form });
+      this.$inertia.post(this.route('password.update'), { ...this.form })
 
-      this.form.password = '';
-      this.form.password_confirmation = '';
+      this.form.password = ''
+      this.form.password_confirmation = ''
     },
   },
-};
+}
 </script>

@@ -5,7 +5,7 @@
 
       <p class="mb-10 text-sm text-gray-600">Please confirm your password before continuing.</p>
 
-      <form-input class="mb-2" label="Password" placeholder="Your Password" type="password" v-model="form.password" :errors="$page.props.errors.password" required autocomplete="current-password" />
+      <form-input v-model="form.password" class="mb-2" label="Password" placeholder="Your Password" type="password" :errors="$page.props.errors.password" required autocomplete="current-password" />
 
       <div class="mb-8 text-right">
         <inertia-link class="text-sm text-gray-600 hover:text-gray-800" :href="route('password.request')">Forgot password?</inertia-link>
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import Layout from '@/layouts/gate.vue';
+import Layout from '@/layouts/gate.vue'
 
 export default {
   layout: Layout,
@@ -32,17 +32,17 @@ export default {
       form: {
         password: '',
       },
-    };
+    }
   },
 
   methods: {
     submit() {
-      this.$page.props.errors = {};
+      this.$page.props.errors = {}
 
-      this.$inertia.post(this.route('password.confirm'), { ...this.form });
+      this.$inertia.post(this.route('password.confirm'), { ...this.form })
 
-      this.form.password = '';
+      this.form.password = ''
     },
   },
-};
+}
 </script>

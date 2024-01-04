@@ -1,27 +1,27 @@
 <template>
   <div class="p-4 md:p-8">
     <form @submit.prevent="submit">
-      <form-input class="mb-6" label="Title" v-model="form.title" :errors="$page.props.errors.title" />
-      <form-input class="mb-6" label="Alternative title" v-model="form.alt_title" :errors="$page.props.errors.alt_title" />
-      <form-input class="mb-6" label="Artist" v-model="form.artist" :errors="$page.props.errors.artist" />
-      <form-select class="mb-6" label="Type" v-model="form.type" :errors="$page.props.errors.type" :options="types" />
-      <form-select class="mb-6" label="Availability" v-model="form.availability" :errors="$page.props.errors.availability" :options="availabilities" />
-      <form-calendar class="mb-6" label="Released at" v-model="form.released_at" :errors="$page.props.errors.released_at" />
-      <form-calendar class="mb-6" label="First time played at" v-model="form.first_time_played_at" :errors="$page.props.errors.first_time_played_at" />
-      <form-input class="mb-6" label="Variant aggregate" v-model="form.variant_agg" :errors="$page.props.errors.variant_agg" />
-      <form-textarea class="mb-6" label="Details" v-model="form.details" :errors="$page.props.errors.details" rows="10" />
-      <form-file-input class="mb-6" label="Image" type="file" v-model="form.image" accept="image/*" :errors="$page.props.errors.image" />
-      <form-checkbox class="mb-4" label="Downloadable?" name="is_downloadable" v-model="form.is_downloadable" :errors="$page.props.errors.is_downloadable" />
+      <form-input v-model="form.title" class="mb-6" label="Title" :errors="$page.props.errors.title" />
+      <form-input v-model="form.alt_title" class="mb-6" label="Alternative title" :errors="$page.props.errors.alt_title" />
+      <form-input v-model="form.artist" class="mb-6" label="Artist" :errors="$page.props.errors.artist" />
+      <form-select v-model="form.type" class="mb-6" label="Type" :errors="$page.props.errors.type" :options="types" />
+      <form-select v-model="form.availability" class="mb-6" label="Availability" :errors="$page.props.errors.availability" :options="availabilities" />
+      <form-calendar v-model="form.released_at" class="mb-6" label="Released at" :errors="$page.props.errors.released_at" />
+      <form-calendar v-model="form.first_time_played_at" class="mb-6" label="First time played at" :errors="$page.props.errors.first_time_played_at" />
+      <form-input v-model="form.variant_agg" class="mb-6" label="Variant aggregate" :errors="$page.props.errors.variant_agg" />
+      <form-textarea v-model="form.details" class="mb-6" label="Details" :errors="$page.props.errors.details" rows="10" />
+      <form-file-input v-model="form.image" class="mb-6" label="Image" type="file" accept="image/*" :errors="$page.props.errors.image" />
+      <form-checkbox v-model="form.is_downloadable" class="mb-4" label="Downloadable?" name="is_downloadable" :errors="$page.props.errors.is_downloadable" />
 
       <div class="flex justify-end">
-        <button class="inline-flex items-center px-4 py-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default hover:bg-gray-light dark:hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500"><i class="mr-2 opacity-50 fas fa-plus"></i> Add</button>
+        <button class="inline-flex items-center px-4 py-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default hover:bg-gray-light dark:hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500"><i class="mr-2 opacity-50 fas fa-plus" /> Add</button>
       </div>
     </form>
   </div>
 </template>
 
 <script>
-import Layout from '@/layouts/app.vue';
+import Layout from '@/layouts/app.vue'
 
 export default {
   layout: Layout,
@@ -46,28 +46,28 @@ export default {
         image: undefined,
         is_downloadable: false,
       },
-    };
+    }
   },
 
   methods: {
     submit() {
-      this.$page.props.errors = {};
+      this.$page.props.errors = {}
 
-      var data = new FormData();
-      data.append('title', this.form.title || '');
-      data.append('alt_title', this.form.alt_title || '');
-      data.append('artist', this.form.artist || '');
-      data.append('type', this.form.type || '');
-      data.append('availability', this.form.availability || '');
-      data.append('released_at', this.form.released_at.toJSON() || '');
-      data.append('first_time_played_at', this.form.first_time_played_at.toJSON() || '');
-      data.append('variant_agg', this.form.variant_agg || '');
-      data.append('details', this.form.details || '');
-      data.append('image', this.form.image || '');
-      data.append('is_downloadable', this.form.is_downloadable || false);
+      var data = new FormData()
+      data.append('title', this.form.title || '')
+      data.append('alt_title', this.form.alt_title || '')
+      data.append('artist', this.form.artist || '')
+      data.append('type', this.form.type || '')
+      data.append('availability', this.form.availability || '')
+      data.append('released_at', this.form.released_at.toJSON() || '')
+      data.append('first_time_played_at', this.form.first_time_played_at.toJSON() || '')
+      data.append('variant_agg', this.form.variant_agg || '')
+      data.append('details', this.form.details || '')
+      data.append('image', this.form.image || '')
+      data.append('is_downloadable', this.form.is_downloadable || false)
 
-      this.$inertia.post(this.route('songs.store'), data);
+      this.$inertia.post(this.route('songs.store'), data)
     },
   },
-};
+}
 </script>

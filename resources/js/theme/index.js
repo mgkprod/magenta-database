@@ -1,15 +1,15 @@
-import global from './global.js';
-import calendar from './calendar';
-import checkbox from './checkbox';
-import dropdown from './dropdown';
-import inputtext from './inputtext';
-import textarea from './textarea';
+import global from './global.js'
+import calendar from './calendar'
+import checkbox from './checkbox'
+import dropdown from './dropdown'
+import inputtext from './inputtext'
+import textarea from './textarea'
 
 export default {
-    global,
-    calendar,
-    checkbox,
-    dropdown,
-    inputtext,
-    textarea,
+  global,
+  calendar,
+  checkbox,
+  dropdown,
+  inputtext,
+  textarea,
 }

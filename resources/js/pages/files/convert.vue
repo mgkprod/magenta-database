@@ -2,9 +2,9 @@
   <div class="p-4 md:p-8">
     <form @submit.prevent="submit">
       <form-select
+        v-model="form.preset"
         class="mb-6"
         label="Conversion preset"
-        v-model="form.preset"
         :errors="$page.props.errors.preset"
         :options="[
           { id: 'mp3-320kbps', name: 'Extact audio track (mp3, 320kbps)' },
@@ -23,8 +23,8 @@
 </template>
 
 <script>
-import Layout from '@/layouts/app.vue';
-import formSelect from '../../components/form-select.vue';
+import Layout from '@/layouts/app.vue'
+import formSelect from '../../components/form-select.vue'
 
 export default {
   components: { formSelect },
@@ -37,15 +37,15 @@ export default {
       form: {
         preset: '',
       },
-    };
+    }
   },
 
   methods: {
     submit() {
-      this.$page.props.errors = {};
+      this.$page.props.errors = {}
 
-      this.$inertia.post(this.route('files.convert', this.file), this.form);
+      this.$inertia.post(this.route('files.convert', this.file), this.form)
     },
   },
-};
+}
 </script>

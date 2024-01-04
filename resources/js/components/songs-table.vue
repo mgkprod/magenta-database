@@ -1,33 +1,33 @@
 <template>
   <div class="flex flex-col">
     <div class="flex-row hidden px-2 py-2 mb-2 border-b sm:flex border-gray-lighter dark:border-gray-darker">
-      <div class="flex-none w-8 text-xs text-center uppercase md:mx-2 text-gray-dark dark:text-gray-default"></div>
-      <div class="flex-none w-10 mx-2 text-xs text-center uppercase text-gray-dark dark:text-gray-default"></div>
+      <div class="flex-none w-8 text-xs text-center uppercase md:mx-2 text-gray-dark dark:text-gray-default" />
+      <div class="flex-none w-10 mx-2 text-xs text-center uppercase text-gray-dark dark:text-gray-default" />
       <div class="flex-auto mx-2 text-xs text-left uppercase text-gray-dark dark:text-gray-default">Titre</div>
       <div class="flex-none hidden w-32 mx-2 text-xs text-left uppercase lg:block text-gray-dark dark:text-gray-default">Version</div>
       <div class="flex-none hidden w-32 mx-2 text-xs text-left uppercase sm:block text-gray-dark dark:text-gray-default">Disponibilité</div>
       <div class="flex-none hidden w-32 mx-2 text-xs text-left uppercase md:block text-gray-dark dark:text-gray-default">Première diff.</div>
     </div>
 
-    <inertia-link v-for="song in songs" v-bind:key="song.id" class="flex flex-row items-center py-3 mb-2 transition-all duration-200 ease-in-out rounded cursor-pointer sm:px-2 hover:bg-gray-lightest dark:hover:bg-gray-darker" :class="{ 'opacity-60': !has_medias(song) }" :href="route('songs.show', song)">
+    <inertia-link v-for="song in songs" :key="song.id" class="flex flex-row items-center py-3 mb-2 transition-all duration-200 ease-in-out rounded cursor-pointer sm:px-2 hover:bg-gray-lightest dark:hover:bg-gray-darker" :class="{ 'opacity-60': !has_medias(song) }" :href="route('songs.show', song)">
       <div class="flex-none w-8 text-center transition-all duration-200 ease-in-out md:mx-2 text-gray-light dark:text-gray-dark hover:text-gray-dark dark:hover:text-gray-default" @click.prevent="play_song(song)">
         <template v-if="has_medias(song)">
           <span v-if="global_data.$curr_song_id == song.id">
-            <i class="text-gray-dark dark:text-gray-default fas fa-volume-up fa-fw"></i>
+            <i class="text-gray-dark dark:text-gray-default fas fa-volume-up fa-fw" />
           </span>
           <span v-else>
-            <i class="text-xs fas fa-fw fa-play"></i>
+            <i class="text-xs fas fa-fw fa-play" />
           </span>
         </template>
       </div>
       <div class="flex-none w-10 mx-2">
         <vue-load-image class="rounded-t aspect-w-1 aspect-h-1">
-          <template v-slot:image>
+          <template #image>
             <img :src="song.image_url" class="object-cover w-full h-full shadow-xl animate__animated animate__fadeIn animate__fastest" />
           </template>
-          <template v-slot:preloader>
+          <template #preloader>
             <div class="flex items-center justify-center opacity-50" :style="{ 'background-color': song.image_dominant_color }">
-              <i class="text-xs text-black dark:text-white fas fa-spin fa-spinner"></i>
+              <i class="text-xs text-black dark:text-white fas fa-spin fa-spinner" />
             </div>
           </template>
         </vue-load-image>
@@ -36,7 +36,7 @@
         <div class="truncate" :class="{ 'text-pink-500': global_data.$curr_song_id == song.id }">
           {{ song.title }}
           <span v-if="is_hi_res(song)" class="px-2 py-1 ml-1 text-xs text-black bg-yellow-400 rounded dark:text-yellow-400 dark:bg-gray-800">Hi-Res</span>
-          <span v-if="has_videos(song)" class="px-2 py-1 ml-1 text-xs text-black bg-red-400 rounded dark:text-red-400 dark:bg-gray-800"><i class="fas fa-video"></i></span>
+          <span v-if="has_videos(song)" class="px-2 py-1 ml-1 text-xs text-black bg-red-400 rounded dark:text-red-400 dark:bg-gray-800"><i class="fas fa-video" /></span>
         </div>
         <div class="text-sm truncate text-gray-dark dark:text-gray-default">
           {{ song.artist }}
@@ -72,9 +72,9 @@
 </template>
 
 <script>
-import { EventBus } from '../event-bus.js';
-import _ from 'lodash';
-import {global_data} from '../store.js';
+import { EventBus } from '../event-bus.js'
+import _ from 'lodash'
+import {global_data} from '../store.js'
 
 export default {
   props: ['songs'],
@@ -82,7 +82,7 @@ export default {
   data() {
     return {
       global_data: global_data,
-    };
+    }
   },
 
   methods: {
@@ -91,26 +91,26 @@ export default {
         song: song,
         context: this.songs,
         empty_queue: true,
-      });
+      })
     },
 
     has_medias(song) {
       return _.filter(song.media, function (media) {
-        return media.collection_name == 'medias';
-      }).length;
+        return media.collection_name == 'medias'
+      }).length
     },
 
     has_videos(song) {
       return _.filter(song.media, function (media) {
-        return media.collection_name == 'files' && (media.mime_type == 'video/x-matroska' || media.mime_type == 'video/webm');
-      }).length;
+        return media.collection_name == 'files' && (media.mime_type == 'video/x-matroska' || media.mime_type == 'video/webm')
+      }).length
     },
 
     is_hi_res(song) {
       return _.filter(song.media, function (media) {
-        return media.collection_name == 'medias' && media.custom_properties.codec_name == 'flac' && media.custom_properties.bits_per_raw_sample == '24';
-      }).length;
+        return media.collection_name == 'medias' && media.custom_properties.codec_name == 'flac' && media.custom_properties.bits_per_raw_sample == '24'
+      }).length
     },
   },
-};
+}
 </script>

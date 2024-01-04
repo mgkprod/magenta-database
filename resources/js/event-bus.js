@@ -1,45 +1,45 @@
 class Event {
-    constructor(){
-        this.events = {};
-    }
+  constructor(){
+    this.events = {}
+  }
 
-    on(eventName, fn) {
-        this.events[eventName] = this.events[eventName] || [];
-        this.events[eventName].push(fn);
-    }
+  on(eventName, fn) {
+    this.events[eventName] = this.events[eventName] || []
+    this.events[eventName].push(fn)
+  }
 
-    off(eventName, fn) {
-        if (this.events[eventName]) {
-            for (var i = 0; i < this.events[eventName].length; i++) {
-                if (this.events[eventName][i] === fn) {
-                    this.events[eventName].splice(i, 1);
-                    break;
-                }
-            };
+  off(eventName, fn) {
+    if (this.events[eventName]) {
+      for (var i = 0; i < this.events[eventName].length; i++) {
+        if (this.events[eventName][i] === fn) {
+          this.events[eventName].splice(i, 1)
+          break
         }
+      }
     }
+  }
 
-    trigger(eventName, data) {
-        if (this.events[eventName]) {
-            this.events[eventName].forEach(function(fn) {
-                fn(data);
-            });
-        }
+  trigger(eventName, data) {
+    if (this.events[eventName]) {
+      this.events[eventName].forEach(function(fn) {
+        fn(data)
+      })
     }
+  }
 
-    // Aliases for on/off/trigger to work with legacy code:
+  // Aliases for on/off/trigger to work with legacy code:
 
-    $on(eventName, fn) {
-        this.on(eventName, fn);
-    }
+  $on(eventName, fn) {
+    this.on(eventName, fn)
+  }
 
-    $off(eventName, fn) {
-        this.off(eventName, fn);
-    }
+  $off(eventName, fn) {
+    this.off(eventName, fn)
+  }
 
-    $emit(eventName, data) {
-        this.trigger(eventName, data);
-    }
+  $emit(eventName, data) {
+    this.trigger(eventName, data)
+  }
 }
 
-export const EventBus = new Event();
+export const EventBus = new Event()

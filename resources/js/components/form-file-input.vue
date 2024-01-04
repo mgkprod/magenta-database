@@ -1,11 +1,11 @@
 <template>
   <label class="block mb-6 md:w-96">
-    <span v-if="label" class="block mb-2 text-sm font-semibold text-gray-dark dark:text-gray-default" v-text="label"></span>
+    <span v-if="label" class="block mb-2 text-sm font-semibold text-gray-dark dark:text-gray-default" v-text="label" />
 
     <div :class="{ error: errors.length }">
       <input ref="file" type="file" :accept="accept" class="hidden" @change="change" />
       <div v-if="!modelValue">
-        <button type="button" class="inline-flex items-center px-4 py-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default hover:bg-gray-light dark:hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500" @click="browse"><i class="mr-2 opacity-50 fas fa-file"></i> Browse</button>
+        <button type="button" class="inline-flex items-center px-4 py-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default hover:bg-gray-light dark:hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500" @click="browse"><i class="mr-2 opacity-50 fas fa-file" /> Browse</button>
       </div>
       <div v-else class="flex items-center justify-between">
         <div class="flex-none truncate">
@@ -15,7 +15,7 @@
       </div>
     </div>
 
-    <p v-if="errors.length" class="pl-1 text-xs font-semibold text-red-500" v-text="errors[0]"></p>
+    <p v-if="errors.length" class="pl-1 text-xs font-semibold text-red-500" v-text="errors[0]" />
   </label>
 </template>
 
@@ -33,34 +33,39 @@ export default {
     },
   },
 
+  emits: ['update:modelValue'],
+
   watch: {
     modelValue(modelValue) {
       if (!modelValue) {
-        this.$refs.file.modelValue = '';
+        this.$refs.file.modelValue = ''
       }
     },
   },
 
   methods: {
     get_readable_file_size_string(file_size_in_bytes) {
-      var i = -1;
-      var byte_units = [' kB', ' MB', ' GB', ' TB', 'PB', 'EB', 'ZB', 'YB'];
+      var i = -1
+      var byte_units = [' kB', ' MB', ' GB', ' TB', 'PB', 'EB', 'ZB', 'YB']
       do {
-        file_size_in_bytes = file_size_in_bytes / 1024;
-        i++;
-      } while (file_size_in_bytes > 1024);
+        file_size_in_bytes = file_size_in_bytes / 1024
+        i++
+      } while (file_size_in_bytes > 1024)
 
-      return Math.max(file_size_in_bytes, 0.1).toFixed(1) + byte_units[i];
+      return Math.max(file_size_in_bytes, 0.1).toFixed(1) + byte_units[i]
     },
+
     browse() {
-      this.$refs.file.click();
+      this.$refs.file.click()
     },
+
     change(e) {
-      this.$emit('update:modelValue', e.target.files[0]);
+      this.$emit('update:modelValue', e.target.files[0])
     },
+
     remove() {
-      this.$emit('update:modelValue', null);
+      this.$emit('update:modelValue', null)
     },
   },
-};
+}
 </script>

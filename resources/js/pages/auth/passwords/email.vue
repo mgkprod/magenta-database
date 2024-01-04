@@ -5,7 +5,7 @@
 
       <h3 v-if="success" class="px-4 py-3 mb-8 text-sm text-green-800 bg-green-100 rounded">We have e-mailed your password reset link!</h3>
 
-      <form-input class="mb-8" label="Email" placeholder="Your Email Address" v-model="form.email" :errors="$page.props.errors.email" required autofocus autocomplete="email" />
+      <form-input v-model="form.email" class="mb-8" label="Email" placeholder="Your Email Address" :errors="$page.props.errors.email" required autofocus autocomplete="email" />
 
       <button class="w-full py-3 text-sm font-semibold text-black transition duration-200 ease-in-out rounded dark:text-white bg-primary-500 active:bg-transparent focus:ring-2 focus:ring-opacity-50 focus:ring-primary-500 hover:bg-primary-600 focus:outline-none focus:shadow-outline">Send password reset link</button>
     </div>
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import Layout from '@/layouts/gate.vue';
+import Layout from '@/layouts/gate.vue'
 
 export default {
   layout: Layout,
@@ -27,22 +27,23 @@ export default {
       form: {
         email: '',
       },
+
       success: false,
-    };
+    }
   },
 
   methods: {
     async submit() {
-      this.success = false;
-      this.$page.props.errors = {};
+      this.success = false
+      this.$page.props.errors = {}
 
-      await this.$inertia.post(this.route('password.email'), { ...this.form });
+      await this.$inertia.post(this.route('password.email'), { ...this.form })
 
       if (!this.$page.props.errors.email) {
-        this.form = {};
-        this.success = true;
+        this.form = {}
+        this.success = true
       }
     },
   },
-};
+}
 </script>
