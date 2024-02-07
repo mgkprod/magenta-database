@@ -274,20 +274,29 @@ export default {
       is_disconnecting: false,
       was_playing: false,
       was_seek: 0,
+
+      // Temp variable to refresh computed properties
+      refreshKey: 0,
     }
   },
 
   computed: {
     is_casting() {
+      this.refreshKey
+
       return this.player.cjs && this.player.cjs.connected
     },
 
     is_playing() {
+      this.refreshKey
+
       if (this.is_casting) return !this.player.cjs.paused
       else return this.player.howl && this.player.howl.playing()
     },
 
     is_buffering() {
+      this.refreshKey
+
       if (this.is_casting) return this.player.cjs.state == 'buffering'
       else return this.player.howl && this.player.howl.state() == 'loading'
     },
@@ -302,7 +311,6 @@ export default {
     //   // }
     //   // this.set_volume(volume);
     // },
-
   },
 
   mounted() {
@@ -358,21 +366,15 @@ export default {
         src: [this.player.media.url],
         html5: true,
         volume: this.player.volume,
-        onplay: () => {
-          this.$forceUpdate() // refresh "is_buffering" computed property
-        },
-
+        onplay: () => { this.refreshKey++ },
         onpause: () => {},
-        onend: () => {
-          this.forward()
-        },
-
+        onend: () => { this.forward() },
         onstop: () => {},
         onload: () => {
           this.update_media_session()
           this.player.seek_max = this.player.howl.duration()
 
-          this.$forceUpdate() // refresh "is_buffering" computed property
+          this.refreshKey++
         },
       })
     },
