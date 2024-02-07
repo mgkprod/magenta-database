@@ -1,11 +1,11 @@
 <template>
   <label class="block" :class="$attrs.class" :for="id">
-    <span v-if="label" class="block mb-2 text-sm font-semibold text-gray-dark dark:text-gray-default" v-text="label" />
+    <span v-if="label" class="mb-2 block text-sm font-semibold text-gray-dark dark:text-gray-default" v-text="label" />
 
     <Calendar
       v-bind="{ ...$attrs, class: undefined }"
       :id="id"
-      :class="{ 'bg-red-900 mb-1 border-red-500': errors }"
+      :class="{ 'mb-1 border-red-500 bg-red-900': errors }"
       date-format="yy-mm-dd"
       :model-value="modelValue"
       @update:model-value="$emit('update:modelValue', $event)"

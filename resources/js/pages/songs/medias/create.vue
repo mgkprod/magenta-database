@@ -6,8 +6,8 @@
       <form-file-input ref="file" v-model="form.file" class="mb-6" label="Audio" type="file" accept="audio/*" :errors="$page.props.errors.file" />
 
       <div class="flex justify-end">
-        <button class="inline-flex items-center px-4 py-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default hover:bg-gray-light dark:hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500">
-          <i class="mr-2 opacity-50 fas fa-plus" /> Chunked upload
+        <button class="inline-flex items-center rounded bg-gray-lightest px-4 py-1 text-sm font-semibold text-gray-dark transition duration-200 ease-in-out hover:bg-gray-light focus:outline-none focus:ring-2 focus:ring-gray-500/50 active:bg-transparent dark:bg-gray-darker dark:text-gray-default dark:hover:bg-gray-dark">
+          <i class="fas fa-plus mr-2 opacity-50" /> Chunked upload
           <span class="ml-1">({{ upload.progress }} %)</span>
         </button>
       </div>

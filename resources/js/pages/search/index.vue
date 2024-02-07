@@ -8,9 +8,9 @@
     <div class="p-4 md:p-8">
       <form class="mb-8" @submit.prevent="submit">
         <div class="flex flex-row items-center">
-          <input v-model="form.q" type="text" placeholder="On écoute quoi ?" autofocus class="font-sans leading-6 m-0 py-1.5 px-3 sm:text-sm text-neutral-900 dark:text-neutral-0 placeholder:text-neutral-400 dark:placeholder:text-neutral-500 bg-neutral-0 dark:bg-neutral-900 shadow-sm ring-1 ring-inset ring-neutral-300 dark:ring-neutral-700 ring-offset-0 rounded-md appearance-none w-full outline-none focus:ring-indigo-500 dark:focus:ring-indigo-400 transition duration-150 ease-in-out" />
+          <input v-model="form.q" type="text" placeholder="On écoute quoi ?" autofocus class="m-0 w-full appearance-none rounded-md bg-neutral-0 px-3 py-1.5 font-sans leading-6 text-neutral-900 shadow-sm outline-none ring-1 ring-inset ring-neutral-300 ring-offset-0 transition duration-150 ease-in-out placeholder:text-neutral-400 focus:ring-indigo-500 sm:text-sm dark:bg-neutral-900 dark:text-neutral-0 dark:ring-neutral-700 dark:placeholder:text-neutral-500 dark:focus:ring-indigo-400" />
 
-          <i class="ml-4 text-xs transition-all duration-200 ease-in-out fas fa-search text-gray-light dark:text-gray-dark hover:text-gray-dark dark:hover:text-gray-default" @click="submit" />
+          <i class="fas fa-search ml-4 text-xs text-gray-light transition-all duration-200 ease-in-out hover:text-gray-dark dark:text-gray-dark dark:hover:text-gray-default" @click="submit" />
         </div>
       </form>
 

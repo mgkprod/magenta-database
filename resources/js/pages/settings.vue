@@ -8,7 +8,7 @@
       <h2 class="mb-4 text-xl font-semibold">Préférences</h2>
 
       <p class="text-gray-dark dark:text-gray-default">
-        <button class="inline-flex items-center px-4 py-2 text-xs font-semibold transition duration-200 ease-in-out bg-white bg-opacity-50 rounded cursor-pointer dark:bg-black text-gray-dark dark:text-gray-default active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500 hover:bg-opacity-70" @click="toggle_theme"><i class="mr-1 fas fa-lightbulb" /> Thème {{ theme == 'dark' ? 'clair' : 'sombre' }}</button><br />
+        <button class="inline-flex cursor-pointer items-center rounded bg-white/50 px-4 py-2 text-xs font-semibold text-gray-dark transition duration-200 ease-in-out hover:bg-white/70 focus:outline-none focus:ring-2 focus:ring-gray-500/50 active:bg-transparent dark:bg-black/50 dark:text-gray-default dark:hover:bg-black/70" @click="toggle_theme"><i class="fas fa-lightbulb mr-1" /> Thème {{ theme == 'dark' ? 'clair' : 'sombre' }}</button><br />
       </p>
     </div>
   </div>

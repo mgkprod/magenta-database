@@ -1,63 +1,63 @@
 <template>
-  <div class="flex flex-col w-full vh">
+  <div class="vh flex w-full flex-col">
     <inertia-head>
       <title>{{ $page.props.app_name }}</title>
       <meta head-key="description" name="description" :content="$page.props.app_description" />
     </inertia-head>
 
-    <div class="z-10 flex flex-row items-center justify-between w-full px-4 py-4 bg-black border-b-4 border-gray-darker lg:hidden">
-      <button v-if="$page.props.app_name == 'DISTRACTIONS-DATABASE'" ref="toggle_sidebar_btn" class="w-8 h-8 mb-0 bg-gradient-distractions focus:outline-none" @click="show_sidebar = !show_sidebar" />
-      <button v-else ref="toggle_sidebar_btn" class="w-8 h-8 mb-0 bg-gradient-magenta focus:outline-none" @click="show_sidebar = !show_sidebar" />
+    <div class="z-10 flex w-full flex-row items-center justify-between border-b-4 border-gray-darker bg-black p-4 lg:hidden">
+      <button v-if="$page.props.app_name == 'DISTRACTIONS-DATABASE'" ref="toggle_sidebar_btn" class="bg-gradient-distractions mb-0 size-8 focus:outline-none" @click="show_sidebar = !show_sidebar" />
+      <button v-else ref="toggle_sidebar_btn" class="bg-gradient-magenta mb-0 size-8 focus:outline-none" @click="show_sidebar = !show_sidebar" />
     </div>
 
-    <div class="flex flex-row flex-auto min-h-0">
+    <div class="flex min-h-0 flex-auto flex-row">
       <!-- Sidebar -->
       <transition name="custom-classes-transition" enter-class="slide-left-enter" enter-active-class="slide-left-enter-active" leave-class="slide-left-leave" leave-active-class="slide-left-leave-active">
-        <div v-click-away="away" class="absolute top-0 bottom-0 z-30 flex flex-col flex-none w-56 transition-all duration-200 ease-in-out bg-black shadow-lg text-gray-lightest lg:static" :class="{ 'left-0': show_sidebar, '-left-96': !show_sidebar }">
-          <div v-if="show_sidebar_links" class="flex flex-col h-full py-4 overflow-y-auto">
-            <div class="py-4 mb-4">
+        <div v-click-away="away" class="absolute inset-y-0 z-30 flex w-56 flex-none flex-col bg-black text-gray-lightest shadow-lg transition-all duration-200 ease-in-out lg:static" :class="{ 'left-0': show_sidebar, '-left-96': !show_sidebar }">
+          <div v-if="show_sidebar_links" class="flex h-full flex-col overflow-y-auto py-4">
+            <div class="mb-4 py-4">
               <inertia-link :href="route('index')" class="tracking-tight transition-all duration-200 ease-in-out" @click="show_sidebar = false">
-                <img v-if="$page.props.app_name == 'DISTRACTIONS-DATABASE'" src="/images/logo_distractions.png" alt="Logo" class="w-full hover-contrast" />
-                <img v-else src="/images/logo.svg" alt="Logo" class="w-full hover-contrast" />
+                <img v-if="$page.props.app_name == 'DISTRACTIONS-DATABASE'" src="/images/logo_distractions.png" alt="Logo" class="hover-contrast w-full" />
+                <img v-else src="/images/logo.svg" alt="Logo" class="hover-contrast w-full" />
               </inertia-link>
             </div>
 
-            <inertia-link class="flex items-center px-4 py-3 text-sm font-semibold transition duration-200 ease-in-out border-l-4 border-transparent active:bg-transparent focus:outline-none hover:text-pink-300 hover:bg-pink-900" :class="{ 'border-pink-700 text-pink-300 bg-pink-900': route().current('songs*') }" :href="route('songs.index')" @click="show_sidebar = false">
-              <span class="tracking-tighter uppercase font-eurostile-extended">Tracks</span>
+            <inertia-link class="flex items-center border-l-4 border-transparent px-4 py-3 text-sm font-semibold transition duration-200 ease-in-out hover:bg-pink-900 hover:text-pink-300 focus:outline-none active:bg-transparent" :class="{ 'border-pink-700 bg-pink-900 text-pink-300': route().current('songs*') }" :href="route('songs.index')" @click="show_sidebar = false">
+              <span class="font-eurostile-extended uppercase tracking-tighter">Tracks</span>
             </inertia-link>
 
-            <inertia-link class="flex items-center px-4 py-3 text-sm font-semibold transition duration-200 ease-in-out border-l-4 border-transparent active:bg-transparent focus:outline-none hover:text-blue-300 hover:bg-blue-900" :class="{ 'border-blue-700 text-blue-300 bg-blue-900': route().current('albums*') }" :href="route('albums.index')" @click="show_sidebar = false">
-              <span class="tracking-tighter uppercase font-eurostile-extended">Albums/EPs</span>
+            <inertia-link class="flex items-center border-l-4 border-transparent px-4 py-3 text-sm font-semibold transition duration-200 ease-in-out hover:bg-blue-900 hover:text-blue-300 focus:outline-none active:bg-transparent" :class="{ 'border-blue-700 bg-blue-900 text-blue-300': route().current('albums*') }" :href="route('albums.index')" @click="show_sidebar = false">
+              <span class="font-eurostile-extended uppercase tracking-tighter">Albums/EPs</span>
             </inertia-link>
 
-            <inertia-link class="flex items-center px-4 py-3 text-sm font-semibold transition duration-200 ease-in-out border-l-4 border-transparent active:bg-transparent focus:outline-none hover:text-yellow-300 hover:bg-yellow-900" :class="{ 'border-yellow-700 text-yellow-300 bg-yellow-900': route().current('events*') }" :href="route('events.index')" @click="show_sidebar = false">
-              <span class="tracking-tighter uppercase font-eurostile-extended">Events</span>
+            <inertia-link class="flex items-center border-l-4 border-transparent px-4 py-3 text-sm font-semibold transition duration-200 ease-in-out hover:bg-yellow-900 hover:text-yellow-300 focus:outline-none active:bg-transparent" :class="{ 'border-yellow-700 bg-yellow-900 text-yellow-300': route().current('events*') }" :href="route('events.index')" @click="show_sidebar = false">
+              <span class="font-eurostile-extended uppercase tracking-tighter">Events</span>
             </inertia-link>
 
-            <inertia-link class="flex items-center px-4 py-3 text-sm font-semibold transition duration-200 ease-in-out border-l-4 border-transparent active:bg-transparent focus:outline-none hover:text-purple-300 hover:bg-purple-900" :class="{ 'border-purple-700 text-purple-300 bg-purple-900': route().current('search*') }" :href="route('search.index')" @click="show_sidebar = false">
-              <span class="tracking-tighter uppercase font-eurostile-extended">Search</span>
+            <inertia-link class="flex items-center border-l-4 border-transparent px-4 py-3 text-sm font-semibold transition duration-200 ease-in-out hover:bg-purple-900 hover:text-purple-300 focus:outline-none active:bg-transparent" :class="{ 'border-purple-700 bg-purple-900 text-purple-300': route().current('search*') }" :href="route('search.index')" @click="show_sidebar = false">
+              <span class="font-eurostile-extended uppercase tracking-tighter">Search</span>
             </inertia-link>
 
             <div class="mt-auto" />
 
-            <inertia-link class="flex items-center px-4 py-3 text-sm font-semibold transition duration-200 ease-in-out border-l-4 border-transparent active:bg-transparent focus:outline-none hover:text-gray-300 hover:bg-gray-900" :class="{ 'border-gray-700 text-gray-300 bg-gray-900': route().current('settings') }" :href="route('settings')" @click="show_sidebar = false">
-              <span class="tracking-tighter uppercase font-eurostile-extended">Settings</span>
+            <inertia-link class="flex items-center border-l-4 border-transparent px-4 py-3 text-sm font-semibold transition duration-200 ease-in-out hover:bg-gray-900 hover:text-gray-300 focus:outline-none active:bg-transparent" :class="{ 'border-gray-700 bg-gray-900 text-gray-300': route().current('settings') }" :href="route('settings')" @click="show_sidebar = false">
+              <span class="font-eurostile-extended uppercase tracking-tighter">Settings</span>
             </inertia-link>
 
-            <inertia-link class="flex items-center px-4 py-3 text-sm font-semibold transition duration-200 ease-in-out border-l-4 border-transparent active:bg-transparent focus:outline-none hover:text-gray-300 hover:bg-gray-900" :class="{ 'border-gray-700 text-gray-300 bg-gray-900': route().current('index') }" :href="route('index')" @click="show_sidebar = false">
-              <span class="tracking-tighter uppercase font-eurostile-extended">About</span>
+            <inertia-link class="flex items-center border-l-4 border-transparent px-4 py-3 text-sm font-semibold transition duration-200 ease-in-out hover:bg-gray-900 hover:text-gray-300 focus:outline-none active:bg-transparent" :class="{ 'border-gray-700 bg-gray-900 text-gray-300': route().current('index') }" :href="route('index')" @click="show_sidebar = false">
+              <span class="font-eurostile-extended uppercase tracking-tighter">About</span>
             </inertia-link>
           </div>
 
-          <div class="fixed inset-0 flex flex-col w-full transition-all duration-200 ease-in-out lg:static" :class="{ 'top-full': !show_player }">
-            <div v-if="!player.howl" class="flex-auto lg:hidden bg-gray-darker" />
+          <div class="fixed inset-0 flex w-full flex-col transition-all duration-200 ease-in-out lg:static" :class="{ 'top-full': !show_player }">
+            <div v-if="!player.howl" class="flex-auto bg-gray-darker lg:hidden" />
             <transition name="custom-classes-transition" enter-class="slide-top-enter" enter-active-class="slide-top-enter-active" leave-class="slide-bottom-leave" leave-active-class="slide-bottom-leave-active">
-              <div v-if="player.howl" class="relative flex-auto px-4 py-4 bg-gray-darker">
-                <div class="relative z-10 flex flex-col items-center justify-center h-full lg:flex-col sm:flex-row">
-                  <inertia-link class="block mb-4 sm:mb-0 w-72 sm:w-48 lg:mb-auto lg:w-full hover:underline" :href="route('songs.show', player.song)" @click="show_player = false">
-                    <vue-load-image class="mb-4 bg-black bg-opacity-50 rounded shadow-xl aspect-w-1 aspect-h-1">
+              <div v-if="player.howl" class="relative flex-auto bg-gray-darker p-4">
+                <div class="relative z-10 flex h-full flex-col items-center justify-center sm:flex-row lg:flex-col">
+                  <inertia-link class="mb-4 block w-72 hover:underline sm:mb-0 sm:w-48 lg:mb-auto lg:w-full" :href="route('songs.show', player.song)" @click="show_player = false">
+                    <vue-load-image class="aspect-h-1 aspect-w-1 mb-4 rounded bg-black/50 shadow-xl">
                       <template #image>
-                        <img :src="player.song.image_url" class="object-cover w-full h-full rounded animate__animated animate__fadeIn animate__fastest" />
+                        <img :src="player.song.image_url" class="animate__animated animate__fadeIn animate__fastest size-full rounded object-cover" />
                       </template>
                       <template #preloader>
                         <div class="flex items-center justify-center">
@@ -66,17 +66,17 @@
                       </template>
                     </vue-load-image>
                   </inertia-link>
-                  <div class="flex flex-col items-center justify-center w-full sm:w-auto lg:w-full sm:ml-8 lg:ml-0">
-                    <div class="mb-4 text-center sm:text-left w-72 lg:w-full">
-                      <inertia-link class="block mb-2 hover:underline lg:mb-0" :href="route('songs.show', player.song)" @click="show_player = false">{{ player.song.display_title }}</inertia-link>
+                  <div class="flex w-full flex-col items-center justify-center sm:ml-8 sm:w-auto lg:ml-0 lg:w-full">
+                    <div class="mb-4 w-72 text-center sm:text-left lg:w-full">
+                      <inertia-link class="mb-2 block hover:underline lg:mb-0" :href="route('songs.show', player.song)" @click="show_player = false">{{ player.song.display_title }}</inertia-link>
                       <span class="text-gray-default">{{ player.song.artist }}</span>
                     </div>
 
-                    <div class="flex flex-row items-center justify-center mb-4 w-72 lg:w-full text-gray-default">
+                    <div class="mb-4 flex w-72 flex-row items-center justify-center text-gray-default lg:w-full">
                       <div class="mr-2 text-xs">
                         <i
                           v-if="player.queue.length"
-                          class="transition duration-200 ease-in-out fa-random fas fa-fw hover:text-gray-lightest"
+                          class="fa-random fas fa-fw transition duration-200 ease-in-out hover:text-gray-lightest"
                           :class="{
                             'text-gray-dark': !player.random,
                             'text-gray-default': player.random,
@@ -86,14 +86,14 @@
                         <i v-else class="fas fa-fw fa-random text-gray-dark" />
                       </div>
                       <div class="mx-2">
-                        <i v-if="!(player.queue_index <= 0)" class="transition duration-200 ease-in-out fa-backward fas fa-fw hover:text-gray-lightest" @click="backward()" />
+                        <i v-if="!(player.queue_index <= 0)" class="fa-backward fas fa-fw transition duration-200 ease-in-out hover:text-gray-lightest" @click="backward()" />
                         <i v-else class="fas fa-fw fa-backward text-gray-dark" />
                       </div>
                       <div class="mx-2">
                         <i v-if="is_buffering" class="fas fa-fw fa-spinner fa-spin" />
                         <i
                           v-else-if="player.howl"
-                          class="transition duration-200 ease-in-out fas fa-fw hover:text-gray-lightest"
+                          class="fas fa-fw transition duration-200 ease-in-out hover:text-gray-lightest"
                           :class="{
                             'fa-play': !is_playing,
                             'fa-pause': is_playing,
@@ -103,12 +103,12 @@
                         <i v-else class="fas fa-fw fa-play text-gray-dark" />
                       </div>
                       <div class="mx-2">
-                        <i v-if="!(player.queue_index >= player.queue.length - 1) || player.random || player.loop != 'disabled'" class="transition duration-200 ease-in-out fa-forward fas fa-fw hover:text-gray-lightest" @click="forward()" />
+                        <i v-if="!(player.queue_index >= player.queue.length - 1) || player.random || player.loop != 'disabled'" class="fa-forward fas fa-fw transition duration-200 ease-in-out hover:text-gray-lightest" @click="forward()" />
                         <i v-else class="fas fa-fw fa-forward text-gray-dark" />
                       </div>
                       <div class="relative ml-2 text-xs">
                         <i
-                          class="transition duration-200 ease-in-out fa-redo fas fa-fw hover:text-gray-lightest"
+                          class="fa-redo fas fa-fw transition duration-200 ease-in-out hover:text-gray-lightest"
                           :class="{
                             'text-gray-dark': player.loop == 'disabled',
                             'text-gray-default': player.loop == 'queue' || player.loop == 'self',
@@ -121,9 +121,9 @@
                       </div>
                     </div>
 
-                    <input v-model="player.seek" class="mb-4 overflow-hidden rounded-lg appearance-none w-72 lg:w-full bg-gray-default focus:outline-none" type="range" min="0" :max="player.seek_max" step="0.01" style="height: 8px" @input="set_seek()" />
+                    <input v-model="player.seek" class="mb-4 w-72 appearance-none overflow-hidden rounded-lg bg-gray-default focus:outline-none lg:w-full" type="range" min="0" :max="player.seek_max" step="0.01" style="height: 8px" @input="set_seek()" />
 
-                    <div class="flex flex-row items-center justify-between w-72 lg:w-full text-gray-default">
+                    <div class="flex w-72 flex-row items-center justify-between text-gray-default lg:w-full">
                       <div class="text-xs">
                         {{ moment.duration(player.seek, 'seconds').format('mm:ss', { trim: false }) }}
                       </div>
@@ -136,48 +136,48 @@
                     </div>
                   </div>
                 </div>
-                <canvas ref="canvas" class="absolute inset-0 top-auto z-0 w-full h-24 border-b-4 border-gray-dark" />
+                <canvas ref="canvas" class="absolute inset-0 top-auto z-0 h-24 w-full border-b-4 border-gray-dark" />
 
-                <button v-if="!is_casting && player.cjs && player.cjs.available" class="absolute bottom-0 left-0 z-10 h-16 px-4 text-xs lg:hidden focus:outline-none" @click="cast_connect">
-                  <i class="transition duration-200 ease-in-out fab hover:text-gray-lightest text-gray-default fa-chromecast" />
+                <button v-if="!is_casting && player.cjs && player.cjs.available" class="absolute bottom-0 left-0 z-10 h-16 px-4 text-xs focus:outline-none lg:hidden" @click="cast_connect">
+                  <i class="fab fa-chromecast text-gray-default transition duration-200 ease-in-out hover:text-gray-lightest" />
                 </button>
-                <button v-if="is_casting" class="absolute bottom-0 left-0 z-10 h-16 px-4 text-xs lg:hidden focus:outline-none" @click="cast_disconnect">
-                  <i class="transition duration-200 ease-in-out fab hover:text-gray-lightest text-gray-default fa-chromecast" />
+                <button v-if="is_casting" class="absolute bottom-0 left-0 z-10 h-16 px-4 text-xs focus:outline-none lg:hidden" @click="cast_disconnect">
+                  <i class="fab fa-chromecast text-gray-default transition duration-200 ease-in-out hover:text-gray-lightest" />
                   <span v-if="player.cjs && player.cjs.device" class="ml-2">Connecté à {{ player.cjs.device }}</span>
                 </button>
-                <button class="absolute bottom-0 right-0 z-10 h-16 px-4 text-xs lg:hidden focus:outline-none" @click="show_player = false">
-                  <i class="transition duration-200 ease-in-out fas hover:text-gray-lightest text-gray-default fa-chevron-down" />
+                <button class="absolute bottom-0 right-0 z-10 h-16 px-4 text-xs focus:outline-none lg:hidden" @click="show_player = false">
+                  <i class="fas fa-chevron-down text-gray-default transition duration-200 ease-in-out hover:text-gray-lightest" />
                 </button>
               </div>
             </transition>
 
             <div class="hidden bg-gray-darker lg:block">
               <transition name="custom-classes-transition" enter-class="slide-top-enter" enter-active-class="slide-top-enter-active" leave-class="slide-bottom-leave" leave-active-class="slide-bottom-leave-active">
-                <div v-if="is_casting" class="flex flex-row items-center justify-center px-4 py-4 bg-pink-400 text-gray-darkest">
-                  <div class="mr-4 text-left fa-fw">
+                <div v-if="is_casting" class="flex flex-row items-center justify-center bg-pink-400 p-4 text-gray-darkest">
+                  <div class="fa-fw mr-4 text-left">
                     <i
-                      class="transition duration-200 ease-in-out fab fa-chromecast hover:text-gray-lightest"
+                      class="fab fa-chromecast transition duration-200 ease-in-out hover:text-gray-lightest"
                       :class="{
                         '': is_casting,
                       }"
                       @click="cast_disconnect"
                     />
                   </div>
-                  <div class="w-full text-xs truncate">
+                  <div class="w-full truncate text-xs">
                     <span v-if="player.cjs && player.cjs.device">Connecté à {{ player.cjs.device }}</span>
                   </div>
                 </div>
               </transition>
 
-              <div class="flex flex-row items-center justify-center px-4 py-4 text-gray-default">
+              <div class="flex flex-row items-center justify-center p-4 text-gray-default">
                 <transition name="custom-classes-transition" enter-class="slide-left-enter" enter-active-class="slide-left-enter-active" leave-class="slide-left-leave" leave-active-class="slide-left-leave-active">
-                  <div v-if="!is_casting && player.cjs && player.cjs.available" class="mr-4 text-left fa-fw">
-                    <i class="transition duration-200 ease-in-out fab fa-chromecast hover:text-gray-lightest" @click="cast_connect" />
+                  <div v-if="!is_casting && player.cjs && player.cjs.available" class="fa-fw mr-4 text-left">
+                    <i class="fab fa-chromecast transition duration-200 ease-in-out hover:text-gray-lightest" @click="cast_connect" />
                   </div>
                 </transition>
-                <div class="mr-4 text-left fa-fw">
+                <div class="fa-fw mr-4 text-left">
                   <i
-                    class="transition duration-200 ease-in-out fas hover:text-gray-lightest"
+                    class="fas transition duration-200 ease-in-out hover:text-gray-lightest"
                     :class="{
                       'fa-volume-mute': player.volume == 0,
                       'fa-volume-off': player.volume > 0 && player.volume < 0.25,
@@ -188,7 +188,7 @@
                     @click="mute()"
                   />
                 </div>
-                <input v-model="player.volume" class="hidden w-full overflow-hidden rounded-lg appearance-none lg:block bg-gray-dark focus:outline-none" type="range" min="0" max="1" step="0.01" style="height: 8px" @input="set_volume()" />
+                <input v-model="player.volume" class="hidden w-full appearance-none overflow-hidden rounded-lg bg-gray-dark focus:outline-none lg:block" type="range" min="0" max="1" step="0.01" style="height: 8px" @input="set_volume()" />
               </div>
             </div>
           </div>
@@ -196,9 +196,9 @@
       </transition>
 
       <!-- Content -->
-      <main class="w-full min-h-0 overflow-x-hidden overflow-y-auto" scroll-region>
+      <main class="min-h-0 w-full overflow-y-auto overflow-x-hidden" scroll-region>
         <transition name="custom-classes-transition" enter-class="slide-left-enter" enter-active-class="slide-left-enter-active" leave-class="slide-left-leave" leave-active-class="slide-left-leave-active">
-          <div v-show="show_page" class="w-full h-full min-h-0">
+          <div v-show="show_page" class="size-full min-h-0">
             <slot />
           </div>
         </transition>
@@ -206,29 +206,29 @@
     </div>
 
     <transition name="custom-classes-transition" enter-class="slide-top-enter" enter-active-class="slide-top-enter-active" leave-class="slide-bottom-leave" leave-active-class="slide-bottom-leave-active">
-      <div v-if="player.howl" class="z-10 flex flex-row items-center justify-start w-full bg-black border-t-4 text-gray-lightest border-gray-darker lg:hidden" @click="show_player = true">
-        <div v-if="player.howl" class="flex-none w-16 h-16">
-          <vue-load-image class="bg-black bg-opacity-50 shadow-xl aspect-w-1 aspect-h-1">
+      <div v-if="player.howl" class="z-10 flex w-full flex-row items-center justify-start border-t-4 border-gray-darker bg-black text-gray-lightest lg:hidden" @click="show_player = true">
+        <div v-if="player.howl" class="size-16 flex-none">
+          <vue-load-image class="aspect-h-1 aspect-w-1 bg-black/50 shadow-xl">
             <template #image>
-              <img :src="player.song.image_url" class="object-cover w-full h-full animate__animated animate__fadeIn animate__fastest" />
+              <img :src="player.song.image_url" class="animate__animated animate__fadeIn animate__fastest size-full object-cover" />
             </template>
             <template #preloader>
               <div class="flex items-center justify-center">
-                <i class="text-xs fas fa-spin fa-spinner text-gray-default" />
+                <i class="fas fa-spin fa-spinner text-xs text-gray-default" />
               </div>
             </template>
           </vue-load-image>
         </div>
         <div class="flex-auto truncate">
-          <div v-if="player.howl" class="flex flex-col items-center h-full px-4">
-            <div class="w-full text-sm text-left">
+          <div v-if="player.howl" class="flex h-full flex-col items-center px-4">
+            <div class="w-full text-left text-sm">
               <div class="mb-1 truncate">{{ player.song.display_title }}</div>
               <div class="truncate text-gray-default">{{ player.song.artist }}</div>
             </div>
           </div>
         </div>
-        <button class="h-16 px-4 ml-auto lg:hidden focus:outline-none" @click="show_player = true">
-          <i class="text-xs transition duration-200 ease-in-out fas hover:text-gray-lightest text-gray-default fa-chevron-up" />
+        <button class="ml-auto h-16 px-4 focus:outline-none lg:hidden" @click="show_player = true">
+          <i class="fas fa-chevron-up text-xs text-gray-default transition duration-200 ease-in-out hover:text-gray-lightest" />
         </button>
       </div>
     </transition>

@@ -1,49 +1,49 @@
 <template>
   <div class="flex flex-col">
-    <div class="flex-row hidden px-2 py-2 mb-2 border-b sm:flex border-gray-lighter dark:border-gray-darker">
-      <div class="flex-none w-8 text-xs text-center uppercase md:mx-2 text-gray-dark dark:text-gray-default" />
-      <div class="flex-none w-10 mx-2 text-xs text-center uppercase text-gray-dark dark:text-gray-default" />
-      <div class="flex-auto mx-2 text-xs text-left uppercase text-gray-dark dark:text-gray-default">Titre</div>
-      <div class="flex-none hidden w-32 mx-2 text-xs text-left uppercase lg:block text-gray-dark dark:text-gray-default">Version</div>
-      <div class="flex-none hidden w-32 mx-2 text-xs text-left uppercase sm:block text-gray-dark dark:text-gray-default">Disponibilité</div>
-      <div class="flex-none hidden w-32 mx-2 text-xs text-left uppercase md:block text-gray-dark dark:text-gray-default">Première diff.</div>
+    <div class="mb-2 hidden flex-row border-b border-gray-lighter p-2 sm:flex dark:border-gray-darker">
+      <div class="w-8 flex-none text-center text-xs uppercase text-gray-dark md:mx-2 dark:text-gray-default" />
+      <div class="mx-2 w-10 flex-none text-center text-xs uppercase text-gray-dark dark:text-gray-default" />
+      <div class="mx-2 flex-auto text-left text-xs uppercase text-gray-dark dark:text-gray-default">Titre</div>
+      <div class="mx-2 hidden w-32 flex-none text-left text-xs uppercase text-gray-dark lg:block dark:text-gray-default">Version</div>
+      <div class="mx-2 hidden w-32 flex-none text-left text-xs uppercase text-gray-dark sm:block dark:text-gray-default">Disponibilité</div>
+      <div class="mx-2 hidden w-32 flex-none text-left text-xs uppercase text-gray-dark md:block dark:text-gray-default">Première diff.</div>
     </div>
 
-    <inertia-link v-for="song in songs" :key="song.id" class="flex flex-row items-center py-3 mb-2 transition-all duration-200 ease-in-out rounded cursor-pointer sm:px-2 hover:bg-gray-lightest dark:hover:bg-gray-darker" :class="{ 'opacity-60': !has_medias(song) }" :href="route('songs.show', song)">
-      <div class="flex-none w-8 text-center transition-all duration-200 ease-in-out md:mx-2 text-gray-light dark:text-gray-dark hover:text-gray-dark dark:hover:text-gray-default" @click.prevent="play_song(song)">
+    <inertia-link v-for="song in songs" :key="song.id" class="mb-2 flex cursor-pointer flex-row items-center rounded py-3 transition-all duration-200 ease-in-out hover:bg-gray-lightest sm:px-2 dark:hover:bg-gray-darker" :class="{ 'opacity-60': !has_medias(song) }" :href="route('songs.show', song)">
+      <div class="w-8 flex-none text-center text-gray-light transition-all duration-200 ease-in-out hover:text-gray-dark md:mx-2 dark:text-gray-dark dark:hover:text-gray-default" @click.prevent="play_song(song)">
         <template v-if="has_medias(song)">
           <span v-if="global_data.$curr_song_id == song.id">
-            <i class="text-gray-dark dark:text-gray-default fas fa-volume-up fa-fw" />
+            <i class="fas fa-volume-up fa-fw text-gray-dark dark:text-gray-default" />
           </span>
           <span v-else>
-            <i class="text-xs fas fa-fw fa-play" />
+            <i class="fas fa-fw fa-play text-xs" />
           </span>
         </template>
       </div>
-      <div class="flex-none w-10 mx-2">
-        <vue-load-image class="rounded-t aspect-w-1 aspect-h-1">
+      <div class="mx-2 w-10 flex-none">
+        <vue-load-image class="aspect-h-1 aspect-w-1 rounded-t">
           <template #image>
-            <img :src="song.image_url" class="object-cover w-full h-full shadow-xl animate__animated animate__fadeIn animate__fastest" />
+            <img :src="song.image_url" class="animate__animated animate__fadeIn animate__fastest size-full object-cover shadow-xl" />
           </template>
           <template #preloader>
             <div class="flex items-center justify-center opacity-50" :style="{ 'background-color': song.image_dominant_color }">
-              <i class="text-xs text-black dark:text-white fas fa-spin fa-spinner" />
+              <i class="fas fa-spin fa-spinner text-xs text-black dark:text-white" />
             </div>
           </template>
         </vue-load-image>
       </div>
-      <div class="flex-auto mx-2 truncate">
+      <div class="mx-2 flex-auto truncate">
         <div class="truncate" :class="{ 'text-pink-500': global_data.$curr_song_id == song.id }">
           {{ song.title }}
-          <span v-if="is_hi_res(song)" class="px-2 py-1 ml-1 text-xs text-black bg-yellow-400 rounded dark:text-yellow-400 dark:bg-gray-800">Hi-Res</span>
-          <span v-if="has_videos(song)" class="px-2 py-1 ml-1 text-xs text-black bg-red-400 rounded dark:text-red-400 dark:bg-gray-800"><i class="fas fa-video" /></span>
+          <span v-if="is_hi_res(song)" class="ml-1 rounded bg-yellow-400 px-2 py-1 text-xs text-black dark:bg-gray-800 dark:text-yellow-400">Hi-Res</span>
+          <span v-if="has_videos(song)" class="ml-1 rounded bg-red-400 px-2 py-1 text-xs text-black dark:bg-gray-800 dark:text-red-400"><i class="fas fa-video" /></span>
         </div>
-        <div class="text-sm truncate text-gray-dark dark:text-gray-default">
+        <div class="truncate text-sm text-gray-dark dark:text-gray-default">
           {{ song.artist }}
           <span v-if="song.version_name"><span class="text-gray-light dark:text-gray-dark">&bull;</span> {{ song.version_name }}</span>
         </div>
       </div>
-      <div class="flex-none hidden w-32 mx-2 text-left lg:block text-gray-dark dark:text-gray-default">
+      <div class="mx-2 hidden w-32 flex-none text-left text-gray-dark lg:block dark:text-gray-default">
         <span v-if="song.type == 'original'">Originale</span>
         <span v-if="song.type == 'clip'">Clip</span>
         <span v-if="song.type == 'remix'">Remix</span>
@@ -53,12 +53,12 @@
         <span v-if="song.type == 'rework'">Rework</span>
         <span v-if="song.type == 'radio-edit'">Radio Edit</span>
       </div>
-      <div class="flex-none hidden w-32 mx-2 text-left sm:block text-gray-dark dark:text-gray-default">
+      <div class="mx-2 hidden w-32 flex-none text-left text-gray-dark sm:block dark:text-gray-default">
         <span v-if="song.availability == 'unreleased'">Inédit</span>
         <span v-if="song.availability == 'deleted'">Supprimé</span>
         <span v-if="song.availability == 'published'">Publié</span>
       </div>
-      <div class="flex-none hidden w-32 mx-2 text-left md:block text-gray-dark dark:text-gray-default">
+      <div class="mx-2 hidden w-32 flex-none text-left text-gray-dark md:block dark:text-gray-default">
         <span v-if="song.first_time_played_at">
           {{ moment(song.first_time_played_at).format('DD/MM/YYYY') }}
         </span>

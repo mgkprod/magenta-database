@@ -7,25 +7,25 @@
       <meta head-key="twitter:image" name="twitter:image" :content="$page.props.event.image_url" />
     </inertia-head>
 
-    <div v-if="$page.props.user" class="flex flex-row justify-end w-full px-4 py-4 bg-white border-b-4 dark:bg-black border-gray-lighter dark:border-gray-darker">
-      <inertia-link class="inline-flex items-center px-4 py-1 mx-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default hover:bg-gray-light dark:hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500" :href="route('events.files.create', event)"> <i class="mr-2 opacity-50 fas fa-folder-open" /> Add file </inertia-link>
-      <inertia-link class="inline-flex items-center px-4 py-1 mx-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default hover:bg-gray-light dark:hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500" :href="route('events.edit', event)"> <i class="mr-2 opacity-50 fas fa-edit" /> Edit </inertia-link>
-      <button class="inline-flex items-center px-4 py-1 mx-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default hover:bg-gray-light dark:hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500" @click="destroy()"><i class="mr-2 opacity-50 fas fa-trash" /> Delete</button>
+    <div v-if="$page.props.user" class="flex w-full flex-row justify-end border-b-4 border-gray-lighter bg-white p-4 dark:border-gray-darker dark:bg-black">
+      <inertia-link class="mx-1 inline-flex items-center rounded bg-gray-lightest px-4 py-1 text-sm font-semibold text-gray-dark transition duration-200 ease-in-out hover:bg-gray-light focus:outline-none focus:ring-2 focus:ring-gray-500/50 active:bg-transparent dark:bg-gray-darker dark:text-gray-default dark:hover:bg-gray-dark" :href="route('events.files.create', event)"> <i class="fas fa-folder-open mr-2 opacity-50" /> Add file </inertia-link>
+      <inertia-link class="mx-1 inline-flex items-center rounded bg-gray-lightest px-4 py-1 text-sm font-semibold text-gray-dark transition duration-200 ease-in-out hover:bg-gray-light focus:outline-none focus:ring-2 focus:ring-gray-500/50 active:bg-transparent dark:bg-gray-darker dark:text-gray-default dark:hover:bg-gray-dark" :href="route('events.edit', event)"> <i class="fas fa-edit mr-2 opacity-50" /> Edit </inertia-link>
+      <button class="mx-1 inline-flex items-center rounded bg-gray-lightest px-4 py-1 text-sm font-semibold text-gray-dark transition duration-200 ease-in-out hover:bg-gray-light focus:outline-none focus:ring-2 focus:ring-gray-500/50 active:bg-transparent dark:bg-gray-darker dark:text-gray-default dark:hover:bg-gray-dark" @click="destroy()"><i class="fas fa-trash mr-2 opacity-50" /> Delete</button>
     </div>
 
-    <div class="relative flex flex-col items-start justify-start p-8 border-b-4 sm:flex-row border-gray-lighter dark:border-gray-darker">
+    <div class="relative flex flex-col items-start justify-start border-b-4 border-gray-lighter p-8 sm:flex-row dark:border-gray-darker">
       <div class="bg-cover-container">
-        <div class="bg-cover bg-gradient-to-br from-white to-white dark:from-black dark:to-black" :style="{ '--tw-gradient-from': event.image_dominant_color }" />
+        <div class="bg-gradient-to-br from-white to-white bg-cover dark:from-black dark:to-black" :style="{ '--tw-gradient-from': event.image_dominant_color }" />
       </div>
 
-      <div class="flex-none mb-8 w-72 sm:w-48 lg:w-72 sm:mb-0 sm:mr-8">
-        <vue-load-image class="shadow-xl aspect-w-16 aspect-h-9">
+      <div class="mb-8 w-72 flex-none sm:mb-0 sm:mr-8 sm:w-48 lg:w-72">
+        <vue-load-image class="aspect-h-9 aspect-w-16 shadow-xl">
           <template #image>
-            <img :src="event.image_url" class="object-cover w-full h-full animate__animated animate__fadeIn animate__fastest" />
+            <img :src="event.image_url" class="animate__animated animate__fadeIn animate__fastest size-full object-cover" />
           </template>
           <template #preloader>
             <div class="flex items-center justify-center opacity-50" :style="{ 'background-color': event.image_dominant_color }">
-              <i class="text-black dark:text-white fas fa-spin fa-spinner" />
+              <i class="fas fa-spin fa-spinner text-black dark:text-white" />
             </div>
           </template>
         </vue-load-image>
@@ -41,11 +41,11 @@
         </div>
         <div class="text-gray-dark dark:text-gray-default">Ajouté le : {{ moment(event.created_at).format('DD/MM/YYYY') }}</div>
 
-        <div v-if="event.details" class="w-full mt-4 whitespace-pre-wrap" v-html="markdownit.render(event.details)" />
+        <div v-if="event.details" class="mt-4 w-full whitespace-pre-wrap" v-html="markdownit.render(event.details)" />
 
         <div class="mt-8">
-          <div class="inline-flex items-center px-4 py-2 font-semibold transition duration-200 ease-in-out bg-white bg-opacity-50 rounded cursor-pointer dark:bg-black text-gray-dark dark:text-gray-default active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500 hover:bg-opacity-70" @click="play()">
-            <i class="mr-2 text-xs opacity-50 fas fa-play" />
+          <div class="inline-flex cursor-pointer items-center rounded bg-white/50 px-4 py-2 font-semibold text-gray-dark transition duration-200 ease-in-out hover:bg-white/70 focus:outline-none focus:ring-2 focus:ring-gray-500/50 active:bg-transparent dark:bg-black/50 dark:text-gray-default dark:hover:bg-black/70" @click="play()">
+            <i class="fas fa-play mr-2 text-xs opacity-50" />
             <span>Écouter</span>
           </div>
         </div>

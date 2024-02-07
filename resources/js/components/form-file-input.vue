@@ -1,17 +1,17 @@
 <template>
-  <label class="block mb-6 md:w-96">
-    <span v-if="label" class="block mb-2 text-sm font-semibold text-gray-dark dark:text-gray-default" v-text="label" />
+  <label class="mb-6 block md:w-96">
+    <span v-if="label" class="mb-2 block text-sm font-semibold text-gray-dark dark:text-gray-default" v-text="label" />
 
     <div :class="{ error: errors.length }">
       <input ref="file" type="file" :accept="accept" class="hidden" @change="change" />
       <div v-if="!modelValue">
-        <button type="button" class="inline-flex items-center px-4 py-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default hover:bg-gray-light dark:hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500" @click="browse"><i class="mr-2 opacity-50 fas fa-file" /> Browse</button>
+        <button type="button" class="inline-flex items-center rounded bg-gray-lightest px-4 py-1 text-sm font-semibold text-gray-dark transition duration-200 ease-in-out hover:bg-gray-light focus:outline-none focus:ring-2 focus:ring-gray-500/50 active:bg-transparent dark:bg-gray-darker dark:text-gray-default dark:hover:bg-gray-dark" @click="browse"><i class="fas fa-file mr-2 opacity-50" /> Browse</button>
       </div>
       <div v-else class="flex items-center justify-between">
         <div class="flex-none truncate">
           <div class="truncate">{{ modelValue.name }} ({{ get_readable_file_size_string(modelValue.size) }})</div>
         </div>
-        <button type="button" class="inline-flex items-center px-4 py-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default hover:bg-gray-light dark:hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500" @click.stop="remove">Remove</button>
+        <button type="button" class="inline-flex items-center rounded bg-gray-lightest px-4 py-1 text-sm font-semibold text-gray-dark transition duration-200 ease-in-out hover:bg-gray-light focus:outline-none focus:ring-2 focus:ring-gray-500/50 active:bg-transparent dark:bg-gray-darker dark:text-gray-default dark:hover:bg-gray-dark" @click.stop="remove">Remove</button>
       </div>
     </div>
 

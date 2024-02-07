@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['eslint:recommended', 'plugin:vue/vue3-recommended'],
+  extends: ['eslint:recommended', 'plugin:vue/vue3-recommended', 'plugin:tailwindcss/recommended'],
   parserOptions: {
     ecmaVersion: 2020,
     sourceType: 'module',
@@ -39,5 +39,6 @@ module.exports = {
       'multiline': 100,
     }],
     'vue/no-reserved-component-names': 'off',
+    'tailwindcss/no-custom-classname': 'off',
   },
 }

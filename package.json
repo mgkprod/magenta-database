@@ -15,6 +15,7 @@
         "axios": "^1.6.1",
         "cross-env": "^7.0",
         "eslint": "^8.56.0",
+        "eslint-plugin-tailwindcss": "^3.14.2",
         "eslint-plugin-vue": "^9.19.2",
         "howler": "^2.2.1",
         "laravel-vite-plugin": "^1.0.0",

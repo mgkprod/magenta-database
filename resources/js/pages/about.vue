@@ -5,17 +5,17 @@
     </inertia-head>
 
     <div class="fixed inset-0 overflow-hidden">
-      <div class="z-0 transform scale-150">
-        <div class="flex flex-wrap items-start justify-start w-screen transform lg:-rotate-12 opacity-20 dark:opacity-30">
+      <div class="z-0 scale-150">
+        <div class="flex w-screen flex-wrap items-start justify-start opacity-20 lg:-rotate-12 dark:opacity-30">
           <div v-for="(album, k) in albums" :key="k" class="w-1/3 p-1 sm:w-2/12 lg:w-1/12">
-            <div class="flex flex-col transition duration-200 ease-in-out transform rounded shadow-md cursor-pointer justify-left bg-gray-lightest dark:bg-gray-darker">
-              <vue-load-image class="rounded-t aspect-w-1 aspect-h-1">
+            <div class="justify-left flex cursor-pointer flex-col rounded bg-gray-lightest shadow-md transition duration-200 ease-in-out dark:bg-gray-darker">
+              <vue-load-image class="aspect-h-1 aspect-w-1 rounded-t">
                 <template #image>
-                  <img :src="album.image_url" class="object-cover w-full h-full rounded-t animate__animated animate__fadeIn animate__fastest" />
+                  <img :src="album.image_url" class="animate__animated animate__fadeIn animate__fastest size-full rounded-t object-cover" />
                 </template>
                 <template #preloader>
                   <div class="flex items-center justify-center rounded-t opacity-50" :style="{ 'background-color': album.image_dominant_color }">
-                    <i class="text-black dark:text-white fas fa-spin fa-spinner" />
+                    <i class="fas fa-spin fa-spinner text-black dark:text-white" />
                   </div>
                 </template>
               </vue-load-image>
@@ -30,11 +30,11 @@
       <div v-html="content" />
 
       <p class="mb-8 text-xs text-gray-dark dark:text-gray-default">
-        Développé avec <span class="text-pink-500">❤️</span> par <a href="https://mgk.dev" target="_blank" class="transition duration-200 ease-in-out text-gray-dark dark:text-gray-default hover:text-gray-darker dark:hover:text-gray-lighter">Simon R.</a><br />
+        Développé avec <span class="text-pink-500">❤️</span> par <a href="https://mgk.dev" target="_blank" class="text-gray-dark transition duration-200 ease-in-out hover:text-gray-darker dark:text-gray-default dark:hover:text-gray-lighter">Simon R.</a><br />
         <br />
         Les contenus référencés et hébergés appartiennent à leurs auteurs respectifs.<br />
         &copy;
-        <a href="https://mgk.dev" target="_blank" class="transition duration-200 ease-in-out text-gray-dark dark:text-gray-default hover:text-gray-darker dark:hover:text-gray-lighter">MGK</a>
+        <a href="https://mgk.dev" target="_blank" class="text-gray-dark transition duration-200 ease-in-out hover:text-gray-darker dark:text-gray-default dark:hover:text-gray-lighter">MGK</a>
         - {{ $page.props.version }}<br />
       </p>
     </div>
