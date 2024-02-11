@@ -101,7 +101,10 @@ class SongController extends Controller
             'radio-edit' => 'Radio Edit',
         ];
 
-        return inertia('songs/create', compact('types', 'availabilities'));
+        return inertia('songs/create', [
+            'types' => array_keys($types),
+            'availabilities' => array_keys($availabilities),
+        ]);
     }
 
     public function store(Request $request)
@@ -176,7 +179,11 @@ class SongController extends Controller
             'radio-edit' => 'Radio Edit',
         ];
 
-        return inertia('songs/edit', compact('song', 'availabilities', 'types'));
+        return inertia('songs/edit', [
+            'song' => $song,
+            'types' => array_keys($types),
+            'availabilities' => array_keys($availabilities),
+        ]);
     }
 
     public function update(Request $request, Song $song)
@@ -238,10 +245,10 @@ class SongController extends Controller
 
     public function storeMedia(Request $request, Song $song)
     {
-        Storage::move('temp/' . $request->handle, 'temp/' . $request->file_name);
+        Storage::move('temp/'.$request->handle, 'temp/'.$request->file_name);
 
         $media = $song
-            ->addMediaFromDisk('temp/' . $request->file_name)
+            ->addMediaFromDisk('temp/'.$request->file_name)
             ->withCustomProperties(['source' => $request->source])
             ->toMediaCollection('medias');
 
@@ -286,10 +293,10 @@ class SongController extends Controller
 
     public function storeFile(Request $request, Song $song)
     {
-        Storage::move('temp/' . $request->handle, 'temp/' . $request->file_name);
+        Storage::move('temp/'.$request->handle, 'temp/'.$request->file_name);
 
         $file = $song
-            ->addMediaFromDisk('temp/' . $request->file_name)
+            ->addMediaFromDisk('temp/'.$request->file_name)
             ->withCustomProperties(['name' => $request->name])
             ->toMediaCollection('files');
 

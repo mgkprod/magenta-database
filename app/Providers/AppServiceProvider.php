@@ -12,16 +12,14 @@ class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
-        $version = rescue(fn () => 'v' . trim(File::get(config_path('.version'))), 'WIP', false);
-        $sha = rescue(fn () => ' (' . substr(File::get(base_path('REVISION')), 0, 7) . ')', null, false);
-        $env = config('app.env') == 'production' ? '' : ' - ' . config('app.env');
+        $version = rescue(fn () => 'v'.trim(File::get(config_path('.version'))), 'WIP', false);
+        $sha = rescue(fn () => ' ('.substr(File::get(base_path('REVISION')), 0, 7).')', null, false);
+        $env = config('app.env') == 'production' ? '' : ' - '.config('app.env');
 
-        Inertia::share('version', $version . $sha . $env);
+        Inertia::share('version', $version.$sha.$env);
 
         URL::forceScheme('https');
 
@@ -31,10 +29,8 @@ class AppServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         //
     }

@@ -12,13 +12,13 @@ use Spatie\Searchable\SearchResult;
 
 class Album extends Model implements HasMedia, Searchable
 {
-    use InteractsWithMedia;
     use HasUlid;
+    use InteractsWithMedia;
 
     protected $guarded = [];
 
     protected $casts = [
-        'released_at' => 'date',
+        'released_at' => 'datetime',
     ];
 
     protected $appends = [

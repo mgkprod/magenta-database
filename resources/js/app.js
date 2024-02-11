@@ -1,80 +1,76 @@
-import Vue from 'vue';
-import { createInertiaApp, Head, Link } from '@inertiajs/inertia-vue';
-import { InertiaProgress } from '@inertiajs/progress/src';
-import VueSimpleMarkdown from 'vue-simple-markdown';
-import { ZiggyVue } from 'ziggy';
-import moment from 'moment';
-import momentDurationFormatSetup from 'moment-duration-format';
-import axios from 'axios';
+import '../css/app.css'
 
-const _ = require('lodash');
+import { createApp, h } from 'vue/dist/vue.esm-bundler'
+import { createInertiaApp, Link, Head } from '@inertiajs/vue3'
+import moment from 'moment'
+import momentDurationFormatSetup from 'moment-duration-format'
+import axios from 'axios'
+import markdownit from 'markdown-it'
+import VueLoadImage from 'vue-load-image'
+import PrimeVue from 'primevue/config'
+import Theme from './theme'
+import VueClickAway from 'vue3-click-away'
 
-momentDurationFormatSetup(moment);
-moment.locale('fr');
+momentDurationFormatSetup(moment)
+moment.locale('fr')
+axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
 
-axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+function resolvePageComponent(name, pages) {
+  for (const path in pages) {
+    if (path.endsWith(`${name.replace('.', '/')}.vue`)) {
+      return typeof pages[path] === 'function' ? pages[path]() : pages[path]
+    }
+  }
 
-Vue.config.productionTip = false;
-
-Vue.prototype._ = _;
-Vue.prototype.moment = moment;
-Vue.prototype.axios = axios;
-
-Vue.use(ZiggyVue);
-Vue.use(VueSimpleMarkdown);
-
-Vue.component('inertia-link', Link);
-Vue.component('inertia-head', Head);
-
-InertiaProgress.init();
-
-let global_data = new Vue({
-  data: {
-    $curr_song_id: undefined,
-    $curr_media_id: undefined,
-  },
-});
-
-Vue.mixin({
-  computed: {
-    $curr_song_id: {
-      get: function () {
-        return global_data.$data.$curr_song_id;
-      },
-      set: function (new_song_id) {
-        global_data.$data.$curr_song_id = new_song_id;
-      },
-    },
-    $curr_media_id: {
-      get: function () {
-        return global_data.$data.$curr_media_id;
-      },
-      set: function (new_song_id) {
-        global_data.$data.$curr_media_id = new_song_id;
-      },
-    },
-  },
-});
-
-const files = require.context('./', true, /\.vue$/i);
-files.keys().map((key) => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
+  throw new Error(`Page not found: ${name}`)
+}
 
 createInertiaApp({
-  resolve: (name) => require(`./pages/${name}`),
-  title: (title) => process.env.MIX_APP_NAME + ` » ${title}`,
+  title: (title) => import.meta.env.VITE_APP_NAME + ` » ${title}`,
+  progress: { color: '#BB96F8', includeCSS: true },
+  resolve: (name) => resolvePageComponent(name, import.meta.glob('./pages/**/*.vue')),
   setup({ el, App, props, plugin }) {
-    Vue.use(plugin);
+    const Vue = createApp({ render: () => h(App, props) })
+      .use(plugin)
+      .use(PrimeVue, {
+        unstyled: true,
+        pt: Theme,
+      })
+      .use(VueClickAway)
 
-    new Vue({
-      render: (h) => h(App, props),
-    }).$mount(el);
+    const components = {
+      ...import.meta.glob('./components/**/*.vue', {eager: true }),
+    }
+
+    Object.entries(components).forEach(([path, definition]) => {
+      const componentName = path
+        .split('/')
+        .pop()
+        .replace(/\.\w+$/, '')
+
+      Vue.component(componentName, definition.default)
+    })
+
+    Vue.component('InertiaLink', Link)
+    Vue.component('Link', Link)
+    Vue.component('InertiaHead', Head)
+    Vue.component('Head', Head)
+    Vue.component('VueLoadImage', VueLoadImage)
+    // Vue.component('Icon', Icon)
+
+    Vue.config.globalProperties.axios = axios
+    Vue.config.globalProperties.moment = moment
+    Vue.config.globalProperties.route = window.route
+    Vue.config.globalProperties.markdownit = markdownit()
+
+    return Vue.mount(el)
   },
-});
+})
 
 const vh = function vh() {
-  let vh = window.innerHeight * 0.01;
-  document.documentElement.style.setProperty('--vh', ''.concat(vh, 'px'));
-};
+  let vh = window.innerHeight * 0.01
+  document.documentElement.style.setProperty('--vh', ''.concat(vh, 'px'))
+}
 
-window.addEventListener('resize', vh);
-vh();
+window.addEventListener('resize', vh)
+vh()

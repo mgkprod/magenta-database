@@ -5,23 +5,25 @@
       <meta head-key="description" name="description" content="Tous les tracks regroupés par albums" />
     </inertia-head>
 
-    <div class="flex flex-row justify-end w-full px-4 py-4 bg-white border-b-4 dark:bg-black border-gray-lighter dark:border-gray-darker" v-if="$page.props.user">
-      <inertia-link class="inline-flex items-center px-4 py-1 mx-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default hover:bg-gray-light dark:hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500" :href="route('albums.create')"> <i class="mr-2 opacity-50 fas fa-plus"></i> Add </inertia-link>
+    <div v-if="$page.props.user" class="flex w-full flex-row justify-end border-b-4 border-gray-lighter bg-white p-4 dark:border-gray-darker dark:bg-black">
+      <inertia-link class="mx-1 inline-flex items-center rounded bg-gray-lightest px-4 py-1 text-sm font-semibold text-gray-dark transition duration-200 ease-in-out hover:bg-gray-light focus:outline-none focus:ring-2 focus:ring-gray-500/50 active:bg-transparent dark:bg-gray-darker dark:text-gray-default dark:hover:bg-gray-dark" :href="route('albums.create')"> <i class="fas fa-plus mr-2 opacity-50" /> Add </inertia-link>
     </div>
 
     <div class="p-4 md:p-8">
-      <div v-for="(albums, artist) in grouped_albums" v-bind:key="artist" class="mb-8">
+      <div v-for="(albums, artist) in grouped_albums" :key="artist" class="mb-8">
         <h2 class="mb-4 text-xl font-semibold">{{ artist }}</h2>
-        <albums-grid class="mb-8" :albums="albums"></albums-grid>
+        <albums-grid class="mb-8" :albums="albums" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import Layout from '@/layouts/app.vue'
+
 export default {
-  layout: require('../../layouts/app').default,
+  layout: Layout,
 
   props: ['grouped_albums'],
-};
+}
 </script>

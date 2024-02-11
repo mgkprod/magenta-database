@@ -1,13 +1,13 @@
 <template>
   <div class="p-4 md:p-8">
     <form @submit.prevent="submit">
-      <form-input class="mb-6" label="Name" v-model="form.name" :errors="$page.props.errors.name" />
+      <form-input v-model="form.name" class="mb-6" label="Name" :errors="$page.props.errors.name" />
 
-      <form-file-input class="mb-6" label="File" type="file" v-model="form.file" accept="file/*" ref="file" :errors="$page.props.errors.file" />
+      <form-file-input ref="file" v-model="form.file" class="mb-6" label="File" type="file" accept="file/*" :errors="$page.props.errors.file" />
 
       <div class="flex justify-end">
-        <button class="inline-flex items-center px-4 py-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default hover:bg-gray-light dark:hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500">
-          <i class="mr-2 opacity-50 fas fa-plus"></i> Chunked upload
+        <button class="inline-flex items-center rounded bg-gray-lightest px-4 py-1 text-sm font-semibold text-gray-dark transition duration-200 ease-in-out hover:bg-gray-light focus:outline-none focus:ring-2 focus:ring-gray-500/50 active:bg-transparent dark:bg-gray-darker dark:text-gray-default dark:hover:bg-gray-dark">
+          <i class="fas fa-plus mr-2 opacity-50" /> Chunked upload
           <span class="ml-1">({{ upload.progress }} %)</span>
         </button>
       </div>
@@ -16,8 +16,10 @@
 </template>
 
 <script>
+import Layout from '@/layouts/app.vue'
+
 export default {
-  layout: require('../../../layouts/app').default,
+  layout: Layout,
 
   props: ['event', 'handle'],
 
@@ -27,33 +29,36 @@ export default {
         name: '',
         file: undefined,
       },
+
       upload: {
         reader: undefined,
         file: undefined,
         slice_size: 50000 * 1024,
         progress: 0,
       },
-    };
+    }
   },
 
   methods: {
     submit() {
-      this.$page.props.errors = {};
-      this.start_upload();
+      this.$page.props.errors = {}
+      this.start_upload()
     },
-    start_upload() {
-      this.upload.reader = new FileReader();
-      this.upload.file = this.$refs.file.$el.querySelector('input').files[0];
 
-      if (this.upload.file) this.upload_chunk(0);
+    start_upload() {
+      this.upload.reader = new FileReader()
+      this.upload.file = this.$refs.file.$el.querySelector('input').files[0]
+
+      if (this.upload.file) this.upload_chunk(0)
     },
+
     upload_chunk(start) {
-      let next_slice = start + (this.upload.slice_size + 1);
-      let blob = this.upload.file.slice(start, next_slice);
+      let next_slice = start + (this.upload.slice_size + 1)
+      let blob = this.upload.file.slice(start, next_slice)
 
       this.upload.reader.onloadend = (e) => {
         if (e.target.readyState !== FileReader.DONE) {
-          return;
+          return
         }
 
         this.axios
@@ -61,20 +66,21 @@ export default {
             handle: this.handle,
             file_data: e.target.result,
           })
-          .then((response) => {
-            let size_done = start + this.upload.slice_size;
-            this.upload.progress = Math.floor((size_done / this.upload.file.size) * 100);
+          .then(() => {
+            let size_done = start + this.upload.slice_size
+            this.upload.progress = Math.floor((size_done / this.upload.file.size) * 100)
 
             if (next_slice < this.upload.file.size) {
-              this.upload_chunk(next_slice);
+              this.upload_chunk(next_slice)
             } else {
-              this.complete();
+              this.complete()
             }
-          });
-      };
+          })
+      }
 
-      this.upload.reader.readAsDataURL(blob);
+      this.upload.reader.readAsDataURL(blob)
     },
+
     complete() {
       this.$inertia.post(this.route('events.files.store', this.event), {
         handle: this.handle,
@@ -82,8 +88,8 @@ export default {
         file_name: this.upload.file.name,
         file_size: this.upload.file.size,
         file_type: this.upload.file.type,
-      });
+      })
     },
   },
-};
+}
 </script>

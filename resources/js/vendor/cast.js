@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 // Import cast framework
 if (typeof window !== 'undefined' && window.chrome && !window.chrome.cast) {
     var script = document.createElement('script');
@@ -442,3 +444,5 @@ class Castjs {
 if (typeof module !== 'undefined'){
     module.exports = Castjs;
 }
+
+export default Castjs;

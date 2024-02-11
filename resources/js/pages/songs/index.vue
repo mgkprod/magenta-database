@@ -5,18 +5,18 @@
       <meta head-key="description" name="description" :content="$page.props.filters[$page.props.current_filter].description" />
     </inertia-head>
 
-    <div class="flex flex-row justify-end w-full px-4 py-4 bg-white border-b-4 dark:bg-black border-gray-lighter dark:border-gray-darker" v-if="$page.props.user">
-      <inertia-link class="inline-flex items-center px-4 py-1 mx-1 text-sm font-semibold transition duration-200 ease-in-out rounded bg-gray-lightest dark:bg-gray-darker text-gray-dark dark:text-gray-default hover:bg-gray-light dark:hover:bg-gray-dark active:bg-transparent focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-gray-500" :href="route('songs.create')"> <i class="mr-2 opacity-50 fas fa-plus"></i> Add </inertia-link>
+    <div v-if="$page.props.user" class="flex w-full flex-row justify-end border-b-4 border-gray-lighter bg-white p-4 dark:border-gray-darker dark:bg-black">
+      <inertia-link class="mx-1 inline-flex items-center rounded bg-gray-lightest px-4 py-1 text-sm font-semibold text-gray-dark transition duration-200 ease-in-out hover:bg-gray-light focus:outline-none focus:ring-2 focus:ring-gray-500/50 active:bg-transparent dark:bg-gray-darker dark:text-gray-default dark:hover:bg-gray-dark" :href="route('songs.create')"> <i class="fas fa-plus mr-2 opacity-50" /> Add </inertia-link>
     </div>
 
     <div class="p-4 md:p-8">
       <div class="fade-overflow-x">
-        <div class="flex flex-row items-start justify-start mb-4 -mx-2 overflow-x-auto font-semibold" scroll-region>
+        <div class="-mx-2 mb-4 flex flex-row items-start justify-start overflow-x-auto font-semibold" scroll-region>
           <inertia-link
             v-for="(filter, key) in filters"
-            v-bind:key="key"
+            :key="key"
             :href="route('songs.browse', { filter: key })"
-            class="flex-none block mx-2"
+            class="mx-2 block flex-none"
             preserve-scroll
             :class="{
               'border-b-4 border-pink-700 text-gray-dark dark:text-gray-lighter': route().current('songs.browse', {
@@ -26,35 +26,37 @@
           >
             {{ filter.name }}
           </inertia-link>
-          <div class="flex-none w-16 h-1"></div>
+          <div class="h-1 w-16 flex-none" />
         </div>
       </div>
 
-      <p class="mb-8 text-sm"><i class="mr-2 opacity-50 fas fa-info-circle"></i> {{ $page.props.filters[$page.props.current_filter].description }}</p>
+      <p class="mb-8 text-sm"><i class="fas fa-info-circle mr-2 opacity-50" /> {{ $page.props.filters[$page.props.current_filter].description }}</p>
 
-      <songs-table class="mb-4" :songs="songs.data"></songs-table>
+      <songs-table class="mb-4" :songs="songs.data" />
 
       <div class="flex items-center justify-center">
-        <inertia-link v-if="songs.prev_page_url" preserve-scroll :href="songs.prev_page_url" class="transition duration-200 ease-in-out text-gray-dark dark:text-gray-default hover:text-gray-darker dark:hover:text-gray-lightest">
-          <i class="fas fa-angle-left"></i>
+        <inertia-link v-if="songs.prev_page_url" preserve-scroll :href="songs.prev_page_url" class="text-gray-dark transition duration-200 ease-in-out hover:text-gray-darker dark:text-gray-default dark:hover:text-gray-lightest">
+          <i class="fas fa-angle-left" />
         </inertia-link>
-        <div v-else></div>
+        <div v-else />
 
         <div class="mx-4 text-xs text-gray-dark dark:text-gray-default">{{ songs.current_page }} / {{ songs.last_page }}</div>
 
-        <inertia-link preserve-scroll v-if="songs.next_page_url" :href="songs.next_page_url" class="transition duration-200 ease-in-out text-gray-dark dark:text-gray-default hover:text-gray-darker dark:hover:text-gray-lightest">
-          <i class="fas fa-angle-right"></i>
+        <inertia-link v-if="songs.next_page_url" preserve-scroll :href="songs.next_page_url" class="text-gray-dark transition duration-200 ease-in-out hover:text-gray-darker dark:text-gray-default dark:hover:text-gray-lightest">
+          <i class="fas fa-angle-right" />
         </inertia-link>
-        <div v-else></div>
+        <div v-else />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import Layout from '@/layouts/app.vue'
+
 export default {
-  layout: require('../../layouts/app').default,
+  layout: Layout,
 
   props: ['songs', 'filters', 'current_filter'],
-};
+}
 </script>

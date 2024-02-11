@@ -23,7 +23,7 @@ class HomeController extends Controller
 
         $grid = $grid->shuffle()->values();
 
-        return inertia('index', [
+        return inertia('about', [
             'content' => StaticPage::firstWhere('slug', 'home')->content,
             'albums' => $grid,
         ]);

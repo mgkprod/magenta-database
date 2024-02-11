@@ -12,14 +12,14 @@ use Spatie\Searchable\SearchResult;
 
 class Song extends Model implements HasMedia, Searchable
 {
-    use InteractsWithMedia;
     use HasUlid;
+    use InteractsWithMedia;
 
     protected $guarded = [];
 
     protected $casts = [
-        'released_at' => 'date',
-        'first_time_played_at' => 'date',
+        'released_at' => 'datetime',
+        'first_time_played_at' => 'datetime',
         'is_downloadable' => 'boolean',
     ];
 
@@ -48,7 +48,7 @@ class Song extends Model implements HasMedia, Searchable
     public function getDisplayTitleAttribute()
     {
         if ($this->version_name) {
-            return $this->title . ' (' . $this->version_name . ')';
+            return $this->title.' ('.$this->version_name.')';
         }
 
         return $this->title;
@@ -74,7 +74,7 @@ class Song extends Model implements HasMedia, Searchable
         ];
 
         if ($this->events->first()) {
-            return $types[$this->type] . ' @ ' . $this->events->first()->name;
+            return $types[$this->type].' @ '.$this->events->first()->name;
         } else {
             return $types[$this->type];
         }

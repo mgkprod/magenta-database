@@ -1,24 +1,24 @@
 <template>
-  <form class="flex flex-col overflow-hidden bg-black rounded shadow-sm dark:bg-white" @submit.prevent="submit">
-    <div class="flex-grow w-full p-8">
-      <h1 class="mb-8 text-2xl font-semibold text-center">Reset password</h1>
+  <form class="flex flex-col overflow-hidden rounded bg-black shadow-sm dark:bg-white" @submit.prevent="submit">
+    <div class="w-full grow p-8">
+      <h1 class="mb-8 text-center text-2xl font-semibold">Reset password</h1>
 
       <form-input
+        v-model="form.email"
         class="mb-6"
         label="Email"
         placeholder="Your Email Address"
-        v-model="form.email"
         :errors="$page.props.errors.email"
         required
         autocomplete="email"
       />
 
       <form-input
+        v-model="form.password"
         class="mb-6"
         label="Password"
         placeholder="Your Password"
         type="password"
-        v-model="form.password"
         :errors="$page.props.errors.password"
         autocomplete="new-password"
         autofocus
@@ -26,18 +26,18 @@
       />
 
       <form-input
+        v-model="form.password_confirmation"
         class="mb-8"
         label="Confirm Password"
         placeholder="Confirm Your Password"
         type="password"
-        v-model="form.password_confirmation"
         :errors="$page.props.errors.password_confirmation"
         autocomplete="new-password"
         required
       />
 
       <button
-        class="w-full py-3 text-sm font-semibold text-black transition duration-200 ease-in-out rounded dark:text-white bg-primary-500 active:bg-transparent focus:ring-2 focus:ring-opacity-50 focus:ring-primary-500 hover:bg-primary-600 focus:outline-none focus:shadow-outline"
+        class="focus:shadow-outline w-full rounded bg-primary-500 py-3 text-sm font-semibold text-black transition duration-200 ease-in-out hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-500/50 active:bg-transparent dark:text-white"
       >
         Reset password
       </button>
@@ -46,8 +46,10 @@
 </template>
 
 <script>
+import Layout from '@/layouts/gate.vue'
+
 export default {
-  layout: require('../../../layouts/gate').default,
+  layout: Layout,
 
   props: {
     email: String,
@@ -62,18 +64,18 @@ export default {
         password: '',
         password_confirmation: '',
       },
-    };
+    }
   },
 
   methods: {
     submit() {
-      this.$page.props.errors = {};
+      this.$page.props.errors = {}
 
-      this.$inertia.post(this.route('password.update'), { ...this.form });
+      this.$inertia.post(this.route('password.update'), { ...this.form })
 
-      this.form.password = '';
-      this.form.password_confirmation = '';
+      this.form.password = ''
+      this.form.password_confirmation = ''
     },
   },
-};
+}
 </script>

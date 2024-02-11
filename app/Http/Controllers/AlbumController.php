@@ -39,7 +39,10 @@ class AlbumController extends Controller
             'mixtape' => 'Mixtape',
         ];
 
-        return inertia('albums/create', compact('types', 'availabilities'));
+        return inertia('albums/create', [
+            'availabilities' => array_keys($availabilities),
+            'types' => array_keys($types),
+        ]);
     }
 
     public function store(Request $request)
@@ -94,7 +97,11 @@ class AlbumController extends Controller
             'mixtape' => 'Mixtape',
         ];
 
-        return inertia('albums/edit', compact('availabilities', 'types', 'album'));
+        return inertia('albums/edit', [
+            'album' => $album,
+            'availabilities' => array_keys($availabilities),
+            'types' => array_keys($types),
+        ]);
     }
 
     public function update(Request $request, Album $album)
@@ -132,10 +139,10 @@ class AlbumController extends Controller
 
     public function storeFile(Request $request, Album $album)
     {
-        Storage::move('temp/' . $request->handle, 'temp/' . $request->file_name);
+        Storage::move('temp/'.$request->handle, 'temp/'.$request->file_name);
 
         $file = $album
-            ->addMediaFromDisk('temp/' . $request->file_name)
+            ->addMediaFromDisk('temp/'.$request->file_name)
             ->withCustomProperties(['name' => $request->name])
             ->toMediaCollection('files');
 
