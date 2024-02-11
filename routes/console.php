@@ -76,3 +76,36 @@ Artisan::command('storage:purge {--dry-run}', function () {
     $this->info('Storage directory purged');
 })->purpose('Remove all files from storage directory that are not in the database');
 
+Artisan::command('storage:purge-temp', function () {
+    $this->info('Purging temporary directory');
+    $directory = storage_path('app/temp');
+    $files = collect(Storage::allFiles($directory));
+
+    // Delete all files that are older than 1 day
+    $filesToDelete = $files->filter(function ($file) {
+        return Storage::lastModified($file) < now()->subDay();
+    });
+
+    $this->table(
+        ['In temporary directory', 'To delete'],
+        [[$files->count(), $filesToDelete->count()]]
+    );
+
+    $this->info('Files to delete:');
+    $filesToDelete->each(function ($file) {
+        $this->line($file);
+    });
+
+    if (! $this->confirm('Do you want to delete these files ?')) {
+        return $this->info('Aborted');
+    }
+
+    $this->info('Deleting files');
+
+    $filesToDelete->each(function ($file) {
+        $this->info('Deleting '.$file);
+        Storage::delete($file);
+    });
+
+    $this->info('Temporary directory purged');
+})->purpose('Remove all files from temporary directory');
