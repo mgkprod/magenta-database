@@ -34,3 +34,45 @@ Artisan::command('users:create', function () {
 
     $this->line('User created with id: '.$user->id);
 });
+
+Artisan::command('storage:purge {--dry-run}', function () {
+    $this->info('Purging storage directory');
+    $dry = $this->option('dry-run');
+
+    $directories = collect(Storage::disk(config('media-library.disk_name'))->allDirectories());
+    $medias = \Spatie\MediaLibrary\MediaCollections\Models\Media::pluck('id');
+
+    $this->table(
+        ['In storage', 'In database', 'To delete'],
+        [[$directories->count(), $medias->count(), $directories->diff($medias)->count()]]
+    );
+
+    // List files names to delete for confirmation
+    $directoriesToDelete = $directories->diff($medias);
+
+    $this->info('Files to delete:');
+    foreach ($directoriesToDelete as $directory) {
+        collect(Storage::disk(config('media-library.disk_name'))->allFiles($directory))
+            ->each(function ($file) {
+                $this->line($file);
+            });
+    }
+
+    if ($dry) {
+        return $this->info('Dry run, nothing will be deleted.');
+    }
+
+    if (! $this->confirm('Do you want to delete these files ?')) {
+        return $this->info('Aborted');
+    }
+
+    $this->info('Deleting files');
+
+    $directoriesToDelete->each(function ($directory) {
+        $this->info('Deleting '.$directory);
+        Storage::disk(config('media-library.disk_name'))->delete($directory);
+    });
+
+    $this->info('Storage directory purged');
+})->purpose('Remove all files from storage directory that are not in the database');
+
