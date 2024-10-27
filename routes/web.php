@@ -43,6 +43,7 @@ Route::get('albums/{album}/export', [AlbumController::class, 'export'])->name('a
 Route::resource('events', EventController::class);
 Route::get('events/{event}/files/create', [EventController::class, 'createFile'])->name('events.files.create');
 Route::post('events/{event}/files', [EventController::class, 'storeFile'])->name('events.files.store');
+Route::get('events/{event}/export', [EventController::class, 'export'])->name('events.export');
 
 Route::post('files/chunk', [FileController::class, 'storeChunk'])->name('files.store.chunk');
 Route::delete('files/{file}', [FileController::class, 'destroy'])->name('files.destroy');

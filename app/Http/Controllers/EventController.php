@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use ZipArchive;
 
 class EventController extends Controller
 {
@@ -114,5 +115,34 @@ class EventController extends Controller
         $event->delete();
 
         return redirect()->route('events.index');
+    }
+
+    public function export(Event $event)
+    {
+        $zip = new ZipArchive();
+        $zipFileName = storage_path('app/public/'.$event->name.'.zip');
+
+        if ($zip->open($zipFileName, ZipArchive::CREATE | ZipArchive::OVERWRITE) === true) {
+            $allTracks = $event->songs->count();
+            $trackNumber = 1;
+
+            foreach ($event->songs as $song) {
+                $outputPath = 'temp/'.$event->name.'/'.$trackNumber.' - '.$song->title.'.mp3';
+                $song->track_number = $trackNumber.'/'.$allTracks;
+
+                $song->export($outputPath);
+                $zip->addFile(storage_path('app/'.$outputPath), $trackNumber.' - '.$song->title.'.mp3');
+                $trackNumber++;
+            }
+
+            $zip->close();
+        }
+
+        foreach ($event->songs as $song) {
+            $outputPath = 'temp/'.$event->name.'/'.$trackNumber.' - '.$song->title.'.mp3';
+            Storage::delete($outputPath);
+        }
+
+        return response()->download($zipFileName)->deleteFileAfterSend(true);
     }
 }
