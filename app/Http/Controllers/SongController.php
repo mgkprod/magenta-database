@@ -272,6 +272,8 @@ class SongController extends Controller
             $media->setCustomProperty($property, $probe->get($property));
         }
 
+        $media->setCustomProperty('source', $request->source);
+
         $media->save();
 
         return redirect()->route('songs.show', $song);

@@ -26,7 +26,7 @@ export default {
   data() {
     return {
       form: {
-        name: '',
+        source: '',
         file: undefined,
       },
 
@@ -84,7 +84,7 @@ export default {
     complete() {
       this.$inertia.post(this.route('songs.medias.store', this.song), {
         handle: this.handle,
-        name: this.form.name,
+        source: this.form.source,
         file_name: this.upload.file.name,
         file_size: this.upload.file.size,
         file_type: this.upload.file.type,
