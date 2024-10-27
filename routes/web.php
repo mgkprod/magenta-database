@@ -38,6 +38,7 @@ Route::get('songs/browse/{filter?}', [SongController::class, 'browse'])->name('s
 Route::resource('albums', AlbumController::class);
 Route::get('albums/{album}/files/create', [AlbumController::class, 'createFile'])->name('albums.files.create');
 Route::post('albums/{album}/files', [AlbumController::class, 'storeFile'])->name('albums.files.store');
+Route::get('albums/{album}/export', [AlbumController::class, 'export'])->name('albums.export');
 
 Route::resource('events', EventController::class);
 Route::get('events/{event}/files/create', [EventController::class, 'createFile'])->name('events.files.create');

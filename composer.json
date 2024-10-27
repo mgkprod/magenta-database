@@ -12,6 +12,7 @@
         "calebporzio/awesome-helpers": "^v2.5.0",
         "guzzlehttp/guzzle": "^7.8",
         "inertiajs/inertia-laravel": "^0.6.0",
+        "kiwilan/php-audio": "^4.0",
         "ksubileau/color-thief-php": "^2.0",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",

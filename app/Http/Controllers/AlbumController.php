@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Album;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use ZipArchive;
 
 class AlbumController extends Controller
 {
@@ -154,5 +155,33 @@ class AlbumController extends Controller
         $album->delete();
 
         return redirect()->route('albums.index');
+    }
+
+    public function export(Album $album)
+    {
+        $zip = new ZipArchive();
+        $zipFileName = storage_path('app/public/'.$album->name.'.zip');
+
+        if ($zip->open($zipFileName, ZipArchive::CREATE | ZipArchive::OVERWRITE) === true) {
+            $allTracks = $album->songs->count();
+            $trackNumber = 1;
+
+            foreach ($album->songs as $song) {
+                $outputPath = 'temp/'.$album->name.'/'.$trackNumber.' - '.$song->title.'.mp3';
+                $song->track_number = $trackNumber.'/'.$allTracks;
+                $song->export($outputPath, $album);
+                $zip->addFile(storage_path('app/'.$outputPath), $trackNumber.' - '.$song->title.'.mp3');
+                $trackNumber++;
+            }
+
+            $zip->close();
+        }
+
+        foreach ($album->songs as $song) {
+            $outputPath = 'temp/'.$album->name.'/'.$trackNumber.' - '.$song->title.'.mp3';
+            Storage::delete($outputPath);
+        }
+
+        return response()->download($zipFileName)->deleteFileAfterSend(true);
     }
 }

@@ -3,7 +3,11 @@
 namespace App\Models;
 
 use ColorThief\ColorThief;
+use FFMpeg\FFMpeg;
+use FFMpeg\Format\Audio\Mp3;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use Kiwilan\Audio\Audio;
 use Rorecek\Ulid\HasUlid;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -164,5 +168,41 @@ class Song extends Model implements HasMedia, Searchable
             $this->display_title,
             route('songs.show', $this)
         );
+    }
+
+    public function export($outputPath, $album = null)
+    {
+        $medias = self::score($this->getMedia('medias'));
+        $bestMedia = $medias->first();
+
+        $ffmpeg = FFmpeg::create([
+            'ffmpeg.binaries' => config('services.ffmpeg.ffmpeg_path'),
+            'ffprobe.binaries' => config('services.ffmpeg.ffprobe_path'),
+        ]);
+
+        $audio = $ffmpeg->open($bestMedia->getPath());
+        $format = new Mp3();
+        $format->setAudioKiloBitrate(320);
+
+        $tempFilePath = storage_path('app/temp/'.uniqid().'.mp3');
+        $audio->save($format, $tempFilePath);
+
+        $audio = Audio::read($tempFilePath);
+
+        $audio->write()
+            ->title($this->title)
+            ->artist($this->artist)
+            ->album($album ? $album->name : ($this->albums->first()->name ?? ''))
+            ->year($this->released_at->format('Y'))
+            ->trackNumber($this->track_number ?? null)
+            ->albumArtist($album ? $album->artist : $this->artist)
+            ->cover($album ?
+                $album->getFirstMedia('images')->getPath() :
+                $this->getFirstMedia('images')->getPath()
+            )
+            ->save();
+
+        Storage::put($outputPath, file_get_contents($tempFilePath));
+        unlink($tempFilePath);
     }
 }
